@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import Link from "next/link";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 
@@ -7,7 +8,7 @@ export default function Home() {
     return (
         <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
             <header className="flex items-center justify-between mb-8">
-                <a href="/" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2">
                     <Image
                         src="/assets/images/logo.svg"
                         alt="Next.js Logo"
@@ -16,7 +17,7 @@ export default function Home() {
                         priority
                     />
                     <span className="sr-only">Mood tracker app</span>
-                </a>
+                </Link>
                 <div className="relative">
                     <Menu>
                         
@@ -90,7 +91,7 @@ export default function Home() {
                 </section>
 
                 <section aria-labelledby="mood-logging-heading">
-                    <h2 id="mood-logging-heading">Log today's mood</h2>
+                    <h2 id="mood-logging-heading">Log today&apos;s mood</h2>
                 </section>
 
                 <section aria-labelledby="trends-heading">
