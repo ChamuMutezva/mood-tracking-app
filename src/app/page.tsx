@@ -1,103 +1,102 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    return (
+        <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
+            <header className="flex items-center justify-between mb-8">
+                <a href="/" className="flex items-center gap-2">
+                    <Image
+                        src="/assets/images/logo.svg"
+                        alt="Next.js Logo"
+                        width={120}
+                        height={30}
+                        priority
+                    />
+                    <span className="sr-only">Mood tracker app</span>
+                </a>
+                <div className="relative">
+                    <Menu>
+                        
+                        <MenuButton className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white">
+                            <Avatar>
+                                <AvatarImage src="/assets/images/avatar-lisa.jpg" />
+                                <AvatarFallback className="text-foreground">
+                                    Lisa
+                                </AvatarFallback>
+                            </Avatar>
+                            <ChevronDownIcon className="size-4 fill-black" />
+                        </MenuButton>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+                        <MenuItems
+                            transition
+                            anchor={{ to: "bottom end", offset: 16 }}
+                            className="w-11/12 sm:w-40  origin-top-right rounded-xl border border-white/5 bg-white p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
+                        >
+                            <MenuItem>
+                                <button className="group flex flex-col items-start w-full  gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10">
+                                    <p className="text-preset-6 text-foreground">
+                                        Lisa Maria
+                                    </p>
+                                    <span className="text-preset-7 text-muted-foreground">
+                                        lisa@mail.com
+                                    </span>
+                                </button>
+                            </MenuItem>
+                            <MenuItem>
+                                <button className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10">
+                                    <Image
+                                        width={16}
+                                        height={16}
+                                        src="/assets/images/icon-settings.svg"
+                                        alt={""}
+                                    />
+                                    <span className="text-foreground">
+                                        Settings
+                                    </span>
+                                </button>
+                            </MenuItem>
+                            <div className="my-1 h-px bg-white/5" />
+                            <MenuItem>
+                                <button className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10">
+                                    <Image
+                                        width={16}
+                                        height={16}
+                                        src="/assets/images/icon-logout.svg"
+                                        alt={""}
+                                    />
+                                    <span className="text-foreground">
+                                        Logout
+                                    </span>
+                                </button>
+                            </MenuItem>
+                        </MenuItems>
+
+                    </Menu>
+                </div>
+            </header>
+            <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+                <section
+                    className="welcome-section"
+                    aria-labelledby="greeting-text"
+                >
+                    <p id="greeting-text">Hello, Lisa!</p>
+                    <p className="greeting">How are you feeling today?</p>
+                    <time dateTime="2025-04-16" className="current-date">
+                        Wednesday, April 16th, 2025
+                    </time>
+                </section>
+
+                <section aria-labelledby="mood-logging-heading">
+                    <h2 id="mood-logging-heading">Log today's mood</h2>
+                </section>
+
+                <section aria-labelledby="trends-heading">
+                    <h2 id="trends-heading">Mood and sleep trends</h2>
+                </section>
+            </main>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
