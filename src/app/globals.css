@@ -120,18 +120,18 @@
     --radius-full: 999px;
     --background: oklch(1 0 0);
     --foreground: hsl(var(--neutral-900));
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
+    --card: hsl(var(--blue-100));
+    --card-foreground: hsl(var(--blue-600));
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
+    --primary: hsl(var(--neutral-0));
     --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
     --muted: oklch(0.97 0 0);
     --muted-foreground: hsl(var(--neutral-300));
     --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    --accent-foreground: hsl(var(--neutral-600));
     --destructive: oklch(0.577 0.245 27.325);
     --border: oklch(0.922 0 0);
     --input: oklch(0.922 0 0);
@@ -155,7 +155,7 @@
     }
 
     .text-preset-1 {
-        font-weight: 600;
+        font-weight: 800;
         font-size: var(--font-size-700);
         line-height: 1.2;
         letter-spacing: -(var(--spacing-025));
@@ -191,7 +191,7 @@
         letter-spacing: (var(--spacing-0));
     }
     .text-preset-6 {
-        font-weight: 500;
+        font-weight: 400;
         font-size: var(--font-size-300);
         line-height: 1.2;
         letter-spacing: (var(--spacing-0));
