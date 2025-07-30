@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import MoodSleepChart2 from "@/components/MoodSleepChart2";
+import MoodSleepChart from "@/components/MoodSleepChart";
 import {
     getUserById,
     //  getAverageMoodForUser,
@@ -92,7 +92,7 @@ export default async function Home() {
                         </div>
                     </div>
                 </section>
-                <MoodSleepChart2  data={chartData}/>
+                <MoodSleepChart  data={chartData}/>
             </main>
         </div>
     );
