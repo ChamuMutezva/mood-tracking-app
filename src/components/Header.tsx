@@ -18,9 +18,9 @@ function Header() {
             <Link href="/" className="flex items-center gap-2">
                 <Image
                     src="/assets/images/logo.svg"
-                    alt="Next.js Logo"
-                    width={120}
-                    height={30}
+                    alt=""
+                    width={178}
+                    height={40}
                     priority
                 />
                 <span className="sr-only">Mood tracker app</span>

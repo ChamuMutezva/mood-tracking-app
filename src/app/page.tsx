@@ -1,7 +1,22 @@
 import Header from "@/components/Header";
-import MoodSleepChart from "@/components/MoodSleepChart";
+import MoodSleepChart2 from "@/components/MoodSleepChart2";
+import {
+    getUserById,
+    //  getAverageMoodForUser,
+    //  getAverageSleepForUser,
+    getMoodEntriesForUser,
+    // getMoodQuotes,
+} from "@/lib/data";
+import { transformMoodEntriesToChartData } from "@/lib/chart-utils";
 
-export default function Home() {
+export default async function Home() {
+    const user = await getUserById(1);
+    const moodEntries = await getMoodEntriesForUser(1);
+    console.log("Mood Entries:", moodEntries);
+    console.log("User:", user);
+
+     const chartData = transformMoodEntriesToChartData(moodEntries)
+
     return (
         <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
             <Header />
@@ -25,7 +40,7 @@ export default function Home() {
                     >
                         Wednesday, April 16th, 2025
                     </time>
-                     <button
+                    <button
                         type="button"
                         id="mood-logging-heading"
                         className="bg-card-foreground text-preset-5 text-white px-[var(--spacing-400)] py-[var(--spacing-200)] rounded-[var(--radius-10)] font-semibold hover:bg-card-foreground/90 transition-colors duration-200"
@@ -77,8 +92,7 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
-                <MoodSleepChart />
-                
+                <MoodSleepChart2  data={chartData}/>
             </main>
         </div>
     );
