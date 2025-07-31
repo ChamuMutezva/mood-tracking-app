@@ -14,7 +14,7 @@ import { ChevronDownIcon } from "@heroicons/react/16/solid";
 
 function Header() {
     return (
-        <header className="flex items-center justify-between mb-8">
+        <header className="flex items-center justify-between mb-8 w-full">
             <Link href="/" className="flex items-center gap-2">
                 <Image
                     src="/assets/images/logo.svg"

@@ -22,7 +22,7 @@ export default async function Home() {
             <Header />
             <main className="grid  gap-[32px] row-start-2 items-center  lg:grid-cols-3">
                 <section
-                    className="welcome-section flex flex-col gap-2 justify-center items-center lg:col-span-3 "
+                    className="welcome-section flex flex-col gap-2 justify-center items-center lg:col-span-3 min-w-0 "
                     aria-labelledby="greeting-text"
                 >
                     <p
@@ -51,7 +51,7 @@ export default async function Home() {
 
                 <section
                     aria-labelledby="average-mood-title"
-                    className="flex flex-col gap-8 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] "
+                    className="flex flex-col gap-8 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0"
                 >
                     <div className="average-mood-container flex flex-col gap-4">
                         <h2
