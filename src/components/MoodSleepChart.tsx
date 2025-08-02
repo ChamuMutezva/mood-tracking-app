@@ -1,14 +1,6 @@
 "use client";
 
-import {
-    Bar,
-    BarChart,
-    CartesianGrid,
-    XAxis,
-    YAxis,
-    Cell,
-    ResponsiveContainer,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Cell } from "recharts";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import { CustomBar } from "./CustomBar";
 import type { ChartData } from "@/lib/types";
@@ -36,21 +28,31 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
         5: "9+h",
     };
 
-    if (!data || data.length === 0) {
-        return (
-            <section className="lg:col-span-2 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)]">
-                <h2 className="text-preset-4 text-foreground mb-4">
-                    Mood and sleep trends
-                </h2>
-                <div className="flex items-center justify-center h-64 text-muted-foreground">
-                    <p>
-                        No mood data available. Start tracking to see your
-                        trends!
-                    </p>
-                </div>
-            </section>
-        );
-    }
+    // Generate empty data for last 5 days if no data
+    const generateEmptyData = () => {
+        const emptyData = [];
+        const today = new Date();
+
+        for (let i = 4; i >= 0; i--) {
+            const date = new Date(today);
+            date.setDate(today.getDate() - i);
+            emptyData.push({
+                date: date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                }),
+                sleep: 0,
+                mood: 0,
+                moodLabel: "",
+                sleepLabel: "",
+                feelings: [],
+            });
+        }
+        return emptyData;
+    };
+
+    const chartData = !data || data.length === 0 ? generateEmptyData() : data;
+    const hasData = data && data.length > 0;
 
     return (
         <section className="lg:col-span-2 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0">
@@ -69,45 +71,45 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                             }}
                             className="min-h-[300px] w-full"
                         >
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart
-                                    accessibilityLayer
-                                    data={data}
-                                    margin={{
-                                        top: 50,
-                                        right: 20,
-                                        left: 20,
-                                        bottom: 20,
+                            <BarChart
+                                accessibilityLayer
+                                data={chartData}
+                                margin={{
+                                    top: 50,
+                                    right: 20,
+                                    left: 20,
+                                    bottom: 20,
+                                }}
+                            >
+                                <CartesianGrid
+                                    strokeDasharray="3 3"
+                                    stroke="var(--foreground)"
+                                />
+                                <XAxis
+                                    dataKey="date"
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{
+                                        fontSize: 12,
+                                        fill: "hsl(var(--foreground))",
                                     }}
-                                >
-                                    <CartesianGrid
-                                        strokeDasharray="3 3"
-                                        stroke="var(--foreground)"
-                                    />
-                                    <XAxis
-                                        dataKey="date"
-                                        axisLine={false}
-                                        tickLine={false}
-                                        tick={{
-                                            fontSize: 12,
-                                            fill: "hsl(var(--foreground))",
-                                        }}
-                                    />
-                                    <YAxis
-                                        domain={[0, 6]}
-                                        ticks={[1, 2, 3, 4, 5]}
-                                        axisLine={false}
-                                        tickLine={false}
-                                        tick={{
-                                            fontSize: 12,
-                                            fill: "hsl(var(--foreground))",
-                                        }}
-                                        tickFormatter={(value) =>
-                                            sleepLabels[
-                                                value as keyof typeof sleepLabels
-                                            ] || ""
-                                        }
-                                    />
+                                />
+                                <YAxis
+                                    domain={[0, 6]}
+                                    ticks={[1, 2, 3, 4, 5]}
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{
+                                        fontSize: 12,
+                                        fill: "hsl(var(--foreground))",
+                                    }}
+                                    tickFormatter={(value) =>
+                                        sleepLabels[
+                                            value as keyof typeof sleepLabels
+                                        ] || ""
+                                    }
+                                />
+                                {hasData && (
                                     <ChartTooltip
                                         content={({
                                             active,
@@ -149,13 +151,15 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                             return null;
                                         }}
                                     />
+                                )}
+                                {hasData && (
                                     <Bar
                                         dataKey="sleep"
                                         shape={<CustomBar dataKey={""} />}
                                         radius={[20, 20, 20, 20]}
                                         barSize={40}
                                     >
-                                        {data.map((entry, index) => (
+                                        {chartData.map((entry, index) => (
                                             <Cell
                                                 key={`cell-${index}`}
                                                 fill={
@@ -166,8 +170,8 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                             />
                                         ))}
                                     </Bar>
-                                </BarChart>
-                            </ResponsiveContainer>
+                                )}
+                            </BarChart>
                         </ChartContainer>
                     </div>
                 </div>

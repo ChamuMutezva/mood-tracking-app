@@ -8,6 +8,7 @@ import {
     // getMoodQuotes,
 } from "@/lib/data";
 import { transformMoodEntriesToChartData } from "@/lib/chart-utils";
+import CurrentDate from "@/components/CurrentDate";
 
 export default async function Home() {
     const user = await getUserById(1);
@@ -15,7 +16,7 @@ export default async function Home() {
     console.log("Mood Entries:", moodEntries);
     console.log("User:", user);
 
-     const chartData = transformMoodEntriesToChartData(moodEntries)
+    const chartData = transformMoodEntriesToChartData(moodEntries);
 
     return (
         <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
@@ -34,12 +35,9 @@ export default async function Home() {
                     <p className="greeting text-preset-1 text-foreground text-center">
                         How are you feeling today?
                     </p>
-                    <time
-                        dateTime="2025-04-16"
-                        className="current-date text-preset-6 text-accent-foreground"
-                    >
-                        Wednesday, April 16th, 2025
-                    </time>
+
+                    <CurrentDate />
+                    
                     <button
                         type="button"
                         id="mood-logging-heading"
@@ -92,7 +90,7 @@ export default async function Home() {
                         </div>
                     </div>
                 </section>
-                <MoodSleepChart  data={chartData}/>
+                <MoodSleepChart data={chartData} />
             </main>
         </div>
     );
