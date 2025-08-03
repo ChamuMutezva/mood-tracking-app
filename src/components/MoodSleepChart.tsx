@@ -43,6 +43,68 @@ const TooltipContent = ({ active, payload, label }: TooltipProps) => {
     return null;
 };
 
+// Y-axis tick props interface
+interface YAxisTickProps {
+    x?: number;
+    y?: number;
+    payload?: {
+        value: number;
+        coordinate: number;
+        tickCoord: number;
+        isShow: boolean;
+        offset: number;
+    };
+}
+
+// Custom Y-axis tick component with sleep icons
+const CustomYAxisTick = (props: YAxisTickProps) => {
+    const { x, y, payload } = props;
+
+    // Safety check for payload
+    if (payload?.value === undefined) {
+        return null;
+    }
+
+    const sleepLabels = {
+        1: "0-2 hours",
+        2: "3-4 hours",
+        3: "5-6 hours",
+        4: "7-8 hours",
+        5: "9+ hours",
+    };
+
+    const label = sleepLabels[payload.value as keyof typeof sleepLabels];
+
+    if (!label) return null;
+
+    return (
+        <g transform={`translate(${x},${y})`}>
+            {/* Sleep icon (zzz) */}
+            <text
+                x={-60}
+                y={2}
+                textAnchor="middle"
+                fill="hsl(var(--muted-foreground))"
+                fontSize="16"
+                dominantBaseline="middle"
+            >
+                💤
+            </text>
+            {/* Sleep label */}
+            <text
+                x={-50}
+                y={0}
+                textAnchor="start"
+                fill="hsl(var(--foreground))"
+                fontSize="12"
+                dominantBaseline="middle"
+            >
+                {label}
+            </text>
+        </g>
+    );
+};
+
 const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
     // Mood colors mapping
     const moodColors = {
@@ -54,13 +116,6 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
     };
 
     // Sleep labels for Y-axis
-    const sleepLabels = {
-        1: "0-2h",
-        2: "3-4h",
-        3: "5-6h",
-        4: "7-8h",
-        5: "9+h",
-    };
 
     // Generate empty data for last 5 days if no data
     const generateEmptyData = () => {
@@ -135,15 +190,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                     ticks={[1, 2, 3, 4, 5]}
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{
-                                        fontSize: 12,
-                                        fill: "hsl(var(--foreground))",
-                                    }}
-                                    tickFormatter={(value) =>
-                                        sleepLabels[
-                                            value as keyof typeof sleepLabels
-                                        ] || ""
-                                    }
+                                    tick={<CustomYAxisTick />}
                                 />
                                 {hasData && (
                                     <ChartTooltip
