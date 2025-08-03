@@ -48,11 +48,15 @@ export async function getMoodQuotes(): Promise<MoodQuote[]> {
 
 export async function getAverageMoodForUser(userId: number, days = 5): Promise<number | null> {
   try {
+    // Calculate the date threshold on the client side
+    const dateThreshold = new Date()
+    dateThreshold.setDate(dateThreshold.getDate() - days)
+
     const result = await sql`
       SELECT AVG(mood) as average_mood
       FROM mood_entries 
       WHERE user_id = ${userId}
-        AND created_at >= NOW() - INTERVAL '${days} days'
+        AND created_at >= ${dateThreshold.toISOString()}
     `
     return result[0]?.average_mood ? Number(result[0].average_mood) : null
   } catch (error) {

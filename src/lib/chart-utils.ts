@@ -44,3 +44,80 @@ export function transformMoodEntriesToChartData(
             feelings: entry.feelings || [],
         }));
 }
+
+export function calculateAveragesFromEntries(entries: MoodEntry[]) {
+    const chartEntries = entries.slice(0, 5); // Same 5 entries used in chart
+
+    if (chartEntries.length === 0) {
+        return {
+            averageMood: null,
+            averageSleep: null,
+            entryCount: 0,
+            averageMoodLabel: null,
+            averageSleepRange: null,
+            averageMoodIcon: null,
+        };
+    }
+
+    console.log("Chart Entries:", chartEntries);
+    const totalMood = chartEntries.reduce((sum, entry) => sum + entry.mood, 0);
+    const averageMood = totalMood / chartEntries.length;
+
+    const sleepEntries = chartEntries.filter((entry) => entry.sleep_hours > 0);
+    const averageSleep =
+        sleepEntries.length > 0
+            ? sleepEntries.reduce((sum, entry) => sum + entry.sleep_hours, 0) /
+              sleepEntries.length
+            : null;
+
+    // Convert average mood to label
+    const getMoodLabel = (mood: number): string => {
+        const roundedMood = Math.round(mood);
+        const moodLabels = {
+            "-2": "Very Sad",
+            "-1": "Sad",
+            "0": "Neutral",
+            "1": "Happy",
+            "2": "Very Happy",
+        };
+        return (
+            moodLabels[roundedMood.toString() as keyof typeof moodLabels] ||
+            "Neutral"
+        );
+    };
+
+    // Convert average mood to icon path
+    const getMoodIcon = (mood: number): string => {
+        const roundedMood = Math.round(mood);
+        const moodIcons = {
+            "-2": "/assets/images/icon-very-sad-white.svg",
+            "-1": "/assets/images/icon-sad-white.svg",
+            "0": "/assets/images/icon-neutral-white.svg",
+            "1": "/assets/images/icon-happy-white.svg",
+            "2": "/assets/images/icon-very-happy-white.svg",
+        };
+        return (
+            moodIcons[roundedMood.toString() as keyof typeof moodIcons] ||
+            "/assets/images/icon-neutral-white.svg"
+        );
+    };
+    // Convert average sleep to range
+    const getSleepRange = (hours: number): string => {
+        if (hours < 3) return "0-2h";
+        if (hours < 5) return "3-4h";
+        if (hours < 7) return "5-6h";
+        if (hours < 9) return "7-8h";
+        return "9+h";
+    };
+
+    return {
+        averageMood,
+        averageSleep,
+        entryCount: chartEntries.length,
+        averageMoodLabel:
+            averageMood !== null ? getMoodLabel(averageMood) : null,
+        averageSleepRange:
+            averageSleep !== null ? getSleepRange(averageSleep) : null,
+        averageMoodIcon: averageMood !== null ? getMoodIcon(averageMood) : null,
+    };
+}
