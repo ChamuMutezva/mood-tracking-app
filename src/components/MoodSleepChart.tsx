@@ -9,8 +9,18 @@ interface MoodSleepChartProps {
     data: ChartData[];
 }
 
+interface TooltipProps {
+    active?: boolean;
+    payload?: Array<{
+        payload: ChartData;
+        value: number;
+        dataKey: string;
+    }>;
+    label?: string;
+}
+
 // Custom tooltip content component
-const TooltipContent = ({ active, payload, label }: any) => {
+const TooltipContent = ({ active, payload, label }: TooltipProps) => {
     if (active && payload?.length) {
         const data = payload[0].payload;
         return (
@@ -147,7 +157,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                         radius={[20, 20, 20, 20]}
                                         barSize={40}
                                     >
-                                        {chartData.map((entry, index) => (
+                                        {chartData.map((entry) => (
                                             <Cell
                                                 key={`cell-${entry.id}`}
                                                 fill={
