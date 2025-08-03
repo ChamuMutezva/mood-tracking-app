@@ -1,10 +1,7 @@
 import Header from "@/components/Header";
 import MoodSleepChart from "@/components/MoodSleepChart";
-import Image from "next/image";
 import {
     getUserById,
-    // getAverageMoodForUser,
-    //  getAverageSleepForUser,
     getMoodEntriesForUser,
     // getMoodQuotes,
 } from "@/lib/data";
@@ -13,6 +10,8 @@ import {
     calculateAveragesFromEntries,
 } from "@/lib/chart-utils";
 import CurrentDate from "@/components/CurrentDate";
+import DisplaySleepMoodData from "@/components/DisplaySleepMoodData";
+import SleepMoodDataNotAvailable from "@/components/SleepMoodDataNotAvailable";
 
 export default async function Home() {
     const user = await getUserById(1);
@@ -27,122 +26,11 @@ export default async function Home() {
     } = calculateAveragesFromEntries(moodEntries);
 
     const chartData = transformMoodEntriesToChartData(moodEntries);
+    console.log("Chart Data:", chartData);
     console.log("User:", user);
     console.log("Average Mood:", averageMood);
     console.log("Average Sleep:", averageSleep);
     console.log("Entry Count:", entryCount);
-    function displaySleepMoodData() {
-        return (
-            <section
-                aria-labelledby="average-mood-title"
-                className="flex flex-col gap-8 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0"
-            >
-                <div className="average-mood-container flex flex-col gap-4">
-                    <h2
-                        id="average-mood-title"
-                        className="text-preset-4 text-foreground"
-                    >
-                        Average Mood
-                        <span className="text-preset-7">
-                            (Last {entryCount} Check-ins)
-                        </span>
-                    </h2>
-                    <div className="bg-card rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] flex flex-col items-start gap-4">
-                        <div className="flex items-center gap-3">
-                            {averageMoodIcon && (
-                                <Image
-                                    src={averageMoodIcon || "/placeholder.svg"}
-                                    alt={`Mood: ${averageMoodLabel}`}
-                                    width={24}
-                                    height={24}
-                                    className="flex-shrink-0"
-                                />
-                            )}
-                            <h3 className="text-preset-4 text-foreground">
-                                {averageMoodLabel ?? "No mood data available"}
-                            </h3>
-                        </div>
-                        {averageMood !== null && (
-                            <p className="text-preset-7 text-foreground">
-                                Score: {averageMood.toFixed(1)}
-                            </p>
-                        )}
-                        <p>Comparison with previous week</p>
-                    </div>
-                </div>
-                <div className="average-sleep-container flex flex-col gap-4">
-                    <h2
-                        id="average-sleep-title-data"
-                        className="text-preset-4 text-foreground"
-                    >
-                        Average Sleep
-                        <span className="text-preset-7">
-                            (Last {entryCount} Check-ins)
-                        </span>
-                    </h2>
-                    <div className="bg-card rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] flex flex-col items-start gap-4">
-                        <h3 className="text-preset-4 text-foreground">
-                            {averageSleepRange ?? "No sleep data available"}
-                        </h3>
-                        {averageSleep !== null && (
-                            <p className="text-preset-7 text-foreground">
-                                Exact: {averageSleep.toFixed(1)}h per night
-                            </p>
-                        )}
-                        <p>Comparison with previous week</p>
-                    </div>
-                </div>
-            </section>
-        );
-    }
-
-    function sleepMoodDataNotAvailable() {
-        return (
-            <section
-                aria-labelledby="average-mood-title"
-                className="flex flex-col gap-8 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0"
-            >
-                <div className="average-mood-container flex flex-col gap-4">
-                    <h2
-                        id="average-mood-title"
-                        className="text-preset-4 text-foreground"
-                    >
-                        Average Mood
-                        <span className="text-preset-7">
-                            (Last 5 Check-ins)
-                        </span>
-                    </h2>
-                    <div className="bg-card rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] flex flex-col items-start gap-4">
-                        <h3 className="text-preset-4 text-foreground">
-                            Keep tracking
-                        </h3>
-                        <p className="text-preset-7 text-foreground">
-                            Log 5 Check-ins to see your average mood.
-                        </p>
-                    </div>
-                </div>
-                <div className="average-sleep-container flex flex-col gap-4">
-                    <h2
-                        id="average-sleep-title"
-                        className="text-preset-4 text-foreground"
-                    >
-                        Average Sleep
-                        <span className="text-preset-7">
-                            (Last 5 Check-ins)
-                        </span>
-                    </h2>
-                    <div className="bg-card rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] flex flex-col items-start gap-4">
-                        <h3 className="text-preset-4 text-foreground">
-                            Not enough data yet
-                        </h3>
-                        <p className="text-preset-7 text-foreground">
-                            Track 5 nights to view your average sleep.
-                        </p>
-                    </div>
-                </div>
-            </section>
-        );
-    }
 
     return (
         <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
@@ -172,9 +60,18 @@ export default async function Home() {
                         Log today&apos;s mood
                     </button>
                 </section>
-                {averageMood !== null || averageSleep !== null
-                    ? displaySleepMoodData()
-                    : sleepMoodDataNotAvailable()}
+                {averageMood !== null || averageSleep !== null ? (
+                    <DisplaySleepMoodData
+                        entryCount={entryCount}
+                        averageMood={averageMood}
+                        averageMoodIcon={averageMoodIcon}
+                        averageMoodLabel={averageMoodLabel}
+                        averageSleep={averageSleep}
+                        averageSleepRange={averageSleepRange}
+                    />
+                ) : (
+                    <SleepMoodDataNotAvailable />
+                )}
                 <MoodSleepChart data={chartData} />
             </main>
         </div>

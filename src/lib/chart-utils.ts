@@ -31,6 +31,7 @@ export function transformMoodEntriesToChartData(
         .slice(0, 5) // Last 5 entries
         .reverse() // Show chronologically
         .map((entry) => ({
+            id: entry.id,
             date: new Date(entry.created_at).toLocaleDateString("en-US", {
                 month: "short",
                 day: "2-digit",

@@ -21,6 +21,7 @@ export interface MoodQuote {
 }
 
 export interface ChartData {
+  id: number;
   date: string
   sleep: number
   mood: number

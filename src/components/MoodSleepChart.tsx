@@ -9,6 +9,30 @@ interface MoodSleepChartProps {
     data: ChartData[];
 }
 
+// Custom tooltip content component
+const TooltipContent = ({ active, payload, label }: any) => {
+    if (active && payload?.length) {
+        const data = payload[0].payload;
+        return (
+            <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
+                <p className="font-medium text-foreground">{label}</p>
+                <p className="text-sm text-muted-foreground">
+                    Sleep: {data.sleepLabel}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                    Mood: {data.moodLabel}
+                </p>
+                {data.feelings && data.feelings.length > 0 && (
+                    <p className="text-sm text-muted-foreground">
+                        Feelings: {data.feelings.join(", ")}
+                    </p>
+                )}
+            </div>
+        );
+    }
+    return null;
+};
+
 const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
     // Mood colors mapping
     const moodColors = {
@@ -37,6 +61,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
             const date = new Date(today);
             date.setDate(today.getDate() - i);
             emptyData.push({
+                id: i,
                 date: date.toLocaleDateString("en-US", {
                     month: "short",
                     day: "2-digit",
@@ -53,6 +78,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
 
     const chartData = !data || data.length === 0 ? generateEmptyData() : data;
     const hasData = data && data.length > 0;
+    console.log("Chart Data:", chartData);
 
     return (
         <section className="lg:col-span-2 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0">
@@ -111,45 +137,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                 />
                                 {hasData && (
                                     <ChartTooltip
-                                        content={({
-                                            active,
-                                            payload,
-                                            label,
-                                        }) => {
-                                            if (
-                                                active &&
-                                                payload &&
-                                                payload.length
-                                            ) {
-                                                const data = payload[0].payload;
-                                                return (
-                                                    <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-                                                        <p className="font-medium text-foreground">
-                                                            {label}
-                                                        </p>
-                                                        <p className="text-sm text-muted-foreground">
-                                                            Sleep:{" "}
-                                                            {data.sleepLabel}
-                                                        </p>
-                                                        <p className="text-sm text-muted-foreground">
-                                                            Mood:{" "}
-                                                            {data.moodLabel}
-                                                        </p>
-                                                        {data.feelings &&
-                                                            data.feelings
-                                                                .length > 0 && (
-                                                                <p className="text-sm text-muted-foreground">
-                                                                    Feelings:{" "}
-                                                                    {data.feelings.join(
-                                                                        ", "
-                                                                    )}
-                                                                </p>
-                                                            )}
-                                                    </div>
-                                                );
-                                            }
-                                            return null;
-                                        }}
+                                        content={<TooltipContent />}
                                     />
                                 )}
                                 {hasData && (
@@ -161,7 +149,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                     >
                                         {chartData.map((entry, index) => (
                                             <Cell
-                                                key={`cell-${index}`}
+                                                key={`cell-${entry.id}`}
                                                 fill={
                                                     moodColors[
                                                         entry.mood.toString() as keyof typeof moodColors
