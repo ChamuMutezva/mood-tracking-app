@@ -33,11 +33,11 @@ export default async function Home() {
     console.log("Entry Count:", entryCount);
 
     return (
-        <div className="min-h-screen p-8 pb-20 gap-16 sm:p-20">
+        <div className="px-4 pt-8 pb-20 flex flex-col gap-2 sm:p-20">
             <Header />
             <main className="grid  gap-[32px] row-start-2 items-center  lg:grid-cols-3">
                 <section
-                    className="welcome-section flex flex-col gap-2 justify-center items-center lg:col-span-3 min-w-0 "
+                    className="welcome-section flex flex-col gap-6 justify-center items-center lg:col-span-3 min-w-0 "
                     aria-labelledby="greeting-text"
                 >
                     <p

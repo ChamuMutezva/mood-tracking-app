@@ -45,7 +45,7 @@ function Header() {
 
                             <MenuItems
                                 transition
-                                anchor={{ to: "bottom end", offset: 16 }}
+                                anchor={{ to: "bottom end", offset: 0 }}
                                 className="w-11/12 sm:w-50  origin-top-right rounded-[var(--radius-8)] border border-white/5 bg-white p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
                             >
                                 <MenuItem>
