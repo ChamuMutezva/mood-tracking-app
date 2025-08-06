@@ -11,6 +11,12 @@ interface MoodOption {
     icon: string;
 }
 
+interface SleepOption {
+    value: number;
+    label: string;
+    hours: string;
+}
+
 const moodOptions: MoodOption[] = [
     {
         value: 2,
@@ -29,6 +35,14 @@ const moodOptions: MoodOption[] = [
         label: "Very Sad",
         icon: "/assets/images/icon-very-sad-color.svg",
     },
+];
+
+const sleepOptions: SleepOption[] = [
+    { value: 5, label: "9+ hours", hours: "9+" },
+    { value: 4, label: "7-8 hours", hours: "7-8" },
+    { value: 3, label: "5-6 hours", hours: "5-6" },
+    { value: 2, label: "3-4 hours", hours: "3-4" },
+    { value: 1, label: "0-2 hours", hours: "0-2" },
 ];
 
 const feelingOptions = [
@@ -60,6 +74,7 @@ export default function MoodLoggingDialog() {
     const [selectedMood, setSelectedMood] = useState<number | null>(null);
     const [selectedFeelings, setSelectedFeelings] = useState<string[]>([]);
     const [journalEntry, setJournalEntry] = useState("");
+    const [selectedSleep, setSelectedSleep] = useState<number | null>(null);
 
     // Calculate progress percentage
     const progressPercentage = (currentStep / 4) * 100;
@@ -70,6 +85,7 @@ export default function MoodLoggingDialog() {
         setSelectedMood(null);
         setSelectedFeelings([]);
         setJournalEntry("");
+        setSelectedSleep(null);
     }
 
     function closeDialog() {
@@ -78,6 +94,7 @@ export default function MoodLoggingDialog() {
         setSelectedMood(null);
         setSelectedFeelings([]);
         setJournalEntry("");
+        setSelectedSleep(null);
     }
 
     function handleContinue() {
@@ -87,9 +104,23 @@ export default function MoodLoggingDialog() {
             setCurrentStep(3);
         } else if (currentStep === 3) {
             setCurrentStep(4);
-        } else if (currentStep < 4) {
-            setCurrentStep(currentStep + 1);
         }
+    }
+
+    function handleSubmit() {
+        // Here you would submit the form data
+        console.log("Form Data:", {
+            mood: selectedMood,
+            feelings: selectedFeelings,
+            journalEntry,
+            sleepHours: selectedSleep,
+        });
+
+        // Close dialog after submission
+        closeDialog();
+
+        // You could show a success message here
+        alert("Mood logged successfully!");
     }
 
     function handleMoodSelect(moodValue: number) {
@@ -119,10 +150,15 @@ export default function MoodLoggingDialog() {
         }
     }
 
+    function handleSleepSelect(sleepValue: number) {
+        setSelectedSleep(sleepValue);
+    }
+
     function canContinue() {
         if (currentStep === 1) return selectedMood !== null;
         if (currentStep === 2) return selectedFeelings.length > 0;
         if (currentStep === 3) return true; // Journal entry is optional
+        if (currentStep === 4) return selectedSleep !== null;
         return true;
     }
 
@@ -358,7 +394,7 @@ export default function MoodLoggingDialog() {
                                             />
                                             <div className="flex justify-between items-center text-preset-8 text-muted-foreground">
                                                 <span>
-                                                    Optional - Share what&apos;s on 
+                                                    Optional - Share what&apos;s on
                                                     your mind
                                                 </span>
                                                 <span>
@@ -386,17 +422,55 @@ export default function MoodLoggingDialog() {
                                 </div>
                             )}
 
-                            {/* Placeholder for Step 4 */}
+                            {/* Step 4: Sleep Hours Selection */}
                             {currentStep === 4 && (
                                 <div className="space-y-6">
-                                    <div className="text-center py-12">
-                                        <h4 className="text-preset-5 text-foreground font-medium">
-                                            Step 4
+                                    <div>
+                                        <h4 className="text-preset-5 text-foreground font-medium mb-4">
+                                            How many hours did you sleep?
                                         </h4>
-                                        <p className="text-preset-6 text-muted-foreground mt-2">
-                                            Coming next...
-                                        </p>
+                                        <div className="space-y-3">
+                                            {sleepOptions.map((sleep) => (
+                                                <label
+                                                    key={sleep.value}
+                                                    className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors hover:bg-gray-50 ${
+                                                        selectedSleep ===
+                                                        sleep.value
+                                                            ? "border-blue-500 bg-blue-50"
+                                                            : "border-gray-200 hover:border-gray-300"
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <input
+                                                            type="radio"
+                                                            name="sleep"
+                                                            value={sleep.value}
+                                                            checked={
+                                                                selectedSleep ===
+                                                                sleep.value
+                                                            }
+                                                            onChange={() =>
+                                                                handleSleepSelect(
+                                                                    sleep.value
+                                                                )
+                                                            }
+                                                            className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                                        />
+                                                        <span className="text-preset-6 text-foreground font-medium">
+                                                            {sleep.label}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex-shrink-0">
+                                                        <span className="text-preset-7 text-muted-foreground">
+                                                            💤
+                                                        </span>
+                                                    </div>
+                                                </label>
+                                            ))}
+                                        </div>
                                     </div>
+
+                                    {/* Navigation Buttons */}
                                     <div className="flex justify-between pt-4 border-t border-gray-200">
                                         <button
                                             onClick={() => setCurrentStep(3)}
@@ -405,10 +479,11 @@ export default function MoodLoggingDialog() {
                                             Back
                                         </button>
                                         <button
-                                            onClick={closeDialog}
-                                            className="px-6 py-2 text-preset-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                                            onClick={handleSubmit}
+                                            disabled={!canContinue()}
+                                            className="px-6 py-2 text-preset-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                                         >
-                                            Finish
+                                            Submit
                                         </button>
                                     </div>
                                 </div>
