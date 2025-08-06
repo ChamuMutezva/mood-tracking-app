@@ -15,7 +15,11 @@ import {
     MenuItems,
     MenuSeparator,
 } from "@headlessui/react";
-import { CameraIcon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import {
+    CameraIcon,
+    ChevronDownIcon,
+    XMarkIcon,
+} from "@heroicons/react/16/solid";
 
 function Header() {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -96,7 +100,7 @@ function Header() {
                                     </MenuItem>
                                     <MenuSeparator className="my-1 h-px bg-[hsl(var(--blue-100))]" />
                                     <MenuItem>
-                                        <button
+                                        <Button
                                             type="button"
                                             onClick={showSettingsDialog}
                                             className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-[hsl(var(--blue-200))]"
@@ -110,11 +114,11 @@ function Header() {
                                             <span className="text-foreground">
                                                 Settings
                                             </span>
-                                        </button>
+                                        </Button>
                                     </MenuItem>
                                     <div className="my-1 h-px bg-white/5" />
                                     <MenuItem>
-                                        <button
+                                        <Button
                                             type="button"
                                             className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-[hsl(var(--blue-200))]"
                                         >
@@ -127,7 +131,7 @@ function Header() {
                                             <span className="text-foreground">
                                                 Logout
                                             </span>
-                                        </button>
+                                        </Button>
                                     </MenuItem>
                                 </MenuItems>
                             </div>
@@ -157,8 +161,8 @@ function Header() {
                             {/* Dialog Header */}
                             <div className="flex items-center justify-between mb-4">
                                 <DialogTitle
-                                    as="h3"
-                                    className="text-preset-4 text-foreground font-semibold"
+                                    as="h2"
+                                    className="text-preset-3 text-foreground"
                                 >
                                     Update your profile
                                 </DialogTitle>
@@ -174,7 +178,7 @@ function Header() {
                             <div className="space-y-6">
                                 {/* Profile Section */}
                                 <div>
-                                    <Description className="text-preset-6 text-foreground  mb-3">
+                                    <Description className="text-preset-6-regular accent-foreground  mb-3">
                                         Personalise your account with your name
                                         and photo
                                     </Description>
@@ -193,21 +197,21 @@ function Header() {
                                                         Lisa
                                                     </AvatarFallback>
                                                 </Avatar>
-                                                <button
+                                                <Button
                                                     onClick={handleImageUpload}
                                                     className="absolute -bottom-1 -right-1 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg transition-colors"
                                                     title="Change profile picture"
                                                 >
                                                     <CameraIcon className="size-4" />
-                                                </button>
+                                                </Button>
                                             </div>
                                             <div className="text-center">
-                                                <button
+                                                <Button
                                                     onClick={handleImageUpload}
                                                     className="text-preset-7 text-blue-600 hover:text-blue-700 font-medium"
                                                 >
                                                     Change profile picture
-                                                </button>
+                                                </Button>
                                                 <p className="text-preset-8 text-muted-foreground mt-1">
                                                     JPG, PNG or GIF (max. 5MB)
                                                 </p>
@@ -222,7 +226,7 @@ function Header() {
                                                 aria-label="Upload profile picture"
                                             />
                                         </div>
-                                          {/* Name and Email Fields */}
+                                        {/* Name and Email Fields */}
                                         <div>
                                             <label
                                                 htmlFor="name-input"
@@ -234,7 +238,7 @@ function Header() {
                                                 id="name-input"
                                                 type="text"
                                                 defaultValue="Lisa Maria"
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md text-preset-6 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-[var(--radius-10)] text-preset-6 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
                                         </div>
                                         <div>
@@ -249,7 +253,7 @@ function Header() {
                                                 type="email"
                                                 disabled
                                                 defaultValue="lisa@mail.com"
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md text-preset-6 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-[var(--radius-10)] text-preset-6 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
                                         </div>
                                     </div>
@@ -257,9 +261,9 @@ function Header() {
 
                                 {/* Notifications Section */}
                                 <div>
-                                    <h4 className="text-preset-5 text-foreground font-medium mb-3">
+                                    <h3 className="text-preset-5 text-foreground font-medium mb-3">
                                         Notifications
-                                    </h4>
+                                    </h3>
                                     <div className="space-y-3">
                                         <label className="flex items-center gap-3">
                                             <input
@@ -295,9 +299,9 @@ function Header() {
 
                                 {/* Privacy Section */}
                                 <div>
-                                    <h4 className="text-preset-5 text-foreground font-medium mb-3">
+                                    <h3 className="text-preset-5 text-foreground font-medium mb-3">
                                         Privacy
-                                    </h4>
+                                    </h3>
                                     <div className="space-y-3">
                                         <label className="flex items-center gap-3">
                                             <input
@@ -318,13 +322,13 @@ function Header() {
                             <div className="flex gap-3 mt-6 pt-4 border-t border-gray-200">
                                 <Button
                                     onClick={closeSettingsDialog}
-                                    className="flex-1 px-4 py-2 text-preset-6 text-muted-foreground border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                                    className="flex-1 px-4 py-2 text-preset-6 text-muted-foreground border border-gray-300 rounded-[var(--radius-10)] hover:bg-gray-50 transition-colors"
                                 >
                                     Cancel
                                 </Button>
                                 <Button
                                     onClick={closeSettingsDialog}
-                                    className="flex-1 px-4 py-2 text-preset-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                                    className="flex-1 px-4 py-2 text-preset-6 text-white bg-blue-600 rounded-[var(--radius-10)] hover:bg-blue-700 transition-colors"
                                 >
                                     Save Changes
                                 </Button>
