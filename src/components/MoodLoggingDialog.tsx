@@ -358,7 +358,7 @@ export default function MoodLoggingDialog() {
                                             />
                                             <div className="flex justify-between items-center text-preset-8 text-muted-foreground">
                                                 <span>
-                                                    Optional - Share what's on
+                                                    Optional - Share what&apos;s on 
                                                     your mind
                                                 </span>
                                                 <span>
