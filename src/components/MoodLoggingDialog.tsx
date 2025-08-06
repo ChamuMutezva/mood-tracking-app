@@ -59,6 +59,7 @@ export default function MoodLoggingDialog() {
     const [currentStep, setCurrentStep] = useState(1);
     const [selectedMood, setSelectedMood] = useState<number | null>(null);
     const [selectedFeelings, setSelectedFeelings] = useState<string[]>([]);
+    const [journalEntry, setJournalEntry] = useState("");
 
     // Calculate progress percentage
     const progressPercentage = (currentStep / 4) * 100;
@@ -68,6 +69,7 @@ export default function MoodLoggingDialog() {
         setCurrentStep(1);
         setSelectedMood(null);
         setSelectedFeelings([]);
+        setJournalEntry("");
     }
 
     function closeDialog() {
@@ -75,6 +77,7 @@ export default function MoodLoggingDialog() {
         setCurrentStep(1);
         setSelectedMood(null);
         setSelectedFeelings([]);
+        setJournalEntry("");
     }
 
     function handleContinue() {
@@ -82,6 +85,8 @@ export default function MoodLoggingDialog() {
             setCurrentStep(2);
         } else if (currentStep === 2 && selectedFeelings.length > 0) {
             setCurrentStep(3);
+        } else if (currentStep === 3) {
+            setCurrentStep(4);
         } else if (currentStep < 4) {
             setCurrentStep(currentStep + 1);
         }
@@ -105,9 +110,19 @@ export default function MoodLoggingDialog() {
         });
     }
 
+    function handleJournalChange(
+        event: React.ChangeEvent<HTMLTextAreaElement>
+    ) {
+        const value = event.target.value;
+        if (value.length <= 150) {
+            setJournalEntry(value);
+        }
+    }
+
     function canContinue() {
         if (currentStep === 1) return selectedMood !== null;
         if (currentStep === 2) return selectedFeelings.length > 0;
+        if (currentStep === 3) return true; // Journal entry is optional
         return true;
     }
 
@@ -326,12 +341,57 @@ export default function MoodLoggingDialog() {
                                 </div>
                             )}
 
-                            {/* Placeholder for other steps */}
-                            {currentStep > 2 && (
+                            {/* Step 3: Journal Entry */}
+                            {currentStep === 3 && (
+                                <div className="space-y-6">
+                                    <div>
+                                        <h4 className="text-preset-5 text-foreground font-medium mb-4">
+                                            Write about your day...
+                                        </h4>
+                                        <div className="space-y-2">
+                                            <textarea
+                                                value={journalEntry}
+                                                onChange={handleJournalChange}
+                                                placeholder="Today I felt..."
+                                                className="w-full h-32 px-4 py-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-preset-6 text-foreground placeholder:text-muted-foreground"
+                                                maxLength={150}
+                                            />
+                                            <div className="flex justify-between items-center text-preset-8 text-muted-foreground">
+                                                <span>
+                                                    Optional - Share what's on
+                                                    your mind
+                                                </span>
+                                                <span>
+                                                    {journalEntry.length}/150
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Navigation Buttons */}
+                                    <div className="flex justify-between pt-4 border-t border-gray-200">
+                                        <button
+                                            onClick={() => setCurrentStep(2)}
+                                            className="px-6 py-2 text-preset-6 text-muted-foreground border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                                        >
+                                            Back
+                                        </button>
+                                        <button
+                                            onClick={handleContinue}
+                                            className="px-6 py-2 text-preset-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                                        >
+                                            Continue
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Placeholder for Step 4 */}
+                            {currentStep === 4 && (
                                 <div className="space-y-6">
                                     <div className="text-center py-12">
                                         <h4 className="text-preset-5 text-foreground font-medium">
-                                            Step {currentStep}
+                                            Step 4
                                         </h4>
                                         <p className="text-preset-6 text-muted-foreground mt-2">
                                             Coming next...
@@ -339,24 +399,16 @@ export default function MoodLoggingDialog() {
                                     </div>
                                     <div className="flex justify-between pt-4 border-t border-gray-200">
                                         <button
-                                            onClick={() =>
-                                                setCurrentStep(currentStep - 1)
-                                            }
+                                            onClick={() => setCurrentStep(3)}
                                             className="px-6 py-2 text-preset-6 text-muted-foreground border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
                                         >
                                             Back
                                         </button>
                                         <button
-                                            onClick={
-                                                currentStep < 4
-                                                    ? handleContinue
-                                                    : closeDialog
-                                            }
+                                            onClick={closeDialog}
                                             className="px-6 py-2 text-preset-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
                                         >
-                                            {currentStep < 4
-                                                ? "Continue"
-                                                : "Finish"}
+                                            Finish
                                         </button>
                                     </div>
                                 </div>
