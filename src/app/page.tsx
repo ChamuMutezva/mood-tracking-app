@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import MoodSleepChart from "@/components/MoodSleepChart";
+import MoodLoggingDialog from "@/components/MoodLoggingDialog";
 import {
     getUserById,
     getMoodEntriesForUser,
@@ -51,7 +52,7 @@ export default async function Home() {
                     </p>
 
                     <CurrentDate />
-
+                    {/*
                     <button
                         type="button"
                         id="mood-logging-heading"
@@ -59,6 +60,8 @@ export default async function Home() {
                     >
                         Log today&apos;s mood
                     </button>
+                    */}
+                    <MoodLoggingDialog />
                 </section>
                 {averageMood !== null || averageSleep !== null ? (
                     <DisplaySleepMoodData
