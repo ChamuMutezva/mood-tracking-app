@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/16/solid";
-import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 
 interface MoodOption {
@@ -201,7 +200,7 @@ export default function MoodLoggingDialog() {
                                     >
                                         Log your mood
                                     </DialogTitle>
-                                    {/* Progress Bar */}
+                                    {/* Segmented Progress Bar */}
                                     <div className="space-y-2">
                                         <div className="flex justify-between items-center">
                                             <span className="text-preset-7 text-muted-foreground">
@@ -212,10 +211,19 @@ export default function MoodLoggingDialog() {
                                                 %
                                             </span>
                                         </div>
-                                        <Progress
-                                            value={progressPercentage}
-                                            className="h-2"
-                                        />
+                                        {/* Custom 4-segment progress bar */}
+                                        <div className="flex gap-1">
+                                            {[1, 2, 3, 4].map((step) => (
+                                                <div
+                                                    key={step}
+                                                    className={`flex-1 h-2 rounded-full transition-colors duration-300 ${
+                                                        step <= currentStep
+                                                            ? "bg-blue-600"
+                                                            : "bg-gray-200"
+                                                    }`}
+                                                />
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                                 <button
@@ -394,8 +402,8 @@ export default function MoodLoggingDialog() {
                                             />
                                             <div className="flex justify-between items-center text-preset-8 text-muted-foreground">
                                                 <span>
-                                                    Optional - Share what&apos;s on
-                                                    your mind
+                                                    Optional - Share what&apos;s
+                                                    on your mind
                                                 </span>
                                                 <span>
                                                     {journalEntry.length}/150
