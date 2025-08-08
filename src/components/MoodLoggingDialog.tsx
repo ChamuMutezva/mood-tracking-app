@@ -184,7 +184,7 @@ export default function MoodLoggingDialog() {
             >
                 {/* Backdrop */}
                 <div
-                    className="fixed inset-0 bg-black/25 backdrop-blur-sm"
+                    className="fixed inset-0 bg-foreground opacity-70 backdrop-blur-sm"
                     aria-hidden="true"
                 />
 
@@ -192,7 +192,7 @@ export default function MoodLoggingDialog() {
                     <div className="flex min-h-full items-center justify-center p-4">
                         <DialogPanel
                             transition
-                            className="w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
+                            className="dialog-panel w-full max-w-lg rounded-[var(--radius-10)] p-6 shadow-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
                         >
                             {/* Dialog Header */}
                             <div className="flex items-center justify-between mb-6">

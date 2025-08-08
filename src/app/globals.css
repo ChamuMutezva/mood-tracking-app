@@ -153,6 +153,9 @@
     body {
         background: var(--linear-gradient);
     }
+    .dialog-panel {
+        background: var(--linear-gradient);
+    }
 
     .text-preset-1 {
         font-weight: 800;
