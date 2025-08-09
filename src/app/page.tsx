@@ -52,15 +52,6 @@ export default async function Home() {
                     </p>
 
                     <CurrentDate />
-                    {/*
-                    <button
-                        type="button"
-                        id="mood-logging-heading"
-                        className="bg-card-foreground text-preset-5 text-white px-[var(--spacing-400)] py-[var(--spacing-200)] rounded-[var(--radius-10)] font-semibold hover:bg-card-foreground/90 transition-colors duration-200"
-                    >
-                        Log today&apos;s mood
-                    </button>
-                    */}
                     <MoodLoggingDialog />
                 </section>
                 {averageMood !== null || averageSleep !== null ? (

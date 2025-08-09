@@ -18,7 +18,7 @@ function DialogStepNotification({
             <div className="flex-1">
                 <DialogTitle
                     as="h3"
-                    className="text-preset-4 text-foreground font-semibold mb-3"
+                    className="text-preset-2 text-foreground mb-3"
                 >
                     Log your mood
                 </DialogTitle>

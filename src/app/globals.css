@@ -164,7 +164,7 @@
         letter-spacing: -(var(--spacing-025));
     }
     .text-preset-2 {
-        font-weight: 600;
+        font-weight: 700;
         font-size: var(--font-size-650);
         line-height: 1.2;
         letter-spacing: -0.3px;

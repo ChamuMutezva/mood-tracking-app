@@ -69,9 +69,16 @@ function Header() {
                     <Menu>
                         {({ open }) => (
                             <div>
-                                <MenuButton className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white">
+                                <MenuButton
+                                    aria-label="Profile menu"
+                                    aria-expanded={open}
+                                    className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white"
+                                >
                                     <Avatar>
-                                        <AvatarImage src="/assets/images/avatar-lisa.jpg" />
+                                        <AvatarImage
+                                            src="/assets/images/avatar-lisa.jpg"
+                                            alt="Lisa's profile"
+                                        />
                                         <AvatarFallback className="text-foreground">
                                             Lisa
                                         </AvatarFallback>
@@ -88,15 +95,15 @@ function Header() {
                                     anchor={{ to: "bottom end", offset: 0 }}
                                     className="w-11/12 sm:w-50  origin-top-right rounded-[var(--radius-8)] border border-white/5 bg-white p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
                                 >
-                                    <MenuItem>
-                                        <button className="group flex flex-col items-start w-full  gap-2 rounded-lg px-3 py-1.5 data-focus:bg-[hsl(var(--blue-200))]">
+                                    <MenuItem as="div">
+                                        <div className="group flex flex-col items-start w-full  gap-2 rounded-lg px-3 py-1.5">
                                             <p className="text-preset-6 text-foreground">
                                                 Lisa Maria
                                             </p>
                                             <span className="text-preset-7 text-muted-foreground">
                                                 lisa@mail.com
                                             </span>
-                                        </button>
+                                        </div>
                                     </MenuItem>
                                     <MenuSeparator className="my-1 h-px bg-[hsl(var(--blue-100))]" />
                                     <MenuItem>
@@ -168,6 +175,7 @@ function Header() {
                                 </DialogTitle>
                                 <Button
                                     onClick={closeSettingsDialog}
+                                    aria-label="close profile menu"
                                     className="rounded-md p-1 hover:bg-gray-100 transition-colors"
                                 >
                                     <XMarkIcon className="size-5 text-gray-500" />
@@ -199,6 +207,7 @@ function Header() {
                                                 </Avatar>
                                                 <Button
                                                     onClick={handleImageUpload}
+                                                    aria-label="upload profile photo"
                                                     className="absolute -bottom-1 -right-1 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg transition-colors"
                                                     title="Change profile picture"
                                                 >
@@ -217,13 +226,14 @@ function Header() {
                                                 </p>
                                             </div>
                                             {/* Hidden file input */}
+                                            <label htmlFor="upload-image" className="sr-only">Select and upload profile image</label>
                                             <input
+                                                id="upload-image"
                                                 ref={fileInputRef}
                                                 type="file"
                                                 accept="image/*"
                                                 onChange={handleFileChange}
                                                 className="hidden"
-                                                aria-label="Upload profile picture"
                                             />
                                         </div>
                                         {/* Name and Email Fields */}

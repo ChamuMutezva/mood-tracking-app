@@ -77,6 +77,7 @@ export default function MoodLoggingDialog() {
     const [selectedFeelings, setSelectedFeelings] = useState<string[]>([]);
     const [journalEntry, setJournalEntry] = useState("");
     const [selectedSleep, setSelectedSleep] = useState<number | null>(null);
+    const [isJournalValid, setIsJournalValid] = useState(false);
 
     // Calculate progress percentage
     const progressPercentage = (currentStep / 4) * 100;
@@ -88,6 +89,7 @@ export default function MoodLoggingDialog() {
         setSelectedFeelings([]);
         setJournalEntry("");
         setSelectedSleep(null);
+        setIsJournalValid(false);
     }
 
     function closeDialog() {
@@ -97,6 +99,7 @@ export default function MoodLoggingDialog() {
         setSelectedFeelings([]);
         setJournalEntry("");
         setSelectedSleep(null);
+        setIsJournalValid(false);
     }
 
     function handleContinue() {
@@ -104,7 +107,7 @@ export default function MoodLoggingDialog() {
             setCurrentStep(2);
         } else if (currentStep === 2 && selectedFeelings.length > 0) {
             setCurrentStep(3);
-        } else if (currentStep === 3) {
+        } else if (currentStep === 3 && isJournalValid) {
             setCurrentStep(4);
         }
     }
@@ -156,6 +159,10 @@ export default function MoodLoggingDialog() {
         setSelectedSleep(sleepValue);
     }
 
+    function handleJournalValidationChange(isValid: boolean) {
+        setIsJournalValid(isValid);
+    }
+
     function canContinue() {
         if (currentStep === 1) return selectedMood !== null;
         if (currentStep === 2) return selectedFeelings.length > 0;
@@ -192,7 +199,7 @@ export default function MoodLoggingDialog() {
                     <div className="flex min-h-full items-center justify-center p-4">
                         <DialogPanel
                             transition
-                            className="dialog-panel w-full max-w-lg rounded-[var(--radius-10)] p-6 shadow-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
+                            className="dialog-panel w-full max-w-[37.5rem] rounded-[var(--radius-10)] p-6 shadow-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
                         >
                             {/* Dialog Header */}
                             <div className="flex items-center justify-between mb-6">
@@ -235,6 +242,7 @@ export default function MoodLoggingDialog() {
                                     onJournalChange={handleJournalChange}
                                     onBack={() => setCurrentStep(2)}
                                     onContinue={handleContinue}
+                                    onValidationChange={handleJournalValidationChange} 
                                 />
                             )}
 

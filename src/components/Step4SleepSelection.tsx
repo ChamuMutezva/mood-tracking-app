@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@headlessui/react";
 
 interface SleepOption {
     value: number;
@@ -64,19 +65,19 @@ export default function Step4SleepSelection({
 
             {/* Navigation Buttons */}
             <div className="flex justify-between pt-4 border-t border-gray-200">
-                <button
+                <Button
                     onClick={onBack}
                     className="px-6 py-2 text-preset-6 text-muted-foreground border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
                 >
                     Back
-                </button>
-                <button
+                </Button>
+                <Button
                     onClick={onSubmit}
                     disabled={!canContinue}
                     className="px-6 py-2 text-preset-6 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                 >
                     Submit
-                </button>
+                </Button>
             </div>
         </div>
     );
