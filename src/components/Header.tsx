@@ -226,7 +226,12 @@ function Header() {
                                                 </p>
                                             </div>
                                             {/* Hidden file input */}
-                                            <label htmlFor="upload-image" className="sr-only">Select and upload profile image</label>
+                                            <label
+                                                htmlFor="upload-image"
+                                                className="sr-only"
+                                            >
+                                                Select and upload profile image
+                                            </label>
                                             <input
                                                 id="upload-image"
                                                 ref={fileInputRef}

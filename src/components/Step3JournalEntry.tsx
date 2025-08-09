@@ -80,7 +80,7 @@ export default function Step3JournalEntry({
                     <div className="flex justify-between items-center text-preset-8 text-muted-foreground">
                         <span>Minimum {MIN_WORDS} words required</span>
                         <span>
-                            {wordCount}/150 words ({journalEntry.length}/300
+                            {wordCount}/100 words ({journalEntry.length}/300
                             characters)
                         </span>
                     </div>

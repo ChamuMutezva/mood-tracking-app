@@ -4,6 +4,7 @@ import MoodLoggingDialog from "@/components/MoodLoggingDialog";
 import {
     getUserById,
     getMoodEntriesForUser,
+    getMoodEntryForToday,
     // getMoodQuotes,
 } from "@/lib/data";
 import {
@@ -17,6 +18,7 @@ import SleepMoodDataNotAvailable from "@/components/SleepMoodDataNotAvailable";
 export default async function Home() {
     const user = await getUserById(1);
     const moodEntries = await getMoodEntriesForUser(1);
+    const todayMoodEntry = await getMoodEntryForToday(1);
     const {
         averageMood,
         averageSleep,
@@ -28,7 +30,6 @@ export default async function Home() {
 
     const chartData = transformMoodEntriesToChartData(moodEntries);
     console.log("Chart Data:", chartData);
-    console.log("User:", user);
     console.log("Average Mood:", averageMood);
     console.log("Average Sleep:", averageSleep);
     console.log("Entry Count:", entryCount);
@@ -52,7 +53,10 @@ export default async function Home() {
                     </p>
 
                     <CurrentDate />
-                    <MoodLoggingDialog />
+                    <MoodLoggingDialog
+                        user={user || { id: 0 }}
+                        todayEntry={todayMoodEntry}
+                    />
                 </section>
                 {averageMood !== null || averageSleep !== null ? (
                     <DisplaySleepMoodData

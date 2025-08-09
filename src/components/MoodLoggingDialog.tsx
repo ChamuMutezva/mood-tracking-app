@@ -6,6 +6,9 @@ import Step1MoodSelection from "./Step1MoodSelection";
 import Step2FeelingsSelection from "./Step2FeelingsSelection";
 import Step3JournalEntry from "./Step3JournalEntry";
 import Step4SleepSelection from "./Step4SleepSelection";
+import TodaysMoodSummary from "./TodaysMoodSummary";
+import { addMoodEntry } from "@/actions/mood";
+import { MoodEntry } from "@/lib/types";
 
 interface MoodOption {
     value: number;
@@ -70,7 +73,15 @@ const feelingOptions = [
     "Restless",
 ];
 
-export default function MoodLoggingDialog() {
+interface MoodLoggingDialogProps {
+    user: { id: number };
+    todayEntry: MoodEntry | null;
+}
+
+export default function MoodLoggingDialog({
+    user,
+    todayEntry,
+}: Readonly<MoodLoggingDialogProps>) {
     const [isOpen, setIsOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
     const [selectedMood, setSelectedMood] = useState<number | null>(null);
@@ -79,8 +90,13 @@ export default function MoodLoggingDialog() {
     const [selectedSleep, setSelectedSleep] = useState<number | null>(null);
     const [isJournalValid, setIsJournalValid] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(false); // New state for loading
+    const [submissionError, setSubmissionError] = useState<string | null>(null); // New state for submission errors
+    const [submittedEntryData, setSubmittedEntryData] =
+        useState<MoodEntry | null>(null); // To display summary after submission
     // Calculate progress percentage
     const progressPercentage = (currentStep / 4) * 100;
+  
 
     function openDialog() {
         setIsOpen(true);
@@ -90,6 +106,7 @@ export default function MoodLoggingDialog() {
         setJournalEntry("");
         setSelectedSleep(null);
         setIsJournalValid(false);
+        setSubmissionError(null);
     }
 
     function closeDialog() {
@@ -100,6 +117,7 @@ export default function MoodLoggingDialog() {
         setJournalEntry("");
         setSelectedSleep(null);
         setIsJournalValid(false);
+        setSubmissionError(null);
     }
 
     function handleContinue() {
@@ -112,20 +130,33 @@ export default function MoodLoggingDialog() {
         }
     }
 
-    function handleSubmit() {
-        // Here you would submit the form data
-        console.log("Form Data:", {
+    async function handleSubmit() {
+        if (selectedMood === null || selectedSleep === null) {
+            setSubmissionError("Please complete all required fields.");
+            return;
+        }
+
+        setIsLoading(true);
+        setSubmissionError(null);
+
+        const result = await addMoodEntry({
+            userId: user.id,
             mood: selectedMood,
-            feelings: selectedFeelings,
-            journalEntry,
             sleepHours: selectedSleep,
+            feelings: selectedFeelings,
+            journalEntry: journalEntry.trim() === "" ? null : journalEntry, // Send null if empty
         });
 
-        // Close dialog after submission
-        closeDialog();
+        setIsLoading(false);
 
-        // You could show a success message here
-        alert("Mood logged successfully!");
+        if (result.success && result.data) {
+            setSubmittedEntryData(result.data); // Store the newly added data
+            closeDialog();
+        } else {
+            setSubmissionError(
+                result.error || "An unknown error occurred during submission."
+            );
+        }
     }
 
     function handleMoodSelect(moodValue: number) {
@@ -171,16 +202,22 @@ export default function MoodLoggingDialog() {
         return true;
     }
 
+    // Determine which entry to display in the summary
+    const displayEntry = submittedEntryData || todayEntry;
+
     return (
         <>
-            {/* Trigger Button */}
-            <button
-                type="button"
-                onClick={openDialog}
-                className="bg-card-foreground text-preset-5 text-white px-[var(--spacing-400)] py-[var(--spacing-200)] rounded-[var(--radius-10)] font-semibold hover:bg-card-foreground/90 transition-colors duration-200"
-            >
-                Log today&apos;s mood
-            </button>
+            {displayEntry ? (
+                <TodaysMoodSummary entry={displayEntry} />
+            ) : (
+                <button
+                    type="button"
+                    onClick={openDialog}
+                    className="bg-card-foreground text-preset-5 text-white px-[var(--spacing-400)] py-[var(--spacing-200)] rounded-[var(--radius-10)] font-semibold hover:bg-card-foreground/90 transition-colors duration-200"
+                >
+                    Log today&apos;s mood
+                </button>
+            )}
 
             {/* Mood Logging Dialog */}
             <Dialog
@@ -242,7 +279,9 @@ export default function MoodLoggingDialog() {
                                     onJournalChange={handleJournalChange}
                                     onBack={() => setCurrentStep(2)}
                                     onContinue={handleContinue}
-                                    onValidationChange={handleJournalValidationChange} 
+                                    onValidationChange={
+                                        handleJournalValidationChange
+                                    }
                                 />
                             )}
 
@@ -256,6 +295,20 @@ export default function MoodLoggingDialog() {
                                     onSubmit={handleSubmit}
                                     canContinue={canContinue()}
                                 />
+                            )}
+
+                            {isLoading && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-50 rounded-[var(--radius-10)]">
+                                    <p className="text-preset-5 text-foreground">
+                                        Submitting...
+                                    </p>
+                                </div>
+                            )}
+
+                            {submissionError && (
+                                <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-preset-7">
+                                    {submissionError}
+                                </div>
                             )}
                         </DialogPanel>
                     </div>
