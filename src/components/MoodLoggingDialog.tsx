@@ -76,11 +76,13 @@ const feelingOptions = [
 interface MoodLoggingDialogProps {
     user: { id: number };
     todayEntry: MoodEntry | null;
+    selectedQuote: string | null;
 }
 
 export default function MoodLoggingDialog({
     user,
     todayEntry,
+    selectedQuote,
 }: Readonly<MoodLoggingDialogProps>) {
     const [isOpen, setIsOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
@@ -96,7 +98,6 @@ export default function MoodLoggingDialog({
         useState<MoodEntry | null>(null); // To display summary after submission
     // Calculate progress percentage
     const progressPercentage = (currentStep / 4) * 100;
-  
 
     function openDialog() {
         setIsOpen(true);
@@ -208,7 +209,10 @@ export default function MoodLoggingDialog({
     return (
         <>
             {displayEntry ? (
-                <TodaysMoodSummary entry={displayEntry} />
+                <TodaysMoodSummary
+                    entry={displayEntry}
+                    selectedQuote={selectedQuote}
+                />
             ) : (
                 <button
                     type="button"

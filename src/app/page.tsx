@@ -5,7 +5,7 @@ import {
     getUserById,
     getMoodEntriesForUser,
     getMoodEntryForToday,
-    // getMoodQuotes,
+    getMoodQuotes,
 } from "@/lib/data";
 import {
     transformMoodEntriesToChartData,
@@ -19,6 +19,8 @@ export default async function Home() {
     const user = await getUserById(1);
     const moodEntries = await getMoodEntriesForUser(1);
     const todayMoodEntry = await getMoodEntryForToday(1);
+    const quotes = await getMoodQuotes();
+
     const {
         averageMood,
         averageSleep,
@@ -29,10 +31,24 @@ export default async function Home() {
     } = calculateAveragesFromEntries(moodEntries);
 
     const chartData = transformMoodEntriesToChartData(moodEntries);
-    console.log("Chart Data:", chartData);
-    console.log("Average Mood:", averageMood);
-    console.log("Average Sleep:", averageSleep);
-    console.log("Entry Count:", entryCount);
+    // console.log("Chart Data:", chartData);
+    //  console.log("Average Mood:", averageMood);
+    //  console.log("Average Sleep:", averageSleep);
+    //  console.log("Entry Count:", entryCount);
+    let selectedQuote: string | null = null;
+    if (todayMoodEntry) {
+        const moodQuotesForEntry =
+            quotes.find((q) => q.mood_level === todayMoodEntry.mood)?.quotes ||
+            [];
+        if (moodQuotesForEntry.length > 0) {
+            selectedQuote =
+                moodQuotesForEntry[
+                    Math.floor(Math.random() * moodQuotesForEntry.length)
+                ];
+        }
+    }
+    console.log("quotes", quotes);
+    console.log("today", todayMoodEntry);
 
     return (
         <div className="px-4 pt-8 pb-20 flex flex-col gap-2 sm:p-20">
@@ -56,6 +72,7 @@ export default async function Home() {
                     <MoodLoggingDialog
                         user={user || { id: 0 }}
                         todayEntry={todayMoodEntry}
+                        selectedQuote={selectedQuote}
                     />
                 </section>
                 {averageMood !== null || averageSleep !== null ? (

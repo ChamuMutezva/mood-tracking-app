@@ -5,6 +5,7 @@ import type { MoodEntry } from "@/lib/types";
 
 interface TodaysMoodSummaryProps {
     entry: MoodEntry;
+    selectedQuote: string | null;
 }
 
 const moodOptions = [
@@ -37,60 +38,104 @@ const sleepLabels = {
 
 export default function TodaysMoodSummary({
     entry,
+    selectedQuote,
 }: Readonly<TodaysMoodSummaryProps>) {
     const mood = moodOptions.find((option) => option.value === entry.mood);
     const sleepLabel =
         sleepLabels[entry.sleep_hours as keyof typeof sleepLabels];
 
     return (
-        <div className="bg-card rounded-[var(--radius-10)] p-6 shadow-sm flex flex-col gap-4 items-center text-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center text-center w-full">
             {mood && (
-                <div className="flex flex-col items-center gap-3">
-                    <h3 className="text-preset-4 text-foreground flex flex-col">
-                        I am feeling
-                        <span className="text-preset-3 text-foreground">
+                <div
+                    className="bg-accent shadow-sm rounded-[var(--radius-10)] p-6 grid grid-cols-1
+                sm:grid-cols-2 lg:col-span-1 lg:row-span-2 place-items-center gap-3 w-full"
+                >
+                    <h3 className="text-foreground  flex flex-col">
+                        <span className="opacity-70 text-preset-3">
+                            I am feeling
+                        </span>
+                        <span className="opacity-100 text-preset-2">
                             {mood.label}
                         </span>
                     </h3>
                     <Image
                         src={mood.icon || "/placeholder.svg"}
                         alt={mood.label}
-                        width={40}
-                        height={40}
+                        width={200}
+                        height={200}
+                        className="min-w-50 min-h-50 row-span-2"
                     />
-                    <div>
+                    <div className="flex flex-col justify-center items-center">
                         <Image
                             src={"/assets/images/icon-quote.svg"}
                             alt={""}
                             width={16}
                             height={16}
                         />
+                        {selectedQuote && (
+                            <p className="text-preset-6-italic text-foreground max-w-prose mt-2">
+                                &quot;{selectedQuote}&quot;
+                            </p>
+                        )}
                     </div>
                 </div>
             )}
-            {entry.feelings && entry.feelings.length > 0 && (
-                <p className="text-preset-6 text-muted-foreground">
-                    You felt: {entry.feelings.join(", ")}
+            <div className="bg-accent shadow-sm rounded-[var(--radius-10)] p-6 w-full">
+                <div className="flex">
+                    <Image
+                        src={"/assets/images/icon-sleep.svg"}
+                        alt={""}
+                        width={16}
+                        height={16}
+                    />
+                    <span>Sleep</span>
+                </div>
+                {sleepLabel && (
+                    <p className="text-preset-6 text-muted-foreground text-left">
+                        {sleepLabel}
+                    </p>
+                )}
+            </div>
+            <div className="bg-accent shadow-sm rounded-[var(--radius-10)] p-6 w-full">
+                <div className="flex justify-items-start">
+                    <Image
+                        src={"/assets/images/icon-reflection.svg"}
+                        alt={""}
+                        width={16}
+                        height={16}
+                    />
+                    <h3>Reflection of the day</h3>
+                </div>
+                {entry.journal_entry && (
+                    <p className="text-preset-7 text-muted-foreground italic max-w-prose line-clamp-3 text-left">
+                        &quot;{entry.journal_entry}&quot;
+                    </p>
+                )}
+                <div className="text-left flex flex-start gap-2">
+                    {entry.feelings &&
+                        entry.feelings.length > 0 &&
+                        entry.feelings.map((entry) => (
+                            <span
+                                key={entry}
+                                className="text-preset-6 text-muted-foreground"
+                            >
+                                #{entry} 
+                            </span>
+                        ))}
+                </div>
+            </div>
+
+            <div className="lg:col-span-2">
+                <p className="text-preset-7 text-muted-foreground mt-2">
+                    Logged at:{" "}
+                    {new Date(entry.created_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    })}
                 </p>
-            )}
-            {sleepLabel && (
-                <p className="text-preset-6 text-muted-foreground">
-                    You slept: {sleepLabel} 💤
-                </p>
-            )}
-            {entry.journal_entry && (
-                <p className="text-preset-7 text-muted-foreground italic max-w-prose line-clamp-3">
-                    &quot;{entry.journal_entry}&quot;
-                </p>
-            )}
-            <p className="text-preset-7 text-muted-foreground mt-2">
-                Logged at:{" "}
-                {new Date(entry.created_at).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                })}
-            </p>
-            {/* You can add an "Edit" button here later if needed */}
+            </div>
+            {/* add an "Edit" button here later if needed */}
         </div>
     );
 }
