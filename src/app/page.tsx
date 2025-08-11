@@ -51,7 +51,7 @@ export default async function Home() {
     console.log("today", todayMoodEntry);
 
     return (
-        <div className="px-4 pt-8 pb-20 flex flex-col gap-2 sm:p-20">
+        <div className="px-4 pt-8 pb-20 flex flex-col gap-2 sm:p-20 max-w-[73.125rem] m-auto">
             <Header />
             <main className="grid  gap-[32px] row-start-2 items-center  lg:grid-cols-3">
                 <section
@@ -64,9 +64,9 @@ export default async function Home() {
                     >
                         Hello, Lisa!
                     </p>
-                    <p className="greeting text-preset-1 text-foreground text-center">
+                    <h1 className="greeting text-preset-1 text-foreground text-center">
                         How are you feeling today?
-                    </p>
+                    </h1>
 
                     <CurrentDate />
                     <MoodLoggingDialog

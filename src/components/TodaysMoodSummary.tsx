@@ -28,12 +28,12 @@ const moodOptions = [
     },
 ];
 
-const sleepLabels = {
-    1: "0-2 hours",
-    2: "3-4 hours",
-    3: "5-6 hours",
-    4: "7-8 hours",
-    5: "9+ hours",
+const getSleepLabel = (hours: number): string => {
+    if (hours <= 2) return "0-2 hours";
+    if (hours <= 4) return "3-4 hours";
+    if (hours <= 6) return "5-6 hours";
+    if (hours <= 8) return "7-8 hours";
+    return "9+ hours";
 };
 
 export default function TodaysMoodSummary({
@@ -41,8 +41,7 @@ export default function TodaysMoodSummary({
     selectedQuote,
 }: Readonly<TodaysMoodSummaryProps>) {
     const mood = moodOptions.find((option) => option.value === entry.mood);
-    const sleepLabel =
-        sleepLabels[entry.sleep_hours as keyof typeof sleepLabels];
+    const sleepLabel = getSleepLabel(entry.sleep_hours);
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center text-center w-full">
@@ -120,7 +119,7 @@ export default function TodaysMoodSummary({
                                 key={entry}
                                 className="text-preset-6 text-muted-foreground"
                             >
-                                #{entry} 
+                                #{entry}
                             </span>
                         ))}
                 </div>

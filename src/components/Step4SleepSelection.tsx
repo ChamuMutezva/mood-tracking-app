@@ -42,6 +42,7 @@ export default function Step4SleepSelection({
                         >
                             <div className="flex items-center gap-3">
                                 <input
+                                    aria-label="hours slept"
                                     type="radio"
                                     name="sleep"
                                     value={sleep.value}
