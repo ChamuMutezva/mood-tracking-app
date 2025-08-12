@@ -1,4 +1,5 @@
 import type { MoodEntry, ChartData } from "./types";
+import { getSleepLabel, getSleepValue } from "./sleep-config";
 
 export function transformMoodEntriesToChartData(
     entries: MoodEntry[]
@@ -9,22 +10,6 @@ export function transformMoodEntriesToChartData(
         "0": "Neutral",
         "1": "Happy",
         "2": "Very Happy",
-    };
-
-    const getSleepLabel = (hours: number): string => {
-        if (hours <= 2) return "0-2h";
-        if (hours <= 4) return "3-4h";
-        if (hours <= 6) return "5-6h";
-        if (hours <= 8) return "7-8h";
-        return "9+h";
-    };
-
-    const getSleepValue = (hours: number): number => {
-        if (hours <= 2) return 1;
-        if (hours <= 4) return 2;
-        if (hours <= 6) return 3;
-        if (hours <= 8) return 4;
-        return 5;
     };
 
     return entries
@@ -102,14 +87,6 @@ export function calculateAveragesFromEntries(entries: MoodEntry[]) {
             "/assets/images/icon-neutral-white.svg"
         );
     };
-    // Convert average sleep to range
-    const getSleepRange = (hours: number): string => {
-        if (hours < 3) return "0-2h";
-        if (hours < 5) return "3-4h";
-        if (hours < 7) return "5-6h";
-        if (hours < 9) return "7-8h";
-        return "9+h";
-    };
 
     return {
         averageMood,
@@ -118,7 +95,7 @@ export function calculateAveragesFromEntries(entries: MoodEntry[]) {
         averageMoodLabel:
             averageMood !== null ? getMoodLabel(averageMood) : null,
         averageSleepRange:
-            averageSleep !== null ? getSleepRange(averageSleep) : null,
+            averageSleep !== null ? getSleepLabel(averageSleep) : null,
         averageMoodIcon: averageMood !== null ? getMoodIcon(averageMood) : null,
     };
 }

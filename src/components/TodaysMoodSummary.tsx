@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import type { MoodEntry } from "@/lib/types";
+import { getSleepLabel } from "@/lib/sleep-config";
 
 interface TodaysMoodSummaryProps {
     entry: MoodEntry;
@@ -28,20 +29,12 @@ const moodOptions = [
     },
 ];
 
-const getSleepLabel = (hours: number): string => {
-    if (hours <= 2) return "0-2 hours";
-    if (hours <= 4) return "3-4 hours";
-    if (hours <= 6) return "5-6 hours";
-    if (hours <= 8) return "7-8 hours";
-    return "9+ hours";
-};
-
 export default function TodaysMoodSummary({
     entry,
     selectedQuote,
 }: Readonly<TodaysMoodSummaryProps>) {
     const mood = moodOptions.find((option) => option.value === entry.mood);
-    const sleepLabel = getSleepLabel(entry.sleep_hours);
+    const sleepLabel = getSleepLabel(entry.sleep_hours).replace("h", " hours");
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center text-center w-full">

@@ -1,11 +1,6 @@
 "use client";
 import { Button } from "@headlessui/react";
-
-interface SleepOption {
-    value: number;
-    label: string;
-    hours: string;
-}
+import type { SleepOption } from "@/lib/sleep-config"
 
 interface Step4SleepSelectionProps {
     sleepOptions: SleepOption[];

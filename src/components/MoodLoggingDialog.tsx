@@ -9,17 +9,12 @@ import Step4SleepSelection from "./Step4SleepSelection";
 import TodaysMoodSummary from "./TodaysMoodSummary";
 import { addMoodEntry } from "@/actions/mood";
 import { MoodEntry } from "@/lib/types";
+import { sleepOptions } from "@/lib/sleep-config";
 
 interface MoodOption {
     value: number;
     label: string;
     icon: string;
-}
-
-interface SleepOption {
-    value: number;
-    label: string;
-    hours: string;
 }
 
 const moodOptions: MoodOption[] = [
@@ -40,14 +35,6 @@ const moodOptions: MoodOption[] = [
         label: "Very Sad",
         icon: "/assets/images/icon-very-sad-color.svg",
     },
-];
-
-const sleepOptions: SleepOption[] = [
-    { value: 5, label: "9+ hours", hours: "9+" },
-    { value: 4, label: "7-8 hours", hours: "7-8" },
-    { value: 3, label: "5-6 hours", hours: "5-6" },
-    { value: 2, label: "3-4 hours", hours: "3-4" },
-    { value: 1, label: "0-2 hours", hours: "0-2" },
 ];
 
 const feelingOptions = [
@@ -137,13 +124,19 @@ export default function MoodLoggingDialog({
             return;
         }
 
+        const selectedSleepOption = sleepOptions.find(
+            (option) => option.value === selectedSleep
+        );
+        const actualSleepHours =
+            selectedSleepOption?.actualHours || selectedSleep;
+
         setIsLoading(true);
         setSubmissionError(null);
 
         const result = await addMoodEntry({
             userId: user.id,
             mood: selectedMood,
-            sleepHours: selectedSleep,
+            sleepHours: actualSleepHours,
             feelings: selectedFeelings,
             journalEntry: journalEntry.trim() === "" ? null : journalEntry, // Send null if empty
         });

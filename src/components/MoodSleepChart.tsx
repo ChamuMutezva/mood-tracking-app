@@ -4,6 +4,7 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Cell } from "recharts";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import { CustomBar } from "./CustomBar";
 import type { ChartData } from "@/lib/types";
+import { sleepLabels } from "@/lib/sleep-config"
 
 interface MoodSleepChartProps {
     data: ChartData[];
@@ -65,16 +66,8 @@ const CustomYAxisTick = (props: YAxisTickProps) => {
         return null;
     }
 
-    const sleepLabels = {
-        1: "0-2 hours",
-        2: "3-4 hours",
-        3: "5-6 hours",
-        4: "7-8 hours",
-        5: "9+ hours",
-    };
-
     const label = sleepLabels[payload.value as keyof typeof sleepLabels];
-
+    
     if (!label) return null;
 
     return (
@@ -99,7 +92,7 @@ const CustomYAxisTick = (props: YAxisTickProps) => {
                 fontSize="12"
                 dominantBaseline="middle"
             >
-                {label}
+                {label.replace("h", " hours")}
             </text>
         </g>
     );
