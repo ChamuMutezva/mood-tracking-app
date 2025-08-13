@@ -28,6 +28,7 @@ export function transformMoodEntriesToChartData(
                 "Unknown",
             sleepLabel: getSleepLabel(entry.sleep_hours),
             feelings: entry.feelings || [],
+            journal_entry: entry.journal_entry,
         }));
 }
 

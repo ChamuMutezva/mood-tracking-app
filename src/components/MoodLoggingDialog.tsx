@@ -9,13 +9,7 @@ import Step4SleepSelection from "./Step4SleepSelection";
 import TodaysMoodSummary from "./TodaysMoodSummary";
 import { addMoodEntry } from "@/actions/mood";
 import { MoodEntry } from "@/lib/types";
-import { sleepOptions } from "@/lib/sleep-config";
-
-interface MoodOption {
-    value: number;
-    label: string;
-    icon: string;
-}
+import { sleepOptions, MoodOption } from "@/lib/sleep-config";
 
 const moodOptions: MoodOption[] = [
     {

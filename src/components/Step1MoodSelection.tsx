@@ -2,13 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@headlessui/react";
-
-interface MoodOption {
-    value: number;
-    label: string;
-    icon: string;
-}
-
+import { MoodOption } from "@/lib/sleep-config";
 interface Step1MoodSelectionProps {
     moodOptions: MoodOption[];
     selectedMood: number | null;

@@ -4,7 +4,8 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Cell } from "recharts";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import { CustomBar } from "./CustomBar";
 import type { ChartData } from "@/lib/types";
-import { sleepLabels } from "@/lib/sleep-config"
+import { sleepLabels } from "@/lib/sleep-config";
+import Image from "next/image";
 
 interface MoodSleepChartProps {
     data: ChartData[];
@@ -24,20 +25,60 @@ interface TooltipProps {
 const TooltipContent = ({ active, payload, label }: TooltipProps) => {
     if (active && payload?.length) {
         const data = payload[0].payload;
+        const moodIcons = {
+            "-2": "/assets/images/icon-very-sad-color.svg",
+            "-1": "/assets/images/icon-sad-color.svg",
+            "0": "/assets/images/icon-neutral-color.svg",
+            "1": "/assets/images/icon-happy-color.svg",
+            "2": "/assets/images/icon-very-happy-color.svg",
+        } as const;
+
+        type MoodKey = keyof typeof moodIcons;
+
+        function getMoodIcon(mood: number): string {
+            const key = String(mood) as MoodKey;
+            return moodIcons[key] ?? "/assets/images/icon-neutral-color.svg";
+        }
+
+        const iconSrc = getMoodIcon(data.mood);
+
         return (
-            <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
+            <div className="bg-background border border-border flex flex-col gap-4 rounded-[var(--radius-10)] p-3 shadow-lg max-w-44">
                 <p className="font-medium text-foreground">{label}</p>
-                <p className="text-sm text-muted-foreground">
-                    Sleep: {data.sleepLabel}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                    Mood: {data.moodLabel}
-                </p>
-                {data.feelings && data.feelings.length > 0 && (
-                    <p className="text-sm text-muted-foreground">
-                        Feelings: {data.feelings.join(", ")}
+                <div className="flex flex-col gap-1">
+                    <h3 className="text-preset-8">Mood:</h3>
+                    <div className="flex justify-start items-center gap-2">
+                        <Image
+                            src={iconSrc}
+                            alt="Mood icon"
+                            width={16}
+                            height={16}
+                        />
+                        <p className="text-muted-foreground text-preset-7">
+                            {data.moodLabel}
+                        </p>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                    <h3 className="text-preset-8">Sleep:</h3>
+                    <p className="text-muted-foreground text-preset-8">
+                        {data.sleepLabel}
                     </p>
-                )}
+                </div>
+                <div className="flex flex-col gap-1">
+                    <h3 className="text-preset-8">Reflections:</h3>
+                    <p className="text-muted-foreground text-preset-9">
+                        {data.journal_entry}
+                    </p>
+                </div>
+                <div className="flex flex-col gap-1">
+                    <h3 className="text-preset-8"> Feelings:</h3>
+                    {data.feelings && data.feelings.length > 0 && (
+                        <p className="text-preset-9 text-muted-foreground">
+                            {data.feelings.join(", ")}
+                        </p>
+                    )}
+                </div>
             </div>
         );
     }
@@ -67,7 +108,7 @@ const CustomYAxisTick = (props: YAxisTickProps) => {
     }
 
     const label = sleepLabels[payload.value as keyof typeof sleepLabels];
-    
+
     if (!label) return null;
 
     return (
