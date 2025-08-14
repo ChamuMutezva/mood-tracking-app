@@ -115,3 +115,61 @@ export async function getAverageSleepForUser(
         return null;
     }
 }
+
+export async function getComparisonAverages(userId: number): Promise<{
+  latest: { mood: number | null; sleep: number | null }
+  previous: { mood: number | null; sleep: number | null }
+  comparison: { mood: number | null; sleep: number | null }
+}> {
+  try {
+    // Get latest 5 days (days 0-4)
+    const latestThreshold = new Date()
+    latestThreshold.setDate(latestThreshold.getDate() - 5)
+
+    // Get previous 5 days (days 5-9)
+    const previousStart = new Date()
+    previousStart.setDate(previousStart.getDate() - 10)
+    const previousEnd = new Date()
+    previousEnd.setDate(previousEnd.getDate() - 5)
+
+    // Latest 5 days averages
+    const latestResults = await sql`
+      SELECT AVG(mood) as avg_mood, AVG(sleep_hours) as avg_sleep
+      FROM mood_entries 
+      WHERE user_id = ${userId}
+        AND created_at >= ${latestThreshold.toISOString()}
+    `
+
+    // Previous 5 days averages
+    const previousResults = await sql`
+      SELECT AVG(mood) as avg_mood, AVG(sleep_hours) as avg_sleep
+      FROM mood_entries 
+      WHERE user_id = ${userId}
+        AND created_at >= ${previousStart.toISOString()}
+        AND created_at < ${previousEnd.toISOString()}
+    `
+
+    const latestMood = latestResults[0]?.avg_mood ? Number(latestResults[0].avg_mood) : null
+    const latestSleep = latestResults[0]?.avg_sleep ? Number(latestResults[0].avg_sleep) : null
+    const previousMood = previousResults[0]?.avg_mood ? Number(previousResults[0].avg_mood) : null
+    const previousSleep = previousResults[0]?.avg_sleep ? Number(previousResults[0].avg_sleep) : null
+
+    // Calculate comparisons (positive = improvement, negative = decline)
+    const moodComparison = latestMood !== null && previousMood !== null ? latestMood - previousMood : null
+    const sleepComparison = latestSleep !== null && previousSleep !== null ? latestSleep - previousSleep : null
+
+    return {
+      latest: { mood: latestMood, sleep: latestSleep },
+      previous: { mood: previousMood, sleep: previousSleep },
+      comparison: { mood: moodComparison, sleep: sleepComparison },
+    }
+  } catch (error) {
+    console.error("Error calculating comparison averages:", error)
+    return {
+      latest: { mood: null, sleep: null },
+      previous: { mood: null, sleep: null },
+      comparison: { mood: null, sleep: null },
+    }
+  }
+}
+

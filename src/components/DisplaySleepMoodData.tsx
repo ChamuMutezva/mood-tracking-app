@@ -1,6 +1,21 @@
 import React from "react";
 import Image from "next/image";
 
+type ComparisonAverages = {
+  latest: {
+    mood: number | null;
+    sleep: number | null;
+  };
+  previous: {
+    mood: number | null;
+    sleep: number | null;
+  };
+  comparison: {
+    mood: number | null;
+    sleep: number | null;
+  };
+};
+
 type DisplaySleepMoodDataProps = {
     entryCount: number;
     averageMood: number | null;
@@ -8,6 +23,7 @@ type DisplaySleepMoodDataProps = {
     averageMoodIcon?: string | null;
     averageSleep: number | null;
     averageSleepRange: string | null;
+    comparisonAverages: ComparisonAverages;
 };
 
 function DisplaySleepMoodData({
@@ -17,7 +33,9 @@ function DisplaySleepMoodData({
     averageMoodIcon,
     averageSleep,
     averageSleepRange,
+    comparisonAverages
 }: Readonly<DisplaySleepMoodDataProps>) {
+    console.log(comparisonAverages)
     return (
         <section
             aria-labelledby="average-mood-title"

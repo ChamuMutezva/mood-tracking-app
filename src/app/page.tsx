@@ -6,6 +6,7 @@ import {
     getMoodEntriesForUser,
     getMoodEntryForToday,
     getMoodQuotes,
+    getComparisonAverages,
 } from "@/lib/data";
 import {
     transformMoodEntriesToChartData,
@@ -20,6 +21,7 @@ export default async function Home() {
     const moodEntries = await getMoodEntriesForUser(1);
     const todayMoodEntry = await getMoodEntryForToday(1);
     const quotes = await getMoodQuotes();
+    const comparisonAverages = await getComparisonAverages(1);
 
     const {
         averageMood,
@@ -35,6 +37,7 @@ export default async function Home() {
     //  console.log("Average Mood:", averageMood);
     //  console.log("Average Sleep:", averageSleep);
     //  console.log("Entry Count:", entryCount);
+    console.log("Comparison avg:", comparisonAverages);
     let selectedQuote: string | null = null;
     if (todayMoodEntry) {
         const moodQuotesForEntry =
@@ -83,6 +86,7 @@ export default async function Home() {
                         averageMoodLabel={averageMoodLabel}
                         averageSleep={averageSleep}
                         averageSleepRange={averageSleepRange}
+                        comparisonAverages={comparisonAverages}
                     />
                 ) : (
                     <SleepMoodDataNotAvailable />
