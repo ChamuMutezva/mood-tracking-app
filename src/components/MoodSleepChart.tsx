@@ -194,7 +194,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                     color: "hsl(var(--chart-1))",
                                 },
                             }}
-                            className="min-h-[300px] w-full"
+                            className="min-h-[300px] "
                         >
                             <BarChart
                                 accessibilityLayer
@@ -207,8 +207,9 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                 }}
                             >
                                 <CartesianGrid
-                                    strokeDasharray="3 3"
-                                    stroke="var(--foreground)"
+                                   // strokeDasharray="3 3"
+                                    stroke="var(--muted)"
+                                    vertical={false}
                                 />
                                 <XAxis
                                     dataKey="date"
@@ -237,6 +238,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                         shape={<CustomBar dataKey={""} />}
                                         radius={[20, 20, 20, 20]}
                                         barSize={40}
+                                        className="hover:cursor-pointer"
                                     >
                                         {chartData.map((entry) => (
                                             <Cell

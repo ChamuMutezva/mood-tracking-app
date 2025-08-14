@@ -13,7 +13,7 @@ export function transformMoodEntriesToChartData(
     };
 
     return entries
-        .slice(0, 5) // Last 5 entries
+        .slice(0, 11) // Last 5 entries
         .reverse() // Show chronologically
         .map((entry) => ({
             id: entry.id,

@@ -3,7 +3,7 @@ import type { MoodEntry, User, MoodQuote } from "./types";
 
 export async function getMoodEntriesForUser(
     userId: number,
-    limit = 7
+    limit = 11
 ): Promise<MoodEntry[]> {
     try {
         const entries = await sql`
