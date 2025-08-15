@@ -55,7 +55,12 @@ function Header() {
     return (
         <>
             <header className="flex items-center justify-between mb-8 w-full">
-                <Link href="/" className="flex items-center gap-2">
+                <Link
+                    href="/"
+                    className="flex items-center gap-2 rounded-[var(--radius-10)] 
+                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                     transition-colors duration-200 cursor-pointer no-underline border-none "
+                >
                     <Image
                         src="/assets/images/logo.svg"
                         alt=""
@@ -72,7 +77,10 @@ function Header() {
                                 <MenuButton
                                     aria-label="Profile menu"
                                     aria-expanded={open}
-                                    className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white"
+                                    className="inline-flex items-center text-sm/6 font-semibold
+                                     text-white shadow-inner shadow-white/10 rounded-[var(--radius-10)] 
+                                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                                      transition-colors duration-200 cursor-pointer no-underline border-none"
                                 >
                                     <Avatar>
                                         <AvatarImage

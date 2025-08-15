@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Dialog, DialogPanel } from "@headlessui/react";
+import { Dialog, DialogPanel, Button } from "@headlessui/react";
 import DialogStepNotification from "./DialogStepNotification";
 import Step1MoodSelection from "./Step1MoodSelection";
 import Step2FeelingsSelection from "./Step2FeelingsSelection";
@@ -201,13 +201,16 @@ export default function MoodLoggingDialog({
                     selectedQuote={selectedQuote}
                 />
             ) : (
-                <button
+                <Button
                     type="button"
                     onClick={openDialog}
-                    className="bg-card-foreground text-preset-5 text-white px-[var(--spacing-400)] py-[var(--spacing-200)] rounded-[var(--radius-10)] font-semibold hover:bg-card-foreground/90 transition-colors duration-200"
+                    className="bg-card-foreground text-preset-5 text-white px-[var(--spacing-400)] py-[var(--spacing-200)] 
+                    rounded-[var(--radius-10)] font-semibold data-hover:bg-card-foreground/90 data-focus:outline-none data-focus:ring-2
+                     data-focus:ring-blue-500 data-focus:ring-offset-2
+                    transition-colors duration-200 hover:cursor-pointer"
                 >
                     Log today&apos;s mood
-                </button>
+                </Button>
             )}
 
             {/* Mood Logging Dialog */}

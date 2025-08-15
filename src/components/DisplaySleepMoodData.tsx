@@ -2,18 +2,18 @@ import React from "react";
 import Image from "next/image";
 
 type ComparisonAverages = {
-  latest: {
-    mood: number | null;
-    sleep: number | null;
-  };
-  previous: {
-    mood: number | null;
-    sleep: number | null;
-  };
-  comparison: {
-    mood: number | null;
-    sleep: number | null;
-  };
+    latest: {
+        mood: number | null;
+        sleep: number | null;
+    };
+    previous: {
+        mood: number | null;
+        sleep: number | null;
+    };
+    comparison: {
+        mood: number | null;
+        sleep: number | null;
+    };
 };
 
 type DisplaySleepMoodDataProps = {
@@ -26,6 +26,52 @@ type DisplaySleepMoodDataProps = {
     comparisonAverages: ComparisonAverages;
 };
 
+function DisplayTrendIncrease() {
+    return (
+        <div className="flex justify-start items-center-safe gap-2">
+            <Image
+                width={16}
+                height={16}
+                src="/assets/images/icon-trend-increase.svg"
+                alt={""}
+            />
+            <p className="text-preset-7">
+                Increased from the previous 5 check ins
+            </p>
+        </div>
+    );
+}
+
+function DisplayTrendSame() {
+    return (
+        <div className="flex justify-start items-start gap-2">
+            <Image
+                width={16}
+                height={16}
+                src="/assets/images/icon-trend-same.svg"
+                alt={""}
+            />
+            <p className="text-preset-7">No changes this week</p>
+        </div>
+    );
+}
+
+function DisplayTrendDecline() {
+    return (
+        <div className="flex justify-start items-start gap-2">
+            <Image
+                width={16}
+                height={16}
+                src="/assets/images/icon-trend-decrease.svg"
+                alt={""}
+            />
+            <p className="text-preset-7">
+                decreased from the previous 5 check ins
+            </p>
+        </div>
+    );
+}
+
 function DisplaySleepMoodData({
     entryCount,
     averageMood,
@@ -33,9 +79,29 @@ function DisplaySleepMoodData({
     averageMoodIcon,
     averageSleep,
     averageSleepRange,
-    comparisonAverages
+    comparisonAverages,
 }: Readonly<DisplaySleepMoodDataProps>) {
-    console.log(comparisonAverages)
+    console.log("Mood:", averageMood);
+    console.log("Sleep:", averageSleep);
+    console.log("AverageSleepRange:", averageSleepRange);
+    const moodColors = {
+        "2": "hsl(35, 100%, 74%)", // Very Happy - Amber
+        "1": "hsl(115, 72%, 71%)", // Happy - Green
+        "0": "hsl(207, 100%, 77%)", // Neutral - Blue
+        "-1": "hsl(247, 100%, 85%)", // Sad - Purple
+        "-2": "hsl(1, 100%, 80%)", // Very Sad - Red
+    };
+
+    const getMoodBackgroundColor = () => {
+         const mood = comparisonAverages.latest.mood;
+        if (mood === null) return "hsl(var(--card-foreground))"; // fallback
+        const roundedMood = Math.round(mood);
+        console.log("mood latest",roundedMood)
+        return (
+            moodColors[roundedMood.toString() as keyof typeof moodColors] ||
+            "hsl(var(--card-foreground))"
+        );
+    };
     return (
         <section
             aria-labelledby="average-mood-title"
@@ -54,7 +120,8 @@ function DisplaySleepMoodData({
                 <div
                     className="bg-secondary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)]
                         flex flex-col items-start gap-4
-                        bg-[url('/assets/images/bg-pattern-averages.svg')] bg-cover bg-center "
+                        bg-[url('/assets/images/bg-pattern-averages.svg')] bg-cover bg-center"
+                    style={{ backgroundColor: getMoodBackgroundColor() }}
                 >
                     <div className="flex items-center gap-3">
                         {averageMoodIcon && (
@@ -66,16 +133,26 @@ function DisplaySleepMoodData({
                                 className="flex-shrink-0"
                             />
                         )}
-                        <h3 className="text-preset-4 text-foreground">
-                            {averageMoodLabel ?? "No mood data available"}
-                        </h3>
-                    </div>
-                    {averageMood !== null && (
-                        <p className="text-preset-7 text-foreground">
-                            Score: {averageMood.toFixed(1)}
+                        <p className="text-preset-4 text-foreground">
+                            {averageMoodLabel}
                         </p>
-                    )}
-                    <p>Comparison with previous week</p>
+                    </div>
+                    <div>
+                        {(() => {
+                            const mood = comparisonAverages.comparison.mood;
+                            if (
+                                mood === null ||
+                                mood === undefined ||
+                                mood > 0
+                            ) {
+                                return <DisplayTrendIncrease />;
+                            } else if (mood === 0) {
+                                return <DisplayTrendSame />;
+                            } else {
+                                return <DisplayTrendDecline />;
+                            }
+                        })()}
+                    </div>
                 </div>
             </div>
             <div className="average-sleep-container flex flex-col gap-4">
@@ -92,15 +169,37 @@ function DisplaySleepMoodData({
                     className="bg-card-foreground rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] flex flex-col items-start gap-4
                         bg-[url('/assets/images/bg-pattern-averages.svg')] bg-cover bg-center "
                 >
-                    <h3 className="text-preset-4 text-foreground">
-                        {averageSleepRange ?? "No sleep data available"}
-                    </h3>
-                    {averageSleep !== null && (
-                        <p className="text-preset-7 text-foreground">
-                            Exact: {averageSleep.toFixed(1)}h per night
-                        </p>
-                    )}
-                    <p>Comparison with previous week</p>
+                    <div className="flex flex-start gap-2">
+                        <Image
+                            width={16}
+                            height={16}
+                            src="/assets/images/icon-sleep.svg"
+                            alt={""}
+                            className="filter brightness-0 invert"
+                        />
+                        {comparisonAverages.latest.sleep !== null && (
+                            <p className="text-preset-4 text-white">
+                                {comparisonAverages.latest.sleep.toFixed(1)}{" "}
+                                hours
+                            </p>
+                        )}
+                    </div>
+                    <div className="text-preset-7 text-white filter brightness-0 invert">
+                        {(() => {
+                            const sleep = comparisonAverages.comparison.sleep;
+                            if (
+                                sleep === null ||
+                                sleep === undefined ||
+                                sleep > 0
+                            ) {
+                                return <DisplayTrendIncrease />;
+                            } else if (sleep === 0) {
+                                return <DisplayTrendSame />;
+                            } else {
+                                return <DisplayTrendDecline />;
+                            }
+                        })()}
+                    </div>
                 </div>
             </div>
         </section>
