@@ -28,13 +28,16 @@ type DisplaySleepMoodDataProps = {
 
 function DisplayTrendIncrease() {
     return (
-        <div className="flex justify-start items-center-safe gap-2">
-            <Image
-                width={16}
-                height={16}
-                src="/assets/images/icon-trend-increase.svg"
-                alt={""}
-            />
+        <div className="flex items-start gap-2">
+            <div>
+                <Image
+                    width={16}
+                    height={16}
+                    src="/assets/images/icon-trend-increase.svg"
+                    alt={""}
+                    className="mt-0.75"
+                />
+            </div>
             <p className="text-preset-7">
                 Increased from the previous 5 check ins
             </p>
@@ -44,12 +47,13 @@ function DisplayTrendIncrease() {
 
 function DisplayTrendSame() {
     return (
-        <div className="flex justify-start items-start gap-2">
+        <div className="flex items-start gap-2">
             <Image
                 width={16}
                 height={16}
                 src="/assets/images/icon-trend-same.svg"
                 alt={""}
+                className="mt-0.75"
             />
             <p className="text-preset-7">No changes this week</p>
         </div>
@@ -58,12 +62,13 @@ function DisplayTrendSame() {
 
 function DisplayTrendDecline() {
     return (
-        <div className="flex justify-start items-start gap-2">
+        <div className="flex items-start gap-2">
             <Image
                 width={16}
                 height={16}
                 src="/assets/images/icon-trend-decrease.svg"
                 alt={""}
+                className="mt-0.75"
             />
             <p className="text-preset-7">
                 decreased from the previous 5 check ins
@@ -170,13 +175,15 @@ function DisplaySleepMoodData({
                         bg-[url('/assets/images/bg-pattern-averages.svg')] bg-cover bg-center "
                 >
                     <div className="flex flex-start gap-2">
-                        <Image
-                            width={16}
-                            height={16}
-                            src="/assets/images/icon-sleep.svg"
-                            alt={""}
-                            className="filter brightness-0 invert"
-                        />
+                        <div>
+                            <Image
+                                width={16}
+                                height={16}
+                                src="/assets/images/icon-sleep.svg"
+                                alt={""}
+                                className="filter brightness-0 invert"
+                            />
+                        </div>
                         {comparisonAverages.latest.sleep !== null && (
                             <p className="text-preset-4 text-white">
                                 {comparisonAverages.latest.sleep.toFixed(1)}{" "}

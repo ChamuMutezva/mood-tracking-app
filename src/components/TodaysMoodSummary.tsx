@@ -40,7 +40,7 @@ export default function TodaysMoodSummary({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center text-center w-full">
             {mood && (
                 <div
-                    className="bg-accent shadow-sm rounded-[var(--radius-10)] p-6 grid grid-cols-1
+                    className="bg-accent shadow-sm rounded-[var(--radius-16)] p-6 grid grid-cols-1
                 sm:grid-cols-2 lg:col-span-1 lg:row-span-2 place-items-center gap-3 w-full"
                 >
                     <h3 className="text-foreground  flex flex-col">
@@ -73,14 +73,16 @@ export default function TodaysMoodSummary({
                     </div>
                 </div>
             )}
-            <div className="bg-accent shadow-sm rounded-[var(--radius-10)] p-6 w-full">
+            <div className="bg-accent shadow-sm rounded-[var(--radius-16)] p-6 w-full">
                 <div className="flex">
-                    <Image
-                        src={"/assets/images/icon-sleep.svg"}
-                        alt={""}
-                        width={16}
-                        height={16}
-                    />
+                    <div>
+                        <Image
+                            src={"/assets/images/icon-sleep.svg"}
+                            alt={""}
+                            width={16}
+                            height={16}
+                        />
+                    </div>
                     <span>Sleep</span>
                 </div>
                 {sleepLabel && (
@@ -89,14 +91,16 @@ export default function TodaysMoodSummary({
                     </p>
                 )}
             </div>
-            <div className="bg-accent shadow-sm rounded-[var(--radius-10)] p-6 w-full">
+            <div className="bg-accent shadow-sm rounded-[var(--radius-16)] p-6 w-full">
                 <div className="flex justify-items-start">
-                    <Image
-                        src={"/assets/images/icon-reflection.svg"}
-                        alt={""}
-                        width={16}
-                        height={16}
-                    />
+                    <div>
+                        <Image
+                            src={"/assets/images/icon-reflection.svg"}
+                            alt={""}
+                            width={16}
+                            height={16}
+                        />
+                    </div>
                     <h3>Reflection of the day</h3>
                 </div>
                 {entry.journal_entry && (

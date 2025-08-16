@@ -58,8 +58,8 @@ export const CustomBar = (props: CustomBarProps) => {
             <foreignObject
                 x={x + width / 2 - 15}
                 y={y + 5}
-                width={30}
-                height={30}
+                width={31}
+                height={31}
             >
                 <Image
                     src={iconSrc || "/placeholder.svg"}

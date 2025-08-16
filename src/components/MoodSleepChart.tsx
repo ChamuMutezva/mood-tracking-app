@@ -150,7 +150,6 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
     };
 
     // Sleep labels for Y-axis
-
     // Generate empty data for last 5 days if no data
     const generateEmptyData = () => {
         const emptyData = [];
