@@ -131,6 +131,22 @@ function Header() {
                                             </span>
                                         </Button>
                                     </MenuItem>
+                                    <MenuItem>
+                                        <Link
+                                            href="/signup"
+                                            className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-[hsl(var(--blue-200))]"
+                                        >
+                                            <Image
+                                                width={16}
+                                                height={16}
+                                                src="/assets/images/icon-settings.svg"
+                                                alt={""}
+                                            />
+                                            <span className="text-foreground">
+                                                Sign Up (Dev)
+                                            </span>
+                                        </Link>
+                                    </MenuItem>
                                     <div className="my-1 h-px bg-white/5" />
                                     <MenuItem>
                                         <Button

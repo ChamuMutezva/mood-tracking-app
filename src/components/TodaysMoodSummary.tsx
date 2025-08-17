@@ -54,9 +54,9 @@ export default function TodaysMoodSummary({
                     <Image
                         src={mood.icon || "/placeholder.svg"}
                         alt={mood.label}
-                        width={200}
-                        height={200}
-                        className="min-w-50 min-h-50 row-span-2"
+                        width={154}
+                        height={155}
+                        className="min-w-50 min-h-50 w-auto h-auto row-span-2"
                     />
                     <div className="flex flex-col justify-center items-center">
                         <Image
@@ -74,7 +74,7 @@ export default function TodaysMoodSummary({
                 </div>
             )}
             <div className="bg-accent shadow-sm rounded-[var(--radius-16)] p-6 w-full">
-                <div className="flex">
+                <div className="flex items-center justify-start gap-4 mb-4">
                     <div>
                         <Image
                             src={"/assets/images/icon-sleep.svg"}
@@ -83,16 +83,18 @@ export default function TodaysMoodSummary({
                             height={16}
                         />
                     </div>
-                    <span>Sleep</span>
+                    <h3 className="text-preset-6 text-accent-foreground">
+                        Sleep
+                    </h3>
                 </div>
                 {sleepLabel && (
-                    <p className="text-preset-6 text-muted-foreground text-left">
+                    <p className="text-preset-3 text-foreground text-left">
                         {sleepLabel}
                     </p>
                 )}
             </div>
             <div className="bg-accent shadow-sm rounded-[var(--radius-16)] p-6 w-full">
-                <div className="flex justify-items-start">
+                <div className="flex items-center justify-start gap-4 mb-4">
                     <div>
                         <Image
                             src={"/assets/images/icon-reflection.svg"}
@@ -101,11 +103,13 @@ export default function TodaysMoodSummary({
                             height={16}
                         />
                     </div>
-                    <h3>Reflection of the day</h3>
+                    <h3 className="text-preset-6 text-accent-foreground">
+                        Reflection of the day
+                    </h3>
                 </div>
                 {entry.journal_entry && (
-                    <p className="text-preset-7 text-muted-foreground italic max-w-prose line-clamp-3 text-left">
-                        &quot;{entry.journal_entry}&quot;
+                    <p className="text-preset-6 text-foreground max-w-prose line-clamp-3 text-left mb-4">
+                        {entry.journal_entry}
                     </p>
                 )}
                 <div className="text-left flex flex-start gap-2">
@@ -114,7 +118,7 @@ export default function TodaysMoodSummary({
                         entry.feelings.map((entry) => (
                             <span
                                 key={entry}
-                                className="text-preset-6 text-muted-foreground"
+                                className="text-preset-6-italic text-accent-foreground"
                             >
                                 #{entry}
                             </span>
