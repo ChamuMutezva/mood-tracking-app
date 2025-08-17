@@ -1,65 +1,44 @@
-"use client";
-import { useState } from "react";
-import type React from "react";
 import Link from "next/link";
 import { Field, Label, Input, Button } from "@headlessui/react";
 import Image from "next/image";
 
+async function handleLogin(formData: FormData) {
+    "use server";
+
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    // Server-side validation
+    const errors: string[] = [];
+
+    if (!email) {
+        errors.push("Email is required");
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+        errors.push("Please enter a valid email address");
+    }
+
+    if (!password) {
+        errors.push("Password is required");
+    } else if (password.length < 6) {
+        errors.push("Password must be at least 6 characters long");
+    }
+
+    if (errors.length > 0) {
+        // In a real app, you'd handle errors properly
+        console.log("Validation errors:", errors);
+        return;
+    }
+
+    console.log("Login attempt:", { email, password: "***" });
+
+    // TODO: Add actual authentication logic here
+    // For now, just log the attempt
+
+    // Redirect to dashboard after successful login (when implemented)
+    // redirect("/dashboard")
+}
+
 export default function LoginPage() {
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
-
-    const [errors, setErrors] = useState({
-        email: "",
-        password: "",
-    });
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-
-        // Clear errors when user starts typing
-        setErrors((prev) => ({
-            ...prev,
-            [name]: "",
-        }));
-    };
-
-    const validateForm = () => {
-        const newErrors = { email: "", password: "" };
-
-        if (!formData.email) {
-            newErrors.email = "Email is required";
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = "Please enter a valid email address";
-        }
-
-        if (!formData.password) {
-            newErrors.password = "Password is required";
-        } else if (formData.password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters long";
-        }
-
-        setErrors(newErrors);
-        return !newErrors.email && !newErrors.password;
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
-
-        console.log("Sign in form submitted:", formData);
-        alert("Sign in form submitted! (No database integration yet)");
-    };
-
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
             {/* Logo and Brand */}
@@ -74,8 +53,8 @@ export default function LoginPage() {
                     />
                 </div>
             </div>
-            <div className="w-full max-w-[33.125rem]">
-                <div className="bg-white rounded-[var(--radius-16)] shadow-xl p-8">
+            <div className="w-full max-w-md">
+                <div className="bg-white rounded-2xl shadow-xl p-8">
                     {/* Form Header */}
                     <div className="text-center mb-8">
                         <h1 className="text-2xl font-bold text-gray-900 mb-2">
@@ -86,8 +65,7 @@ export default function LoginPage() {
                         </p>
                     </div>
 
-                    {/* Sign In Form */}
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form action={handleLogin} className="space-y-6">
                         <Field>
                             <Label className="block text-sm font-medium text-gray-700 mb-2">
                                 Email address
@@ -96,20 +74,9 @@ export default function LoginPage() {
                                 name="email"
                                 type="email"
                                 required
-                                value={formData.email}
-                                onChange={handleInputChange}
                                 placeholder="name@email.com"
-                                className={`w-full px-4 py-3 border text-foreground rounded-[var(--radius-10)]  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                                    errors.email
-                                        ? "border-red-500"
-                                        : "border-gray-300"
-                                }`}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                             />
-                            {errors.email && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.email}
-                                </p>
-                            )}
                         </Field>
 
                         <Field>
@@ -120,25 +87,14 @@ export default function LoginPage() {
                                 name="password"
                                 type="password"
                                 required
-                                value={formData.password}
-                                onChange={handleInputChange}
                                 placeholder="Enter your password"
-                                className={`w-full px-4 py-3 border text-foreground rounded-[var(--radius-10)]  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                                    errors.password
-                                        ? "border-red-500"
-                                        : "border-gray-300"
-                                }`}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                             />
-                            {errors.password && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.password}
-                                </p>
-                            )}
                         </Field>
 
                         <Button
                             type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-[var(--radius-10)] transition-colors duration-200"
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
                         >
                             Log In
                         </Button>
@@ -147,7 +103,7 @@ export default function LoginPage() {
                     {/* Sign Up Link */}
                     <div className="text-center mt-6">
                         <p className="text-gray-600">
-                            Haven&apos;t got an account?{" "}
+                            Haven't got an account?{" "}
                             <Link
                                 href="/signup"
                                 className="text-blue-600 hover:text-blue-700 font-medium"
