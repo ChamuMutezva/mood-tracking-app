@@ -32,8 +32,7 @@ export default async function Home() {
         averageMoodIcon,
     } = calculateAveragesFromEntries(moodEntries);
 
-    const chartData = transformMoodEntriesToChartData(moodEntries);
-    console.log("Chart Data:", chartData);
+    const chartData = transformMoodEntriesToChartData(moodEntries);    
     //  console.log("Average Mood:", averageMood);
     //  console.log("Average Sleep:", averageSleep);
     //  console.log("Entry Count:", entryCount);

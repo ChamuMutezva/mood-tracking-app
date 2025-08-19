@@ -41,14 +41,13 @@ async function handleLogin(formData: FormData) {
         }
 
         console.log("Login successful for user:", user.email);
-
-        // Redirect to main page after successful login
-        redirect("/");
     } catch (error) {
         console.error("Login error:", error);
         // In production, show generic error message to user
         return;
     }
+
+    redirect("/");
 }
 
 export default function LoginPage() {
