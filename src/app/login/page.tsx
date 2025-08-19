@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Field, Label, Input, Button } from "@headlessui/react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import { validateUser } from "@/lib/auth";
 
 async function handleLogin(formData: FormData) {
     "use server";
@@ -29,13 +31,24 @@ async function handleLogin(formData: FormData) {
         return;
     }
 
-    console.log("Login attempt:", { email, password: "***" });
+    try {
+        const user = await validateUser(email, password);
 
-    // TODO: Add actual authentication logic here
-    // For now, just log the attempt
+        if (!user) {
+            console.log("Invalid credentials for:", email);
+            // In production, you'd want to show this error to the user
+            return;
+        }
 
-    // Redirect to dashboard after successful login (when implemented)
-    // redirect("/dashboard")
+        console.log("Login successful for user:", user.email);
+
+        // Redirect to main page after successful login
+        redirect("/");
+    } catch (error) {
+        console.error("Login error:", error);
+        // In production, show generic error message to user
+        return;
+    }
 }
 
 export default function LoginPage() {
@@ -46,7 +59,7 @@ export default function LoginPage() {
                 <div className="flex items-center justify-center gap-2 mb-4">
                     <Image
                         src="/assets/images/logo.svg"
-                        alt=""
+                        alt="Mood tracking system"
                         width={178}
                         height={40}
                         priority
