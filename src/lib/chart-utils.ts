@@ -46,7 +46,7 @@ export function calculateAveragesFromEntries(entries: MoodEntry[]) {
         };
     }
 
-    console.log("Chart Entries:", chartEntries);
+   // console.log("Chart Entries:", chartEntries);
     const totalMood = chartEntries.reduce((sum, entry) => sum + entry.mood, 0);
     const averageMood = totalMood / chartEntries.length;
 

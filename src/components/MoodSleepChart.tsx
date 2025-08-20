@@ -176,7 +176,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
 
     const chartData = !data || data.length === 0 ? generateEmptyData() : data;
     const hasData = data && data.length > 0;
-    console.log("Chart Data:", chartData);
+//    console.log("Chart Data:", chartData);
 
     return (
         <section className="lg:col-span-2 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0">

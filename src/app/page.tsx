@@ -32,11 +32,11 @@ export default async function Home() {
         averageMoodIcon,
     } = calculateAveragesFromEntries(moodEntries);
 
-    const chartData = transformMoodEntriesToChartData(moodEntries);    
+    const chartData = transformMoodEntriesToChartData(moodEntries);
     //  console.log("Average Mood:", averageMood);
     //  console.log("Average Sleep:", averageSleep);
     //  console.log("Entry Count:", entryCount);
-    console.log("Comparison avg:", comparisonAverages);
+    //  console.log("Comparison avg:", comparisonAverages);
     let selectedQuote: string | null = null;
     if (todayMoodEntry) {
         const moodQuotesForEntry =
@@ -49,8 +49,8 @@ export default async function Home() {
                 ];
         }
     }
-    console.log("quotes", quotes);
-    console.log("today", todayMoodEntry);
+    //    console.log("quotes", quotes);
+    //    console.log("today", todayMoodEntry);
 
     return (
         <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-[73.125rem] m-auto">

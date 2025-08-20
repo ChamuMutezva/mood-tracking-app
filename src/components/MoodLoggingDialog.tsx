@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogPanel, Button } from "@headlessui/react";
 import DialogStepNotification from "./DialogStepNotification";
 import Step1MoodSelection from "./Step1MoodSelection";
@@ -79,6 +79,19 @@ export default function MoodLoggingDialog({
         useState<MoodEntry | null>(null); // To display summary after submission
     // Calculate progress percentage
     const progressPercentage = (currentStep / 4) * 100;
+    const [displayEntry, setDisplayEntry] = useState<MoodEntry | null>(null);
+
+    // Sync displayEntry with props after component mounts
+    useEffect(() => {
+        setDisplayEntry(todayEntry);
+    }, [todayEntry]);
+
+    // Update displayEntry when a new entry is submitted
+    useEffect(() => {
+        if (submittedEntryData) {
+            setDisplayEntry(submittedEntryData);
+        }
+    }, [submittedEntryData]);
 
     function openDialog() {
         setIsOpen(true);
@@ -191,7 +204,9 @@ export default function MoodLoggingDialog({
     }
 
     // Determine which entry to display in the summary
-    const displayEntry = submittedEntryData || todayEntry;
+    console.log("Submitted Entry Data:", submittedEntryData);
+    console.log("Today Entry:", todayEntry);    
+    console.log("Display Entry:", displayEntry);
 
     return (
         <>
