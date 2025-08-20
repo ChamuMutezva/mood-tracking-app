@@ -11,46 +11,60 @@ async function handleLogin(formData: FormData) {
     const password = formData.get("password") as string;
 
     // Server-side validation
-    const errors: string[] = [];
+    const errors: Record<string, string> = {};
 
     if (!email) {
-        errors.push("Email is required");
+        errors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-        errors.push("Please enter a valid email address");
+        errors.email = "Please enter a valid email address";
     }
 
     if (!password) {
-        errors.push("Password is required");
+        errors.password = "Password is required";
     } else if (password.length < 6) {
-        errors.push("Password must be at least 6 characters long");
+        errors.password = "Password must be at least 6 characters long";
     }
 
-    if (errors.length > 0) {
-        // In a real app, you'd handle errors properly
-        console.log("Validation errors:", errors);
-        return;
+    if (Object.keys(errors).length > 0) {
+        const searchParams = new URLSearchParams();
+        Object.entries(errors).forEach(([field, message]) => {
+            searchParams.set(`error_${field}`, message);
+        });
+        if (email) searchParams.set("email", email); // Preserve email input
+        redirect(`/login?${searchParams.toString()}`);
     }
 
     try {
         const user = await validateUser(email, password);
 
         if (!user) {
-            console.log("Invalid credentials for:", email);
-            // In production, you'd want to show this error to the user
-            return;
+            const searchParams = new URLSearchParams();
+            searchParams.set("error_auth", "Invalid email or password");
+            if (email) searchParams.set("email", email);
+            redirect(`/login?${searchParams.toString()}`);
         }
 
         console.log("Login successful for user:", user.email);
     } catch (error) {
         console.error("Login error:", error);
-        // In production, show generic error message to user
-        return;
+        const searchParams = new URLSearchParams();
+        searchParams.set("error_auth", "An error occurred. Please try again.");
+        if (email) searchParams.set("email", email);
+        redirect(`/login?${searchParams.toString()}`);
     }
 
     redirect("/");
 }
 
-export default function LoginPage() {
+interface LoginPageProps {
+    searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default function LoginPage({ searchParams }: LoginPageProps) {
+    const emailError = searchParams.error_email as string;
+    const passwordError = searchParams.error_password as string;
+    const authError = searchParams.error_auth as string;
+    const preservedEmail = searchParams.email as string;
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
             {/* Logo and Brand */}
@@ -78,6 +92,13 @@ export default function LoginPage() {
                     </div>
 
                     <form action={handleLogin} className="space-y-6">
+                        {authError && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                                <p className="text-red-600 text-sm">
+                                    {authError}
+                                </p>
+                            </div>
+                        )}
                         <Field>
                             <Label className="block text-sm font-medium text-gray-700 mb-2">
                                 Email address
@@ -85,10 +106,19 @@ export default function LoginPage() {
                             <Input
                                 name="email"
                                 type="email"
-                                required
                                 placeholder="name@email.com"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                defaultValue={preservedEmail || ""}
+                                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                    emailError
+                                        ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+                                        : "border-gray-300"
+                                }`}
                             />
+                            {emailError && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {emailError}
+                                </p>
+                            )}
                         </Field>
 
                         <Field>
@@ -98,10 +128,18 @@ export default function LoginPage() {
                             <Input
                                 name="password"
                                 type="password"
-                                required
                                 placeholder="Enter your password"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                    passwordError
+                                        ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+                                        : "border-gray-300"
+                                }`}
                             />
+                            {passwordError && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {passwordError}
+                                </p>
+                            )}
                         </Field>
 
                         <Button
