@@ -57,14 +57,17 @@ async function handleLogin(formData: FormData) {
 }
 
 interface LoginPageProps {
-    searchParams: { [key: string]: string | string[] | undefined };
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
-    const emailError = searchParams.error_email as string;
-    const passwordError = searchParams.error_password as string;
-    const authError = searchParams.error_auth as string;
-    const preservedEmail = searchParams.email as string;
+export default async function LoginPage({
+    searchParams,
+}: Readonly<LoginPageProps>) {
+    const params = await searchParams;
+    const emailError = params.error_email as string;
+    const passwordError = params.error_password as string;
+    const authError = params.error_auth as string;
+    const preservedEmail = params.email as string;
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
             {/* Logo and Brand */}
