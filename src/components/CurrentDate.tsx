@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 const CurrentDate = () => {
     const [currentDate, setCurrentDate] = useState<Date | null>(null);
 
-    useEffect(() => {
-        setCurrentDate(new Date());
-    }, []);
-    // Update date at midnight to keep it current
-    useEffect(() => {
-        if (!currentDate) return;
+    useEffect(() => {         
+        // Set initial date to now
         const now = new Date();
+        setCurrentDate(now)
+        // Calculate milliseconds until midnight
+        // to update the date at midnight
+        // This ensures the date updates daily
+        // without needing to refresh the page
         const msUntilMidnight =
             new Date(
                 now.getFullYear(),
@@ -23,7 +24,7 @@ const CurrentDate = () => {
         }, msUntilMidnight);
 
         return () => clearTimeout(timer);
-    }, [currentDate]);
+    }, []);
 
     // Format date as "Wednesday, April 16th, 2025"
     const formatDate = (date: Date) => {
