@@ -2,7 +2,7 @@ import type React from "react";
 import Link from "next/link";
 import { Button, Field, Label, Input } from "@headlessui/react";
 import Image from "next/image";
-import { handleSignup } from "./actions"
+import { handleSignup } from "@/actions/signup";
 
 interface SignupPageProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -52,7 +52,11 @@ export default async function SignUpPage({
                     {/* Sign Up Form */}
                     <form action={handleSignup} className="space-y-6">
                         {authError && (
-                            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                            <div
+                                role="alert"
+                                aria-live="polite"
+                                className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4"
+                            >
                                 <p className="text-red-600 text-sm">
                                     {authError}
                                 </p>
@@ -67,10 +71,14 @@ export default async function SignUpPage({
                                     Full name
                                 </Label>
                                 <Input
+                                    id="name"
                                     name="name"
                                     type="text"
                                     placeholder="Enter your full name"
                                     defaultValue={preservedName || ""}
+                                    aria-describedby={
+                                        nameError ? "name-error" : undefined
+                                    }
                                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                         nameError
                                             ? "border-red-300 focus:ring-red-500 focus:border-red-500"
@@ -78,7 +86,10 @@ export default async function SignUpPage({
                                     }`}
                                 />
                                 {nameError && (
-                                    <p className="mt-1 text-sm text-red-600">
+                                    <p
+                                        role="alert"
+                                        className="mt-1 text-sm text-red-600"
+                                    >
                                         {nameError}
                                     </p>
                                 )}
@@ -94,10 +105,14 @@ export default async function SignUpPage({
                                     Email address
                                 </Label>
                                 <Input
+                                    id="email"
                                     name="email"
                                     type="email"
                                     placeholder="name@email.com"
                                     defaultValue={preservedEmail || ""}
+                                    aria-describedby={
+                                        emailError ? "email-error" : undefined
+                                    }
                                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                         emailError
                                             ? "border-red-300 focus:ring-red-500 focus:border-red-500"
@@ -121,9 +136,16 @@ export default async function SignUpPage({
                                     Password
                                 </Label>
                                 <Input
+                                    id="password"
                                     name="password"
                                     type="password"
                                     placeholder="Enter your password"
+                                    autoComplete="new-password"
+                                    aria-describedby={
+                                        passwordError
+                                            ? "password-error"
+                                            : undefined
+                                    }
                                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                         passwordError
                                             ? "border-red-300 focus:ring-red-500 focus:border-red-500"
@@ -131,7 +153,10 @@ export default async function SignUpPage({
                                     }`}
                                 />
                                 {passwordError && (
-                                    <p className="mt-1 text-sm text-red-600">
+                                    <p
+                                        role="alert"
+                                        className="mt-1 text-sm text-red-600"
+                                    >
                                         {passwordError}
                                     </p>
                                 )}
@@ -147,9 +172,16 @@ export default async function SignUpPage({
                                     Confirm Password
                                 </Label>
                                 <Input
+                                    id="confirmPassword"
                                     name="confirmPassword"
                                     type="password"
+                                    autoComplete="new-password"
                                     placeholder="Confirm your password"
+                                    aria-describedby={
+                                        confirmPasswordError
+                                            ? "confirm-password-error"
+                                            : undefined
+                                    }
                                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                         confirmPasswordError
                                             ? "border-red-300 focus:ring-red-500 focus:border-red-500"
@@ -157,7 +189,10 @@ export default async function SignUpPage({
                                     }`}
                                 />
                                 {confirmPasswordError && (
-                                    <p className="mt-1 text-sm text-red-600">
+                                    <p
+                                        role="alert"
+                                        className="mt-1 text-sm text-red-600"
+                                    >
                                         {confirmPasswordError}
                                     </p>
                                 )}

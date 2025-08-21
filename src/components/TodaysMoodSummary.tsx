@@ -43,14 +43,14 @@ export default function TodaysMoodSummary({
                     className="bg-accent shadow-sm rounded-[var(--radius-16)] p-6 grid grid-cols-1
                 sm:grid-cols-2 lg:col-span-1 lg:row-span-2 place-items-center gap-3 w-full"
                 >
-                    <h3 className="text-foreground  flex flex-col">
+                    <h2 className="text-foreground  flex flex-col">
                         <span className="opacity-70 text-preset-3">
                             I am feeling
                         </span>
                         <span className="opacity-100 text-preset-2">
                             {mood.label}
                         </span>
-                    </h3>
+                    </h2>
                     <Image
                         src={mood.icon || "/placeholder.svg"}
                         alt={mood.label}
@@ -83,9 +83,9 @@ export default function TodaysMoodSummary({
                             height={16}
                         />
                     </div>
-                    <h3 className="text-preset-6 text-accent-foreground">
+                    <h2 className="text-preset-6 text-accent-foreground">
                         Sleep
-                    </h3>
+                    </h2>
                 </div>
                 {sleepLabel && (
                     <p className="text-preset-3 text-foreground text-left">
@@ -103,9 +103,9 @@ export default function TodaysMoodSummary({
                             height={16}
                         />
                     </div>
-                    <h3 className="text-preset-6 text-accent-foreground">
+                    <h2 className="text-preset-6 text-accent-foreground">
                         Reflection of the day
-                    </h3>
+                    </h2>
                 </div>
                 {entry.journal_entry && (
                     <p className="text-preset-6 text-foreground max-w-prose line-clamp-3 text-left mb-4">

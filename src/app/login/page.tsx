@@ -67,6 +67,7 @@ export default async function LoginPage({
     const emailError = params.error_email as string;
     const passwordError = params.error_password as string;
     const authError = params.error_auth as string;
+    const successMessage = params.success as string;
     const preservedEmail = params.email as string;
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
@@ -94,23 +95,48 @@ export default async function LoginPage({
                         </p>
                     </div>
 
-                    <form action={handleLogin} className="space-y-6">
+                    <form action={handleLogin} className="space-y-6" noValidate>
+                        {successMessage && (
+                            <div
+                                className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4"
+                                role="alert"
+                                aria-live="polite"
+                            >
+                                <p className="text-green-600 text-sm">
+                                    {successMessage}
+                                </p>
+                            </div>
+                        )}
+
                         {authError && (
-                            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                            <div
+                                role="alert"
+                                aria-live="polite"
+                                className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4"
+                            >
                                 <p className="text-red-600 text-sm">
                                     {authError}
                                 </p>
                             </div>
                         )}
                         <Field>
-                            <Label className="block text-sm font-medium text-gray-700 mb-2">
+                            <Label
+                                htmlFor="email"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
                                 Email address
                             </Label>
                             <Input
+                                id="email"
                                 name="email"
                                 type="email"
+                                autoComplete="email"
                                 placeholder="name@email.com"
                                 defaultValue={preservedEmail || ""}
+                                aria-describedby={
+                                    emailError ? "email-error" : undefined
+                                }
+                                aria-invalid={!!emailError}
                                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                     emailError
                                         ? "border-red-300 focus:ring-red-500 focus:border-red-500"
@@ -118,20 +144,34 @@ export default async function LoginPage({
                                 }`}
                             />
                             {emailError && (
-                                <p className="mt-1 text-sm text-red-600">
+                                <p
+                                    role="alert"
+                                    aria-live="polite"
+                                    id="email-error"
+                                    className="mt-1 text-sm text-red-600"
+                                >
                                     {emailError}
                                 </p>
                             )}
                         </Field>
 
                         <Field>
-                            <Label className="block text-sm font-medium text-gray-700 mb-2">
+                            <Label
+                                htmlFor="password"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
                                 Password
                             </Label>
                             <Input
+                                id="password"
                                 name="password"
                                 type="password"
+                                autoComplete="current-password"
                                 placeholder="Enter your password"
+                                aria-describedby={
+                                    passwordError ? "password-error" : undefined
+                                }
+                                aria-invalid={!!passwordError}
                                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                     passwordError
                                         ? "border-red-300 focus:ring-red-500 focus:border-red-500"
@@ -139,11 +179,23 @@ export default async function LoginPage({
                                 }`}
                             />
                             {passwordError && (
-                                <p className="mt-1 text-sm text-red-600">
+                                <p
+                                    id="password-error"
+                                    className="mt-1 text-sm text-red-600"
+                                >
                                     {passwordError}
                                 </p>
                             )}
                         </Field>
+
+                        <div className="text-sm text-right mb-2">
+                            <Link
+                                href="/forgot-password"
+                                className="text-blue-600 hover:text-blue-700 font-medium focus:outline-none focus:underline"
+                            >
+                                Forgot password?
+                            </Link>
+                        </div>
 
                         <Button
                             type="submit"
