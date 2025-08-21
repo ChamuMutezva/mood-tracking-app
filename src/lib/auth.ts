@@ -75,3 +75,35 @@ export async function createUser(
         return null;
     }
 }
+
+export async function registerUser(name: string, email: string, password: string): Promise<User> {
+  try {
+    // Check if user already exists
+    const existingUsers = await sql`
+      SELECT id FROM users WHERE email = ${email} LIMIT 1
+    `
+
+    if (existingUsers.length > 0) {
+      throw new Error("User already exists")
+    }
+
+    // Hash password
+    const saltRounds = 12
+    const password_hash = await bcrypt.hash(password, saltRounds)
+
+    // Insert user
+    const users = await sql`
+      INSERT INTO users (email, password_hash, name, created_at)
+      VALUES (${email}, ${password_hash}, ${name}, NOW())
+      RETURNING id, email, name, created_at
+    `
+
+    return users[0] as User
+  } catch (error) {
+    if (error instanceof Error && error.message === "User already exists") {
+      throw error
+    }
+    console.error("Database error during user registration:", error)
+    throw new Error("Registration failed")
+  }
+}

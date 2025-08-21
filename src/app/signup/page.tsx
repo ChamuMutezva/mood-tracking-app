@@ -1,67 +1,30 @@
-"use client";
-import { useState } from "react";
 import type React from "react";
 import Link from "next/link";
 import { Button, Field, Label, Input } from "@headlessui/react";
 import Image from "next/image";
+import { handleSignup } from "./actions"
 
-export default function SignUpPage() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-    });
+interface SignupPageProps {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-    const [errors, setErrors] = useState({
-        password: "",
-        confirmPassword: "",
-    });
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-
-        if (name === "password" || name === "confirmPassword") {
-            setErrors((prev) => ({
-                ...prev,
-                password: "",
-                confirmPassword: "",
-            }));
-        }
-    };
-
-    const validatePasswords = () => {
-        const newErrors = { password: "", confirmPassword: "" };
-
-        if (formData.password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters long";
-        }
-
-        if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = "Passwords do not match";
-        }
-
-        setErrors(newErrors);
-        return !newErrors.password && !newErrors.confirmPassword;
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!validatePasswords()) {
-            return;
-        }
-
-        console.log("Sign up form submitted:", formData);
-        alert("Sign up form submitted! (No database integration yet)");
-    };
+export default async function SignUpPage({
+    searchParams,
+}: Readonly<SignupPageProps>) {
+    const params = await searchParams;
+    const nameError = params.error_name as string;
+    const emailError = params.error_email as string;
+    const passwordError = params.error_password as string;
+    const confirmPasswordError = params.error_confirmPassword as string;
+    const authError = params.error_auth as string;
+    const preservedName = params.name as string;
+    const preservedEmail = params.email as string;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
+        <div
+            className="min-h-screen bg-gradient-to-br from-purple-100
+         to-blue-100 flex flex-col items-center justify-center p-4"
+        >
             {/* Logo and Brand */}
             <div className="text-center mb-8">
                 <div className="flex items-center justify-center gap-2 mb-4">
@@ -87,7 +50,14 @@ export default function SignUpPage() {
                     </div>
 
                     {/* Sign Up Form */}
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form action={handleSignup} className="space-y-6">
+                        {authError && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                                <p className="text-red-600 text-sm">
+                                    {authError}
+                                </p>
+                            </div>
+                        )}
                         <div>
                             <Field>
                                 <Label
@@ -97,15 +67,21 @@ export default function SignUpPage() {
                                     Full name
                                 </Label>
                                 <Input
-                                    id="name"
                                     name="name"
                                     type="text"
-                                    required
-                                    value={formData.name}
-                                    onChange={handleInputChange}
                                     placeholder="Enter your full name"
-                                    className="w-full px-4 py-3 border text-foreground border-gray-300 rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    defaultValue={preservedName || ""}
+                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                        nameError
+                                            ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+                                            : "border-gray-300"
+                                    }`}
                                 />
+                                {nameError && (
+                                    <p className="mt-1 text-sm text-red-600">
+                                        {nameError}
+                                    </p>
+                                )}
                             </Field>
                         </div>
 
@@ -118,15 +94,21 @@ export default function SignUpPage() {
                                     Email address
                                 </Label>
                                 <Input
-                                    id="email"
                                     name="email"
                                     type="email"
-                                    required
-                                    value={formData.email}
-                                    onChange={handleInputChange}
                                     placeholder="name@email.com"
-                                    className="w-full px-4 py-3 border border-gray-300 text-foreground rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    defaultValue={preservedEmail || ""}
+                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                        emailError
+                                            ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+                                            : "border-gray-300"
+                                    }`}
                                 />
+                                {emailError && (
+                                    <p className="mt-1 text-sm text-red-600">
+                                        {emailError}
+                                    </p>
+                                )}
                             </Field>
                         </div>
 
@@ -139,25 +121,21 @@ export default function SignUpPage() {
                                     Password
                                 </Label>
                                 <Input
-                                    id="password"
                                     name="password"
                                     type="password"
-                                    required
-                                    value={formData.password}
-                                    onChange={handleInputChange}
                                     placeholder="Enter your password"
-                                    className={`w-full px-4 py-3 border text-foreground rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                                        errors.password
-                                            ? "border-red-500"
+                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                        passwordError
+                                            ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                             : "border-gray-300"
                                     }`}
                                 />
+                                {passwordError && (
+                                    <p className="mt-1 text-sm text-red-600">
+                                        {passwordError}
+                                    </p>
+                                )}
                             </Field>
-                            {errors.password && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.password}
-                                </p>
-                            )}
                         </div>
 
                         <div>
@@ -169,25 +147,21 @@ export default function SignUpPage() {
                                     Confirm Password
                                 </Label>
                                 <Input
-                                    id="confirmPassword"
                                     name="confirmPassword"
                                     type="password"
-                                    required
-                                    value={formData.confirmPassword}
-                                    onChange={handleInputChange}
                                     placeholder="Confirm your password"
-                                    className={`w-full px-4 py-3 border text-foreground rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                                        errors.confirmPassword
-                                            ? "border-red-500"
+                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                        confirmPasswordError
+                                            ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                             : "border-gray-300"
                                     }`}
                                 />
+                                {confirmPasswordError && (
+                                    <p className="mt-1 text-sm text-red-600">
+                                        {confirmPasswordError}
+                                    </p>
+                                )}
                             </Field>
-                            {errors.confirmPassword && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.confirmPassword}
-                                </p>
-                            )}
                         </div>
 
                         <Button
