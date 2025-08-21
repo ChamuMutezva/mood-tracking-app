@@ -2,10 +2,14 @@
 import { useEffect, useState } from "react";
 
 const CurrentDate = () => {
-    const [currentDate, setCurrentDate] = useState<Date>(new Date());
+    const [currentDate, setCurrentDate] = useState<Date | null>(null);
 
+    useEffect(() => {
+        setCurrentDate(new Date());
+    }, []);
     // Update date at midnight to keep it current
     useEffect(() => {
+        if (!currentDate) return;
         const now = new Date();
         const msUntilMidnight =
             new Date(
@@ -43,6 +47,14 @@ const CurrentDate = () => {
                 return `${day}${suffix},`;
             });
     };
+
+    if (!currentDate) {
+        return (
+            <time className="current-date text-preset-6 text-accent-foreground">
+                Loading...
+            </time>
+        );
+    }
 
     return (
         <time
