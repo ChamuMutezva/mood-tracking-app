@@ -79,16 +79,10 @@ function DisplayTrendDecline() {
 
 function DisplaySleepMoodData({
     entryCount,
-    averageMood,
     averageMoodLabel,
     averageMoodIcon,
-    averageSleep,
-    averageSleepRange,
     comparisonAverages,
 }: Readonly<DisplaySleepMoodDataProps>) {
-  //  console.log("Mood:", averageMood);
-   // console.log("Sleep:", averageSleep);
-  //  console.log("AverageSleepRange:", averageSleepRange);
     const moodColors = {
         "2": "hsl(35, 100%, 74%)", // Very Happy - Amber
         "1": "hsl(115, 72%, 71%)", // Happy - Green
@@ -98,10 +92,9 @@ function DisplaySleepMoodData({
     };
 
     const getMoodBackgroundColor = () => {
-         const mood = comparisonAverages.latest.mood;
+        const mood = comparisonAverages.latest.mood;
         if (mood === null) return "hsl(var(--card-foreground))"; // fallback
         const roundedMood = Math.round(mood);
-       // console.log("mood latest",roundedMood)
         return (
             moodColors[roundedMood.toString() as keyof typeof moodColors] ||
             "hsl(var(--card-foreground))"
