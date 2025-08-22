@@ -205,8 +205,24 @@ export default function MoodLoggingDialog({
 
     // Determine which entry to display in the summary
     console.log("Submitted Entry Data:", submittedEntryData);
-    console.log("Today Entry:", todayEntry);    
+    console.log("Today Entry:", todayEntry);
     console.log("Display Entry:", displayEntry);
+
+    console.log("Today's entry from server:", todayEntry);
+    if (todayEntry) {
+        console.log("Entry created at:", new Date(todayEntry.created_at));
+        console.log("Current time:", new Date());
+
+        // Check if the entry is actually from today
+        const entryDate = new Date(todayEntry.created_at);
+        const now = new Date();
+        const isToday =
+            entryDate.getUTCDate() === now.getUTCDate() &&
+            entryDate.getUTCMonth() === now.getUTCMonth() &&
+            entryDate.getUTCFullYear() === now.getUTCFullYear();
+
+        console.log("Is entry from today (UTC)?", isToday);
+    }
 
     return (
         <>
