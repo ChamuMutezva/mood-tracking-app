@@ -37,7 +37,7 @@ export default async function SignUpPage({
                     />
                 </div>
             </div>
-            <div className="w-full max-w-[33.125rem]">
+            <div className="w-full max-w-[33.25rem]">
                 <div className="bg-white rounded-[var(--radius-16)] shadow-xl p-8">
                     {/* Form Header */}
                     <div className="text-center mb-8">
@@ -79,7 +79,7 @@ export default async function SignUpPage({
                                     aria-describedby={
                                         nameError ? "name-error" : undefined
                                     }
-                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                    className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                         nameError
                                             ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                             : "border-gray-300"
@@ -100,7 +100,7 @@ export default async function SignUpPage({
                             <Field>
                                 <Label
                                     htmlFor="email"
-                                    className="block text-sm font-medium text-gray-700 mb-2"
+                                    className="block text-preset-6-regular text-foreground mb-2"
                                 >
                                     Email address
                                 </Label>
@@ -113,7 +113,7 @@ export default async function SignUpPage({
                                     aria-describedby={
                                         emailError ? "email-error" : undefined
                                     }
-                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                    className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                         emailError
                                             ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                             : "border-gray-300"
@@ -131,7 +131,7 @@ export default async function SignUpPage({
                             <Field>
                                 <Label
                                     htmlFor="password"
-                                    className="block text-sm font-medium text-gray-700 mb-2"
+                                    className="block text-preset-6-regular text-foreground mb-2"
                                 >
                                     Password
                                 </Label>
@@ -146,7 +146,7 @@ export default async function SignUpPage({
                                             ? "password-error"
                                             : undefined
                                     }
-                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                    className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                         passwordError
                                             ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                             : "border-gray-300"
@@ -167,7 +167,7 @@ export default async function SignUpPage({
                             <Field>
                                 <Label
                                     htmlFor="confirmPassword"
-                                    className="block text-sm font-medium text-gray-700 mb-2"
+                                    className="block text-preset-6-regular text-foreground mb-2"
                                 >
                                     Confirm Password
                                 </Label>
@@ -182,7 +182,7 @@ export default async function SignUpPage({
                                             ? "confirm-password-error"
                                             : undefined
                                     }
-                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                    className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                         confirmPasswordError
                                             ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                             : "border-gray-300"

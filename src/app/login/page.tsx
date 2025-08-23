@@ -1,60 +1,7 @@
 import Link from "next/link";
 import { Field, Label, Input, Button } from "@headlessui/react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
-import { validateUser } from "@/lib/auth";
-
-async function handleLogin(formData: FormData) {
-    "use server";
-
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    // Server-side validation
-    const errors: Record<string, string> = {};
-
-    if (!email) {
-        errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-        errors.email = "Please enter a valid email address";
-    }
-
-    if (!password) {
-        errors.password = "Password is required";
-    } else if (password.length < 6) {
-        errors.password = "Password must be at least 6 characters long";
-    }
-
-    if (Object.keys(errors).length > 0) {
-        const searchParams = new URLSearchParams();
-        Object.entries(errors).forEach(([field, message]) => {
-            searchParams.set(`error_${field}`, message);
-        });
-        if (email) searchParams.set("email", email); // Preserve email input
-        redirect(`/login?${searchParams.toString()}`);
-    }
-
-    try {
-        const user = await validateUser(email, password);
-
-        if (!user) {
-            const searchParams = new URLSearchParams();
-            searchParams.set("error_auth", "Invalid email or password");
-            if (email) searchParams.set("email", email);
-            redirect(`/login?${searchParams.toString()}`);
-        }
-
-        console.log("Login successful for user:", user.email);
-    } catch (error) {
-        console.error("Login error:", error);
-        const searchParams = new URLSearchParams();
-        searchParams.set("error_auth", "An error occurred. Please try again.");
-        if (email) searchParams.set("email", email);
-        redirect(`/login?${searchParams.toString()}`);
-    }
-
-    redirect("/");
-}
+import { handleLogin } from "@/actions/login";
 
 interface LoginPageProps {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -83,7 +30,7 @@ export default async function LoginPage({
                     />
                 </div>
             </div>
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-[33.25rem]">
                 <div className="bg-white rounded-2xl shadow-xl p-8">
                     {/* Form Header */}
                     <div className="text-center mb-8">
@@ -122,7 +69,7 @@ export default async function LoginPage({
                         <Field>
                             <Label
                                 htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 mb-2"
+                                className="block text-preset-6-regular text-foreground mb-2"
                             >
                                 Email address
                             </Label>
@@ -137,7 +84,7 @@ export default async function LoginPage({
                                     emailError ? "email-error" : undefined
                                 }
                                 aria-invalid={!!emailError}
-                                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                     emailError
                                         ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                         : "border-gray-300"
@@ -158,7 +105,7 @@ export default async function LoginPage({
                         <Field>
                             <Label
                                 htmlFor="password"
-                                className="block text-sm font-medium text-gray-700 mb-2"
+                                className="block text-preset-6-regular text-foreground mb-2"
                             >
                                 Password
                             </Label>
@@ -172,7 +119,7 @@ export default async function LoginPage({
                                     passwordError ? "password-error" : undefined
                                 }
                                 aria-invalid={!!passwordError}
-                                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                                     passwordError
                                         ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                         : "border-gray-300"
@@ -199,7 +146,7 @@ export default async function LoginPage({
 
                         <Button
                             type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-[var(--radius-10)] transition-colors duration-200"
                         >
                             Log In
                         </Button>

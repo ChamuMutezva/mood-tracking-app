@@ -33,7 +33,7 @@ export default async function Home() {
     } = calculateAveragesFromEntries(moodEntries);
 
     const chartData = transformMoodEntriesToChartData(moodEntries);
-  
+
     let selectedQuote: string | null = null;
     if (todayMoodEntry) {
         const moodQuotesForEntry =
@@ -47,7 +47,7 @@ export default async function Home() {
         }
     }
     //    console.log("quotes", quotes);
-    //    console.log("today", todayMoodEntry);
+   // console.log("today", todayMoodEntry);
 
     return (
         <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-[73.125rem] m-auto">

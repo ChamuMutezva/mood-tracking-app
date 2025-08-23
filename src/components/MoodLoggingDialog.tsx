@@ -208,25 +208,23 @@ export default function MoodLoggingDialog({
     console.log("Today Entry:", todayEntry);
     console.log("Display Entry:", displayEntry);
 
-    console.log("Today's entry from server:", todayEntry);
-    if (todayEntry) {
-        console.log("Entry created at:", new Date(todayEntry.created_at));
-        console.log("Current time:", new Date());
+  
+    const isEntryFromToday = (entry: MoodEntry | null): boolean => {
+        if (!entry) return false;
 
-        // Check if the entry is actually from today
-        const entryDate = new Date(todayEntry.created_at);
+        const entryDate = new Date(entry.created_at);
         const now = new Date();
-        const isToday =
-            entryDate.getUTCDate() === now.getUTCDate() &&
-            entryDate.getUTCMonth() === now.getUTCMonth() &&
-            entryDate.getUTCFullYear() === now.getUTCFullYear();
 
-        console.log("Is entry from today (UTC)?", isToday);
-    }
+        // Compare ISO date strings (YYYY-MM-DD)
+        const entryDateStr = entryDate.toISOString().split("T")[0];
+        const nowDateStr = now.toISOString().split("T")[0];
+
+        return entryDateStr === nowDateStr;
+    };
 
     return (
         <>
-            {displayEntry ? (
+            {isEntryFromToday(todayEntry) && displayEntry ? (
                 <TodaysMoodSummary
                     entry={displayEntry}
                     selectedQuote={selectedQuote}
