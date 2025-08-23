@@ -116,9 +116,8 @@ function DisplaySleepMoodData({
                     </span>
                 </h2>
                 <div
-                    className="bg-secondary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)]
-                        flex flex-col items-start gap-4
-                        bg-[url('/assets/images/bg-pattern-averages.svg')] bg-cover bg-center"
+                    className="patterns bg-secondary rounded-[var(--radius-16)] px-[var(--spacing-200)]
+                     py-[var(--spacing-250)] flex flex-col items-start gap-4 relative"
                     style={{ backgroundColor: getMoodBackgroundColor() }}
                 >
                     <div className="flex items-center gap-3">
@@ -164,8 +163,8 @@ function DisplaySleepMoodData({
                     </span>
                 </h2>
                 <div
-                    className="bg-card-foreground rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] flex flex-col items-start gap-4
-                        bg-[url('/assets/images/bg-pattern-averages.svg')] bg-cover bg-center "
+                    className="patterns bg-card-foreground rounded-[var(--radius-16)] px-[var(--spacing-200)]
+                     py-[var(--spacing-250)] flex flex-col items-start gap-4 relative"
                 >
                     <div className="flex flex-start gap-2">
                         <div>

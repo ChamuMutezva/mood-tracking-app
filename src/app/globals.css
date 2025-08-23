@@ -156,6 +156,22 @@
     .dialog-panel {
         background: var(--linear-gradient);
     }
+    .patterns {
+        overflow: hidden;
+    }
+    .patterns::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -80%;
+        width: 100%;
+        height: 100%;
+        background-image: url("/assets/images/bg-pattern-averages.svg");
+        background-size: cover;
+        background-position: right;
+        pointer-events: none;
+        border-radius: inherit;
+    }
 
     .text-preset-1 {
         font-weight: 700;
