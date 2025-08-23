@@ -159,7 +159,7 @@
 
     .text-preset-1 {
         font-weight: 700;
-        font-size: var(--font-size-700);
+        font-size: var(--font-size-780);
         line-height: 1.2;
         letter-spacing: -(var(--spacing-025));
     }

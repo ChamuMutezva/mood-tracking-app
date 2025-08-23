@@ -50,7 +50,7 @@ export default async function Home() {
    // console.log("today", todayMoodEntry);
 
     return (
-        <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-[73.125rem] m-auto">
+        <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-7xl m-auto">
             <Header />
             <main className="grid  gap-[32px] row-start-2 items-center  lg:grid-cols-3">
                 <section

@@ -17,7 +17,7 @@ export default async function LoginPage({
     const successMessage = params.success as string;
     const preservedEmail = params.email as string;
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
+        <main className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
             {/* Logo and Brand */}
             <div className="text-center mb-8">
                 <div className="flex items-center justify-center gap-2 mb-4">
@@ -166,6 +166,6 @@ export default async function LoginPage({
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

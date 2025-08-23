@@ -21,7 +21,7 @@ export default async function SignUpPage({
     const preservedEmail = params.email as string;
 
     return (
-        <div
+        <main
             className="min-h-screen bg-gradient-to-br from-purple-100
          to-blue-100 flex flex-col items-center justify-center p-4"
         >
@@ -221,6 +221,6 @@ export default async function SignUpPage({
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

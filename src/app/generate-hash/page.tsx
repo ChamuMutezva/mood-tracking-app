@@ -36,7 +36,7 @@ export default function GenerateHashPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center p-4">
+        <main className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center p-4">
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle>Password Hash Generator</CardTitle>
@@ -83,6 +83,6 @@ export default function GenerateHashPage() {
                     )}
                 </CardContent>
             </Card>
-        </div>
+        </main>
     );
 }
