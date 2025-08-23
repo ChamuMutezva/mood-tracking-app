@@ -204,23 +204,26 @@ export default function MoodLoggingDialog({
     }
 
     // Determine which entry to display in the summary
-    console.log("Submitted Entry Data:", submittedEntryData);
-    console.log("Today Entry:", todayEntry);
-    console.log("Display Entry:", displayEntry);
+    // console.log("Submitted Entry Data:", submittedEntryData);
+    //  console.log("Today Entry:", todayEntry);
+    //  console.log("Display Entry:", displayEntry);
 
-  
     const isEntryFromToday = (entry: MoodEntry | null): boolean => {
         if (!entry) return false;
 
         const entryDate = new Date(entry.created_at);
-        const now = new Date();
+        const today = new Date();
 
-        // Compare ISO date strings (YYYY-MM-DD)
-        const entryDateStr = entryDate.toISOString().split("T")[0];
-        const nowDateStr = now.toISOString().split("T")[0];
+        console.log("Entry Date:", entryDate);
+        console.log("Today's Date:", today);
 
-        return entryDateStr === nowDateStr;
+        return (
+            entryDate.getFullYear() === today.getFullYear() &&
+            entryDate.getMonth() === today.getMonth() &&
+            entryDate.getDate() === today.getDate()
+        );
     };
+    console.log("Is Entry From Today:", isEntryFromToday(displayEntry));
 
     return (
         <>
