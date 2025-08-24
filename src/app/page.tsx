@@ -1,94 +1,47 @@
-import Header from "@/components/Header";
-import MoodSleepChart from "@/components/MoodSleepChart";
-import MoodLoggingDialog from "@/components/MoodLoggingDialog";
-import {
-    getUserById,
-    getMoodEntriesForUser,
-    getMoodEntryForToday,
-    getMoodQuotes,
-    getComparisonAverages,
-} from "@/lib/data";
-import {
-    transformMoodEntriesToChartData,
-    calculateAveragesFromEntries,
-} from "@/lib/chart-utils";
-import CurrentDate from "@/components/CurrentDate";
-import DisplaySleepMoodData from "@/components/DisplaySleepMoodData";
-import SleepMoodDataNotAvailable from "@/components/SleepMoodDataNotAvailable";
+import Link from "next/link";
+import Image from "next/image";
+import { LogInIcon } from "lucide-react";
 
-export default async function Home() {
-    const user = await getUserById(1);
-    const moodEntries = await getMoodEntriesForUser(1);
-    const todayMoodEntry = await getMoodEntryForToday(1);
-    const quotes = await getMoodQuotes();
-    const comparisonAverages = await getComparisonAverages(1);
-
-    const {
-        averageMood,
-        averageSleep,
-        entryCount,
-        averageMoodLabel,
-        averageSleepRange,
-        averageMoodIcon,
-    } = calculateAveragesFromEntries(moodEntries);
-
-    const chartData = transformMoodEntriesToChartData(moodEntries);
-
-    let selectedQuote: string | null = null;
-    if (todayMoodEntry) {
-        const moodQuotesForEntry =
-            quotes.find((q) => q.mood_level === todayMoodEntry.mood)?.quotes ||
-            [];
-        if (moodQuotesForEntry.length > 0) {
-            selectedQuote =
-                moodQuotesForEntry[
-                    Math.floor(Math.random() * moodQuotesForEntry.length)
-                ];
-        }
-    }
-    //    console.log("quotes", quotes);
-   // console.log("today", todayMoodEntry);
-
+export default async function HomePage() {
     return (
-        <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-7xl m-auto">
-            <Header />
-            <main className="grid  gap-[32px] row-start-2 items-center  lg:grid-cols-3">
-                <section
-                    className="welcome-section flex flex-col gap-6 justify-center items-center lg:col-span-3 min-w-0 "
-                    aria-labelledby="greeting-text"
-                >
-                    <p
-                        id="greeting-text"
-                        className="text-preset-3 text-card-foreground"
-                    >
-                        Hello, Lisa!
-                    </p>
-                    <h1 className="greeting text-preset-1 text-foreground text-center">
-                        How are you feeling today?
-                    </h1>
+        <main className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
+            {/* Logo and Brand */}
+            <div className="text-center mb-8">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                    <Image
+                        src="/assets/images/logo.svg"
+                        alt="Mood tracking system"
+                        width={178}
+                        height={40}
+                        priority
+                    />
+                </div>
+            </div>
 
-                    <CurrentDate />
-                    <MoodLoggingDialog
-                        user={user || { id: 0 }}
-                        todayEntry={todayMoodEntry}
-                        selectedQuote={selectedQuote}
-                    />
-                </section>
-                {averageMood !== null || averageSleep !== null ? (
-                    <DisplaySleepMoodData
-                        entryCount={entryCount}
-                        averageMood={averageMood}
-                        averageMoodIcon={averageMoodIcon}
-                        averageMoodLabel={averageMoodLabel}
-                        averageSleep={averageSleep}
-                        averageSleepRange={averageSleepRange}
-                        comparisonAverages={comparisonAverages}
-                    />
-                ) : (
-                    <SleepMoodDataNotAvailable />
-                )}
-                <MoodSleepChart data={chartData} />
-            </main>
-        </div>
+            <div className="w-full max-w-[33.25rem]">
+                <div className="bg-white rounded-2xl shadow-xl p-8">
+                    <div className="text-center mb-8">
+                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                            Welcome back!
+                        </h1>
+                        <p className="text-gray-600">
+                            Log in to continue tracking your mood and sleep
+                        </p>
+                    </div>
+
+                    {/* Back to Login Link */}
+                    <div className="text-center mt-6">
+                        <Link
+                            href="/login"
+                            className="group flex justify-center items-center gap-2 rounded-[var(--radius-10)]
+                             px-3 py-1.5 data-focus:bg-[hsl(var(--blue-200))] bg-card-foreground"
+                        >
+                           <LogInIcon className="h-5 w-5 text-primary-foreground group-hover:text-foreground" />
+                            <span className="text-primary-foreground">Login</span>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </main>
     );
 }
