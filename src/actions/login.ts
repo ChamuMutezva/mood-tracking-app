@@ -32,7 +32,7 @@ export async function handleLogin(formData: FormData) {
 
     try {
         const user = await validateUser(email, password);
-
+        console.log("User from validateUser:", user);
         if (!user) {
             const searchParams = new URLSearchParams();
             searchParams.set("error_auth", "Invalid email or password");
@@ -49,5 +49,5 @@ export async function handleLogin(formData: FormData) {
         redirect(`/login?${searchParams.toString()}`);
     }
 
-    redirect("/");
+    redirect("/dashboard");
 }
