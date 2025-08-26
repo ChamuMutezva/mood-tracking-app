@@ -2,7 +2,21 @@
 import { redirect } from "next/navigation";
 import { validateUser } from "@/lib/auth";
 
-export async function handleLogin(formData: FormData) {
+export interface LoginFormState {
+    errors: {
+        email?: string;
+        password?: string;
+        auth?: string;
+    };
+    preservedEmail?: string;
+    success?: string;
+    redirectTo?: string;
+}
+
+export async function handleLogin(
+    prevState: LoginFormState,
+    formData: FormData
+): Promise<LoginFormState> {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
@@ -22,32 +36,34 @@ export async function handleLogin(formData: FormData) {
     }
 
     if (Object.keys(errors).length > 0) {
-        const searchParams = new URLSearchParams();
-        Object.entries(errors).forEach(([field, message]) => {
-            searchParams.set(`error_${field}`, message);
-        });
-        if (email) searchParams.set("email", email); // Preserve email input
-        redirect(`/login?${searchParams.toString()}`);
+        return {
+            errors,
+            preservedEmail: email,
+        };
     }
 
     try {
         const user = await validateUser(email, password);
         console.log("User from validateUser:", user);
         if (!user) {
-            const searchParams = new URLSearchParams();
-            searchParams.set("error_auth", "Invalid email or password");
-            if (email) searchParams.set("email", email);
-            redirect(`/login?${searchParams.toString()}`);
+            return {
+                errors: { auth: "Invalid email or password" },
+                preservedEmail: email,
+            };
         }
 
         console.log("Login successful for user:", user.email);
+        return {
+            errors: {},
+            success: "Login successful! Redirecting...",    
+            redirectTo: "/dashboard" // Add a redirect property
+        }
     } catch (error) {
         console.error("Login error:", error);
-        const searchParams = new URLSearchParams();
-        searchParams.set("error_auth", "An error occurred. Please try again.");
-        if (email) searchParams.set("email", email);
-        redirect(`/login?${searchParams.toString()}`);
+        return {
+            errors: { auth: "An unexpected error occurred. Please try again." },
+            preservedEmail: email,
+        };
     }
-
-    redirect("/dashboard");
+    
 }
