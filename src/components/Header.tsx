@@ -20,12 +20,14 @@ import {
     ChevronDownIcon,
     XMarkIcon,
 } from "@heroicons/react/16/solid";
+import { logout } from "@/actions/logout";
 
 function Header() {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [profileImage, setProfileImage] = useState(
         "/assets/images/avatar-lisa.jpg"
     );
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     function showSettingsDialog() {
@@ -49,6 +51,16 @@ function Header() {
 
             // Here you would typically upload the file to your server
             console.log("Selected file:", file);
+        }
+    }
+
+    async function handleLogout() {
+        setIsLoggingOut(true);
+        try {
+            await logout();
+        } catch (error) {
+            console.error("Logout failed:", error);
+            setIsLoggingOut(false);
         }
     }
 
@@ -146,11 +158,13 @@ function Header() {
                                                 Sign Up (Dev)
                                             </span>
                                         </Link>
-                                    </MenuItem>                                    
+                                    </MenuItem>
                                     <div className="my-1 h-px bg-white/5" />
                                     <MenuItem>
                                         <Button
                                             type="button"
+                                            onClick={handleLogout}
+                                            disabled={isLoggingOut}
                                             className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-[hsl(var(--blue-200))]"
                                         >
                                             <Image
@@ -160,7 +174,9 @@ function Header() {
                                                 alt={""}
                                             />
                                             <span className="text-foreground">
-                                                Logout
+                                                {isLoggingOut
+                                                    ? "Logging out..."
+                                                    : "Log Out"}
                                             </span>
                                         </Button>
                                     </MenuItem>
