@@ -1,29 +1,72 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Field, Label, Input, Button } from "@headlessui/react";
 import Link from "next/link";
-import { handleLogin, LoginFormState } from "@/actions/login";
-import { useRouter } from "next/navigation";
+import { LoginFormState, authenticate } from "@/actions/login";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+    CheckCircleIcon,
+    ExclamationTriangleIcon,
+} from "@heroicons/react/16/solid";
 
 export default function LoginForm() {
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+    const router = useRouter();
+    const [isRedirecting, setIsRedirecting] = useState(false);
+    const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+
     const [state, formAction, isPending] = useActionState<
         LoginFormState,
         FormData
-    >(handleLogin, {
-        errors: {},
-    });
-    const router = useRouter();
+    >(authenticate, { errors: {} });
+
     useEffect(() => {
-        if (state.redirectTo) {
+        if (state.redirectTo && !isRedirecting) {
             console.log("Redirecting to:", state.redirectTo);
-            router.push(state.redirectTo);
+            setShowSuccessOverlay(true);
+            setIsRedirecting(true);
+
+            // Brief delay for better UX before redirecting
+            const timer = setTimeout(() => {
+                return router.push(state.redirectTo!);
+            }, 800); // 800ms delay for smooth transition
+
+            return () => clearTimeout(timer);
         }
-    }, [state.redirectTo, router]);
+    }, [state.redirectTo, router, isRedirecting]);
+
+    const status = () => {
+        if (isRedirecting) return "Redirecting...";
+        if (isPending) return "Logging in...";
+        return "Log In";
+    };
 
     return (
         <div className="w-full max-w-[33.25rem]">
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            {showSuccessOverlay && (
+                <div className="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+                    <div className="text-center p-8 bg-white rounded-2xl shadow-xl border border-gray-200">
+                        <CheckCircleIcon className="h-16 w-16 text-green-500 mx-auto mb-4" />
+                        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                            Login Successful!
+                        </h3>
+                        <p className="text-gray-600 mb-4">
+                            Redirecting to your dashboard...
+                        </p>
+                        <div className="flex justify-center">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div
+                className={`bg-white rounded-2xl shadow-xl p-8 transition-opacity duration-300 ${
+                    showSuccessOverlay ? "opacity-60" : "opacity-100"
+                }`}
+            >
                 {/* Form Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-2xl font-bold text-gray-900 mb-2">
@@ -35,7 +78,13 @@ export default function LoginForm() {
                 </div>
 
                 <form action={formAction} className="space-y-6" noValidate>
-                    {state.success && (
+                    {/* Add hidden callbackUrl field */}
+                    <input
+                        type="hidden"
+                        name="callbackUrl"
+                        value={callbackUrl}
+                    />
+                    {state?.success && !showSuccessOverlay && (
                         <div
                             className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4"
                             role="alert"
@@ -51,8 +100,9 @@ export default function LoginForm() {
                         <div
                             role="alert"
                             aria-live="polite"
-                            className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4"
+                            className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4 flex items-center gap-2"
                         >
+                            <ExclamationTriangleIcon className="h-5 w-5 text-red-600" />
                             <p className="text-red-600 text-sm">
                                 {state.errors.auth}
                             </p>
@@ -72,18 +122,19 @@ export default function LoginForm() {
                             type="email"
                             autoComplete="email"
                             placeholder="name@email.com"
-                            defaultValue={state.preservedEmail || ""}
+                            defaultValue={state?.preservedEmail || ""}
                             aria-describedby={
-                                state.errors.email ? "email-error" : undefined
+                                state?.errors?.email ? "email-error" : undefined
                             }
-                            aria-invalid={!!state.errors.email}
+                            aria-invalid={!!state?.errors?.email}
                             className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                                state.errors.email
+                                state?.errors?.email
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
                             }`}
+                            disabled={isRedirecting}
                         />
-                        {state.errors.email && (
+                        {state?.errors?.email && (
                             <p
                                 role="alert"
                                 aria-live="polite"
@@ -109,23 +160,24 @@ export default function LoginForm() {
                             autoComplete="current-password"
                             placeholder="Enter your password"
                             aria-describedby={
-                                state.errors.password
+                                state?.errors?.password
                                     ? "password-error"
                                     : undefined
                             }
                             aria-invalid={!!state.errors.password}
                             className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
-                                state.errors.password
+                                state?.errors?.password
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
                             }`}
+                            disabled={isRedirecting}
                         />
-                        {state.errors.password && (
+                        {state?.errors?.password && (
                             <p
                                 id="password-error"
                                 className="mt-1 text-sm text-red-600"
                             >
-                                {state.errors.password}
+                                {state?.errors?.password}
                             </p>
                         )}
                     </Field>
@@ -134,6 +186,7 @@ export default function LoginForm() {
                         <Link
                             href="/forgot-password"
                             className="text-blue-600 hover:text-blue-700 font-medium focus:outline-none focus:underline"
+                            aria-disabled={isRedirecting}
                         >
                             Forgot password?
                         </Link>
@@ -141,10 +194,10 @@ export default function LoginForm() {
 
                     <Button
                         type="submit"
-                        disabled={isPending}
+                        disabled={isPending || isRedirecting}
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-[var(--radius-10)] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isPending ? "Logging in..." : "Log In"}
+                        {status()}
                     </Button>
                 </form>
 
@@ -155,6 +208,7 @@ export default function LoginForm() {
                         <Link
                             href="/signup"
                             className="text-blue-600 hover:text-blue-700 font-medium"
+                            aria-disabled={isRedirecting}
                         >
                             Sign up
                         </Link>

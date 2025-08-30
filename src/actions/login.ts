@@ -1,6 +1,8 @@
 "use server";
 import { redirect } from "next/navigation";
-import { validateUser } from "@/lib/auth";
+import {  loginSchema } from "@/lib/auth";
+import { signIn } from "../../auth";
+import { AuthError } from "next-auth";
 
 export interface LoginFormState {
     errors: {
@@ -13,29 +15,27 @@ export interface LoginFormState {
     redirectTo?: string;
 }
 
-export async function handleLogin(
+export async function authenticate(
     prevState: LoginFormState,
     formData: FormData
 ): Promise<LoginFormState> {
+
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const callbackUrl = (formData.get("callbackUrl") as string) || "/dashboard";
 
-    // Server-side validation
-    const errors: Record<string, string> = {};
+    // Validate with Zod
+    const result = loginSchema.safeParse({ email, password });
 
-    if (!email) {
-        errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-        errors.email = "Please enter a valid email address";
-    }
+    // If validation fails, return all errors
+    if (!result.success) {
+        const errors: { email?: string; password?: string } = {};
 
-    if (!password) {
-        errors.password = "Password is required";
-    } else if (password.length < 6) {
-        errors.password = "Password must be at least 6 characters long";
-    }
+        result.error.issues.forEach((issue) => {
+            const field = issue.path[0] as keyof typeof errors;
+            errors[field] = issue.message;
+        });
 
-    if (Object.keys(errors).length > 0) {
         return {
             errors,
             preservedEmail: email,
@@ -43,27 +43,38 @@ export async function handleLogin(
     }
 
     try {
-        const user = await validateUser(email, password);
-        console.log("User from validateUser:", user);
-        if (!user) {
+        const signInResult = await signIn("credentials", {
+            email,
+            password,
+            redirect: false,
+        });
+
+        if (signInResult?.error) {
             return {
-                errors: { auth: "Invalid email or password" },
+                errors: { auth: "Invalid email or password." },
                 preservedEmail: email,
             };
         }
-
-        console.log("Login successful for user:", user.email);
-        return {
-            errors: {},
-            success: "Login successful! Redirecting...",    
-            redirectTo: "/dashboard" // Add a redirect property
-        }
+         
+        redirect(callbackUrl);
+       
     } catch (error) {
-        console.error("Login error:", error);
-        return {
-            errors: { auth: "An unexpected error occurred. Please try again." },
-            preservedEmail: email,
-        };
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case "CredentialsSignin":
+                    return {
+                        errors: { auth: "Invalid credentials." },
+                        preservedEmail: email,
+                    };
+                default:
+                    return {
+                        errors: { auth: "Something went wrong." },
+                        preservedEmail: email,
+                    };
+            }
+        }
+
+        // Re-throw if it's not an AuthError
+        throw error;
     }
-    
 }

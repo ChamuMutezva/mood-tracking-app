@@ -1,8 +1,16 @@
 import { neon } from "@neondatabase/serverless";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 
 const sql = neon(process.env.DATABASE_URL!);
 
+export const loginSchema = z.object({
+    email: z.email("Please enter a valid email"),  // Ensure email is valid
+    password: z.string().min(6, "Password must be at least 6 characterrs"), // Ensure password is at least 6 characters    
+
+});
+
+export type LoginFormData = z.infer<typeof loginSchema>;
 export interface User {
     id: number;
     email: string;
