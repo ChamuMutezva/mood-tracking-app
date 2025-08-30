@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import MoodSleepChart from "@/components/MoodSleepChart";
 import MoodLoggingDialog from "@/components/MoodLoggingDialog";
+import { auth } from "../../../auth";
 import {
     getUserById,
     getMoodEntriesForUser,
@@ -17,11 +18,15 @@ import DisplaySleepMoodData from "@/components/DisplaySleepMoodData";
 import SleepMoodDataNotAvailable from "@/components/SleepMoodDataNotAvailable";
 
 export default async function Home() {
-    const user = await getUserById(1);
-    const moodEntries = await getMoodEntriesForUser(1);
-    const todayMoodEntry = await getMoodEntryForToday(1);
+    const session = await auth()
+    console.log("Session in dashboard/page.tsx:", session);
+    console.log("User in session:", session?.user?.id);
+    const userId = parseInt(session?.user?.id || "0", 10);
+    const user = await getUserById(userId);
+    const moodEntries = await getMoodEntriesForUser(userId);
+    const todayMoodEntry = await getMoodEntryForToday(userId);
     const quotes = await getMoodQuotes();
-    const comparisonAverages = await getComparisonAverages(1);
+    const comparisonAverages = await getComparisonAverages(userId);
 
     const {
         averageMood,
@@ -47,7 +52,7 @@ export default async function Home() {
         }
     }
     //    console.log("quotes", quotes);
-   // console.log("today", todayMoodEntry);
+    // console.log("today", todayMoodEntry);
 
     return (
         <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-7xl m-auto">
