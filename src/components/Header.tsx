@@ -21,8 +21,15 @@ import {
     XMarkIcon,
 } from "@heroicons/react/16/solid";
 import { logout } from "@/actions/logout";
+import { Session } from "next-auth";
 
-function Header() {
+interface HeaderProps {
+    session: Session | null;
+}
+
+function Header({ session }: Readonly<HeaderProps>) {
+    console.log("Session in Header:", session);
+    console.log("Name of user in session:", session?.user?.name);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [profileImage, setProfileImage] = useState(
         "/assets/images/avatar-lisa.jpg"
@@ -97,10 +104,10 @@ function Header() {
                                     <Avatar>
                                         <AvatarImage
                                             src="/assets/images/avatar-lisa.jpg"
-                                            alt="Lisa's profile"
+                                            alt={` ${session?.user?.name}'s profile`}
                                         />
                                         <AvatarFallback className="text-foreground">
-                                            Lisa
+                                            {session?.user?.name}
                                         </AvatarFallback>
                                     </Avatar>
                                     <ChevronDownIcon
@@ -118,10 +125,10 @@ function Header() {
                                     <MenuItem as="div">
                                         <div className="group flex flex-col items-start w-full  gap-2 rounded-lg px-3 py-1.5">
                                             <p className="text-preset-6 text-foreground">
-                                                Lisa Maria
+                                                {session?.user?.name}
                                             </p>
                                             <span className="text-preset-7 text-muted-foreground">
-                                                lisa@mail.com
+                                                {session?.user?.email}
                                             </span>
                                         </div>
                                     </MenuItem>
@@ -143,22 +150,7 @@ function Header() {
                                             </span>
                                         </Button>
                                     </MenuItem>
-                                    <MenuItem>
-                                        <Link
-                                            href="/signup"
-                                            className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-[hsl(var(--blue-200))]"
-                                        >
-                                            <Image
-                                                width={16}
-                                                height={16}
-                                                src="/assets/images/icon-settings.svg"
-                                                alt={""}
-                                            />
-                                            <span className="text-foreground">
-                                                Sign Up (Dev)
-                                            </span>
-                                        </Link>
-                                    </MenuItem>
+
                                     <div className="my-1 h-px bg-white/5" />
                                     <MenuItem>
                                         <Button

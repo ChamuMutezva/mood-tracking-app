@@ -18,9 +18,7 @@ import DisplaySleepMoodData from "@/components/DisplaySleepMoodData";
 import SleepMoodDataNotAvailable from "@/components/SleepMoodDataNotAvailable";
 
 export default async function Home() {
-    const session = await auth()
-    console.log("Session in dashboard/page.tsx:", session);
-    console.log("User in session:", session?.user?.id);
+    const session = await auth();
     const userId = parseInt(session?.user?.id || "0", 10);
     const user = await getUserById(userId);
     const moodEntries = await getMoodEntriesForUser(userId);
@@ -51,12 +49,10 @@ export default async function Home() {
                 ];
         }
     }
-    //    console.log("quotes", quotes);
-    // console.log("today", todayMoodEntry);
 
     return (
         <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-7xl m-auto">
-            <Header />
+            <Header session={session} />
             <main className="grid  gap-[32px] row-start-2 items-center  lg:grid-cols-3">
                 <section
                     className="welcome-section flex flex-col gap-6 justify-center items-center lg:col-span-3 min-w-0 "
@@ -66,7 +62,7 @@ export default async function Home() {
                         id="greeting-text"
                         className="text-preset-3 text-card-foreground"
                     >
-                        Hello, Lisa!
+                        {`Hello, ${session?.user?.name}!`}
                     </p>
                     <h1 className="greeting text-preset-1 text-foreground text-center">
                         How are you feeling today?
