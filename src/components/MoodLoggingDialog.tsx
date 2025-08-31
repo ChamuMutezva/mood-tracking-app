@@ -203,11 +203,6 @@ export default function MoodLoggingDialog({
         return true;
     }
 
-    // Determine which entry to display in the summary
-    // console.log("Submitted Entry Data:", submittedEntryData);
-    //  console.log("Today Entry:", todayEntry);
-    //  console.log("Display Entry:", displayEntry);
-
     const isEntryFromToday = (entry: MoodEntry | null): boolean => {
         if (!entry) return false;
 
@@ -224,6 +219,7 @@ export default function MoodLoggingDialog({
         );
     };
     console.log("Is Entry From Today:", isEntryFromToday(displayEntry));
+    console.log("today Entry prop:", todayEntry);
 
     return (
         <>

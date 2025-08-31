@@ -49,6 +49,7 @@ export default async function Home() {
                 ];
         }
     }
+    console.log("Today Mood Entry: parent page", todayMoodEntry);
 
     return (
         <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-7xl m-auto">

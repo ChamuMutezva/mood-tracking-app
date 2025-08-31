@@ -28,8 +28,8 @@ interface HeaderProps {
 }
 
 function Header({ session }: Readonly<HeaderProps>) {
-    console.log("Session in Header:", session);
-    console.log("Name of user in session:", session?.user?.name);
+   // console.log("Session in Header:", session);
+   // console.log("Name of user in session:", session?.user?.name);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [profileImage, setProfileImage] = useState(
         "/assets/images/avatar-lisa.jpg"
