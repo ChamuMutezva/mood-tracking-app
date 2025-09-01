@@ -103,9 +103,10 @@ function DisplaySleepMoodData({
     return (
         <section
             aria-labelledby="average-mood-title"
-            className="flex flex-col gap-8 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0"
+            className="flex flex-col gap-8 bg-primary rounded-[var(--radius-16)] 
+            px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0 h-full"
         >
-            <div className="average-mood-container flex flex-col gap-4">
+            <div className="average-mood-container flex flex-col flex-1 gap-4">
                 <h2
                     id="average-mood-title"
                     className="text-preset-4 text-foreground"
@@ -117,7 +118,7 @@ function DisplaySleepMoodData({
                 </h2>
                 <div
                     className="patterns bg-secondary rounded-[var(--radius-16)] px-[var(--spacing-200)]
-                     py-[var(--spacing-250)] flex flex-col items-start gap-4 relative"
+                     py-[var(--spacing-250)] flex flex-col items-start justify-center gap-4 relative h-full"
                     style={{ backgroundColor: getMoodBackgroundColor() }}
                 >
                     <div className="flex items-center gap-3">
@@ -152,7 +153,7 @@ function DisplaySleepMoodData({
                     </div>
                 </div>
             </div>
-            <div className="average-sleep-container flex flex-col gap-4">
+            <div className="average-sleep-container flex flex-col flex-1 gap-4">
                 <h2
                     id="average-sleep-title-data"
                     className="text-preset-4 text-foreground"
@@ -164,7 +165,7 @@ function DisplaySleepMoodData({
                 </h2>
                 <div
                     className="patterns bg-card-foreground rounded-[var(--radius-16)] px-[var(--spacing-200)]
-                     py-[var(--spacing-250)] flex flex-col items-start gap-4 relative"
+                     py-[var(--spacing-250)] flex flex-col items-start justify-center gap-4 relative h-full"
                 >
                     <div className="flex flex-start gap-2">
                         <div>
