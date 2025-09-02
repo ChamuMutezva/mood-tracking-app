@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import MoodSleepChart from "@/components/MoodSleepChart";
 import MoodLoggingDialog from "@/components/MoodLoggingDialog";
+import { redirect } from "next/navigation";
 import { auth } from "../../../auth";
 import {
     getUserById,
@@ -19,6 +20,11 @@ import SleepMoodDataNotAvailable from "@/components/SleepMoodDataNotAvailable";
 
 export default async function Home() {
     const session = await auth();
+
+    if (!session?.user) {
+        redirect("/login");
+    }
+
     const userId = parseInt(session?.user?.id || "0", 10);
     const user = await getUserById(userId);
     const moodEntries = await getMoodEntriesForUser(userId);

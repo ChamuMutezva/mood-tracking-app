@@ -15,7 +15,7 @@ async function getUser(email: string): Promise<User | null> {
         >`SELECT * FROM users WHERE email = ${email}`;
         if (users.length === 0) {
             return null;
-        }                 
+        }
         return users[0];
     } catch (error) {
         console.error("Error fetching user:", error);
@@ -23,7 +23,7 @@ async function getUser(email: string): Promise<User | null> {
     }
 }
 
-export const {handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig,
     providers: [
         Credentials({
@@ -39,11 +39,11 @@ export const {handlers, auth, signIn, signOut } = NextAuth({
                     if (!parsedCredentials.success) {
                         console.log("Invalid credentials format");
                         return null;
-                    }                   
+                    }
 
-                    const { email, password } = parsedCredentials.data;                   
+                    const { email, password } = parsedCredentials.data;
                     const user = await getUser(email);
-                    
+
                     if (!user) {
                         console.log("User not found:", email);
                         return null;
@@ -90,18 +90,4 @@ export const {handlers, auth, signIn, signOut } = NextAuth({
             },
         }),
     ],
-    callbacks: {
-        async jwt({token, user}) {
-            if (user) {
-                token.id = user.id;
-            }
-            return token;
-        },
-        async session({session, token}) {
-            if (token && session.user) {
-                session.user.id = token.id as string;
-            }
-            return session;
-        }
-    }
 });
