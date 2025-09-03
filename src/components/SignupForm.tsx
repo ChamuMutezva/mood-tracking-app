@@ -49,7 +49,7 @@ export default function SignupForm() {
                     )}
 
                     <Field>
-                        <Label htmlFor="name" className="label">
+                        <Label htmlFor="name" className="label text-preset-6-regular">
                             Full name
                         </Label>
                         <Input
@@ -62,7 +62,7 @@ export default function SignupForm() {
                                 state?.errors?.name ? "name-error" : undefined
                             }
                             aria-invalid={!!state?.errors?.name}
-                            className={`input ${
+                            className={`input text-preset-6-regular ${
                                 state?.errors?.name
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -82,7 +82,7 @@ export default function SignupForm() {
                     </Field>
 
                     <Field>
-                        <Label htmlFor="email" className="label">
+                        <Label htmlFor="email" className="label text-preset-6-regular">
                             Email address
                         </Label>
                         <Input
@@ -95,7 +95,7 @@ export default function SignupForm() {
                                 state?.errors?.email ? "email-error" : undefined
                             }
                             aria-invalid={!!state?.errors?.email}
-                            className={`input ${
+                            className={`input text-preset-6-regular ${
                                 state?.errors?.email
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -117,7 +117,7 @@ export default function SignupForm() {
                     <Field>
                         <Label
                             htmlFor="password"
-                            className="label"
+                            className="label text-preset-6-regular"
                         >
                             Password
                         </Label>
@@ -133,7 +133,7 @@ export default function SignupForm() {
                                     : undefined
                             }
                             aria-invalid={!!state.errors?.password}
-                            className={`input ${
+                            className={`input text-preset-6-regular ${
                                 state?.errors?.password
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -153,7 +153,7 @@ export default function SignupForm() {
                     <Field>
                         <Label
                             htmlFor="confirmPassword"
-                            className="label"
+                            className="label text-preset-6-regular"
                         >
                             Confirm Password
                         </Label>
@@ -169,7 +169,7 @@ export default function SignupForm() {
                                     : undefined
                             }
                             aria-invalid={!!state.errors?.confirmPassword}
-                            className={`input ${
+                            className={`input text-preset-6-regular ${
                                 state?.errors?.confirmPassword
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"

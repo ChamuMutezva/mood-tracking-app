@@ -76,7 +76,7 @@ export default async function ForgotPasswordPage({
                         <Field>
                             <Label
                                 htmlFor="email"
-                                className="label"
+                                className="label text-preset-6-regular"
                             >
                                 Email address
                             </Label>
@@ -90,7 +90,7 @@ export default async function ForgotPasswordPage({
                                 aria-describedby={
                                     emailError ? "email-error" : undefined
                                 }
-                                className={`input ${
+                                className={`input text-preset-6-regular ${
                                     emailError
                                         ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                         : "border-gray-300"

@@ -110,7 +110,7 @@ export default function LoginForm() {
                     )}
 
                     <Field>
-                        <Label htmlFor="email" className="label">
+                        <Label htmlFor="email" className="label text-preset-6-regular">
                             Email address
                         </Label>
                         <Input
@@ -124,7 +124,7 @@ export default function LoginForm() {
                                 state?.errors?.email ? "email-error" : undefined
                             }
                             aria-invalid={!!state?.errors?.email}
-                            className={`input ${
+                            className={`input text-preset-6-regular ${
                                 state?.errors?.email
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -144,7 +144,7 @@ export default function LoginForm() {
                     </Field>
 
                     <Field>
-                        <Label htmlFor="password" className="label">
+                        <Label htmlFor="password" className="label text-preset-6-regular">
                             Password
                         </Label>
                         <Input
@@ -159,7 +159,7 @@ export default function LoginForm() {
                                     : undefined
                             }
                             aria-invalid={!!state.errors.password}
-                            className={`input ${
+                            className={`input text-preset-6-regular ${
                                 state?.errors?.password
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
