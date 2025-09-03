@@ -17,7 +17,7 @@ export default async function ForgotPasswordPage({
     const preservedEmail = params.email as string;
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
+        <main className="auth-parent">
             {/* Logo and Brand */}
             <div className="text-center mb-8">
                 <div className="flex items-center justify-center gap-2 mb-4">
@@ -31,7 +31,7 @@ export default async function ForgotPasswordPage({
                 </div>
             </div>
 
-            <div className="w-full max-w-[33.25rem]">
+            <div className="auth-sub-container">
                 <div className="bg-white rounded-2xl shadow-xl p-8">
                     {/* Form Header */}
                     <div className="text-center mb-8">
@@ -76,7 +76,7 @@ export default async function ForgotPasswordPage({
                         <Field>
                             <Label
                                 htmlFor="email"
-                                className="block text-sm font-medium text-gray-700 mb-2"
+                                className="label"
                             >
                                 Email address
                             </Label>
@@ -90,7 +90,7 @@ export default async function ForgotPasswordPage({
                                 aria-describedby={
                                     emailError ? "email-error" : undefined
                                 }
-                                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                                className={`input ${
                                     emailError
                                         ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                         : "border-gray-300"
@@ -108,10 +108,7 @@ export default async function ForgotPasswordPage({
                             )}
                         </Field>
 
-                        <Button
-                            type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
-                        >
+                        <Button type="submit" className="btn-submit">
                             Send Reset Instructions
                         </Button>
                     </form>

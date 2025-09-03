@@ -44,7 +44,7 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="w-full max-w-[33.25rem]">
+        <div className="auth-sub-container">
             {showSuccessOverlay && (
                 <div className="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
                     <div className="text-center p-8 bg-white rounded-2xl shadow-xl border border-gray-200">
@@ -110,10 +110,7 @@ export default function LoginForm() {
                     )}
 
                     <Field>
-                        <Label
-                            htmlFor="email"
-                            className="block text-preset-6-regular text-foreground mb-2"
-                        >
+                        <Label htmlFor="email" className="label">
                             Email address
                         </Label>
                         <Input
@@ -127,7 +124,7 @@ export default function LoginForm() {
                                 state?.errors?.email ? "email-error" : undefined
                             }
                             aria-invalid={!!state?.errors?.email}
-                            className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                            className={`input ${
                                 state?.errors?.email
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -147,10 +144,7 @@ export default function LoginForm() {
                     </Field>
 
                     <Field>
-                        <Label
-                            htmlFor="password"
-                            className="block text-preset-6-regular text-foreground mb-2"
-                        >
+                        <Label htmlFor="password" className="label">
                             Password
                         </Label>
                         <Input
@@ -165,7 +159,7 @@ export default function LoginForm() {
                                     : undefined
                             }
                             aria-invalid={!!state.errors.password}
-                            className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                            className={`input ${
                                 state?.errors?.password
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -195,7 +189,7 @@ export default function LoginForm() {
                     <Button
                         type="submit"
                         disabled={isPending || isRedirecting}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-[var(--radius-10)] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="btn-submit"
                     >
                         {status()}
                     </Button>

@@ -18,7 +18,7 @@ export default function SignupForm() {
     };
 
     return (
-        <div className="w-full max-w-[33.25rem]">
+        <div className="auth-sub-container">
             <div
                 className={`bg-white rounded-2xl shadow-xl p-8 transition-opacity duration-300 
                    
@@ -49,10 +49,7 @@ export default function SignupForm() {
                     )}
 
                     <Field>
-                        <Label
-                            htmlFor="name"
-                            className="block text-preset-6-regular text-foreground mb-2"
-                        >
+                        <Label htmlFor="name" className="label">
                             Full name
                         </Label>
                         <Input
@@ -65,7 +62,7 @@ export default function SignupForm() {
                                 state?.errors?.name ? "name-error" : undefined
                             }
                             aria-invalid={!!state?.errors?.name}
-                            className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                            className={`input ${
                                 state?.errors?.name
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -85,10 +82,7 @@ export default function SignupForm() {
                     </Field>
 
                     <Field>
-                        <Label
-                            htmlFor="email"
-                            className="block text-preset-6-regular text-foreground mb-2"
-                        >
+                        <Label htmlFor="email" className="label">
                             Email address
                         </Label>
                         <Input
@@ -101,7 +95,7 @@ export default function SignupForm() {
                                 state?.errors?.email ? "email-error" : undefined
                             }
                             aria-invalid={!!state?.errors?.email}
-                            className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                            className={`input ${
                                 state?.errors?.email
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -123,7 +117,7 @@ export default function SignupForm() {
                     <Field>
                         <Label
                             htmlFor="password"
-                            className="block text-preset-6-regular text-foreground mb-2"
+                            className="label"
                         >
                             Password
                         </Label>
@@ -139,7 +133,7 @@ export default function SignupForm() {
                                     : undefined
                             }
                             aria-invalid={!!state.errors?.password}
-                            className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                            className={`input ${
                                 state?.errors?.password
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -159,7 +153,7 @@ export default function SignupForm() {
                     <Field>
                         <Label
                             htmlFor="confirmPassword"
-                            className="block text-preset-6-regular text-foreground mb-2"
+                            className="label"
                         >
                             Confirm Password
                         </Label>
@@ -175,7 +169,7 @@ export default function SignupForm() {
                                     : undefined
                             }
                             aria-invalid={!!state.errors?.confirmPassword}
-                            className={`w-full px-4 py-3 border text-preset-6-regular rounded-[var(--radius-10)] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                            className={`input ${
                                 state?.errors?.confirmPassword
                                     ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                                     : "border-gray-300"
@@ -196,7 +190,7 @@ export default function SignupForm() {
                     <Button
                         type="submit"
                         disabled={isPending}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-[var(--radius-10)] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="btn-submit"
                     >
                         {status()}
                     </Button>

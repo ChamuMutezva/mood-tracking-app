@@ -60,7 +60,7 @@ export default async function Home() {
     return (
         <div className="px-4 pt-8 pb-20 flex flex-col gap-2 max-w-7xl m-auto">
             <Header session={session} />
-            <main className="grid  gap-[32px] row-start-2 items-center  lg:grid-cols-3">
+            <main className="grid  gap-8 row-start-2 items-center  lg:grid-cols-3">
                 <section
                     className="welcome-section flex flex-col gap-6 justify-center items-center lg:col-span-3 min-w-0 "
                     aria-labelledby="greeting-text"
