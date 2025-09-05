@@ -26,6 +26,7 @@ export const MoodResetPasswordEmail = ({
     email,
     resetPasswordLink,
 }: MoodResetPasswordEmailProps) => {
+  console.log(baseUrl)
     return (
         <Html>
             <Head />
