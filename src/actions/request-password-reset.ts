@@ -95,6 +95,7 @@ export async function requestPasswordReset(
             success: true,
         };
     } catch (error) {
+        console.log(error)
         return {
             ...state,
             errors: {

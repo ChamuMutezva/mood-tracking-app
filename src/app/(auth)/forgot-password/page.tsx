@@ -26,7 +26,7 @@ export default async function ForgotPasswordPage() {
                                     Reset your password
                                 </h1>
                                 <p className="text-gray-600">
-                                    Enter your email address and we'll send you
+                                    Enter your email address and we&apos;ll send you
                                     instructions to reset your password
                                 </p>
                             </div>
