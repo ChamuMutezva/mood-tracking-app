@@ -1,3 +1,4 @@
+import { z } from "zod";
 export interface User {
     id: number;
     name: string;
@@ -31,3 +32,43 @@ export interface ChartData {
     feelings: string[];
     journal_entry: string | null;
 }
+
+export type RequestEmailFormState =
+    | {
+          errors?: {
+              email?: string[];
+              general?: string;
+          };
+          message?: string;
+          success?: boolean;
+      }
+    | undefined;
+
+export const ForgotPasswordSchema = z.object({
+    email: z.string().email({ message: "Please enter a valid email address" }),
+});
+
+export type ResetPasswordFormState = {
+    errors?: {
+        token?: string[];
+        password?: string[];
+        confirmPassword?: string[];
+        general?: string;
+    };
+    message?: string;
+    success?: boolean;
+};
+
+// Define the schema for password reset
+export const ResetPasswordSchema = z
+    .object({
+        token: z.string().uuid(),
+        password: z
+            .string()
+            .min(6, "Password must be at least 6 characters long"),
+        confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords don't match",
+        path: ["confirmPassword"],
+    });
