@@ -54,9 +54,9 @@ export default function ForgotPasswordForm() {
                 <div className="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
                     <div className="text-center p-8 bg-white rounded-2xl shadow-xl border border-gray-200">
                         <CheckCircleIcon className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                        <h1 className="text-xl font-semibold text-gray-900 mb-2">
                             Email Sent!
-                        </h3>
+                        </h1>
                         <p className="text-gray-600">
                             Check your email for password reset instructions
                         </p>
@@ -72,16 +72,16 @@ export default function ForgotPasswordForm() {
             )}
 
             <div
-                className={`bg-white rounded-2xl shadow-xl p-8 transition-opacity duration-300 ${
+                className={`auth-form-container ${
                     showSuccessOverlay ? "opacity-60" : "opacity-100"
                 }`}
             >
                 {/* Form Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                    <h1 className="text-preset-3 form-main-heading">
                         Reset your password
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-preset-6-regular text-accent-foreground text-left">
                         Enter your email address and we&apos;ll send you
                         instructions to reset your password
                     </p>

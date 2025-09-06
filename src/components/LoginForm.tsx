@@ -63,16 +63,16 @@ export default function LoginForm() {
             )}
 
             <div
-                className={`bg-white rounded-2xl shadow-xl p-8 transition-opacity duration-300 ${
+                className={`auth-form-container ${
                     showSuccessOverlay ? "opacity-60" : "opacity-100"
                 }`}
             >
                 {/* Form Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                    <h1 className="text-preset-3 form-main-heading">
                         Welcome back!
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-preset-6-regular text-accent-foreground text-left">
                         Log in to continue tracking your mood and sleep
                     </p>
                 </div>
@@ -110,7 +110,10 @@ export default function LoginForm() {
                     )}
 
                     <Field>
-                        <Label htmlFor="email" className="label text-preset-6-regular">
+                        <Label
+                            htmlFor="email"
+                            className="label text-preset-6-regular"
+                        >
                             Email address
                         </Label>
                         <Input
@@ -144,7 +147,10 @@ export default function LoginForm() {
                     </Field>
 
                     <Field>
-                        <Label htmlFor="password" className="label text-preset-6-regular">
+                        <Label
+                            htmlFor="password"
+                            className="label text-preset-6-regular"
+                        >
                             Password
                         </Label>
                         <Input

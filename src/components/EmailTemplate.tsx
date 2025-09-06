@@ -26,7 +26,7 @@ export const MoodResetPasswordEmail = ({
     email,
     resetPasswordLink,
 }: MoodResetPasswordEmailProps) => {
-  console.log(baseUrl)
+  
     return (
         <Html>
             <Head />
@@ -34,7 +34,7 @@ export const MoodResetPasswordEmail = ({
                 <Preview>Mood Tracking App reset your password</Preview>
                 <Container style={container}>
                     <Img
-                        src={`/assets/images/email-logo.png`}
+                        src={`${baseUrl}/assets/images/email-logo.png`}
                         width="178"
                         height="40"
                         alt="Mood tracking"

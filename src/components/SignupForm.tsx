@@ -19,17 +19,13 @@ export default function SignupForm() {
 
     return (
         <div className="auth-sub-container">
-            <div
-                className={`bg-white rounded-2xl shadow-xl p-8 transition-opacity duration-300 
-                   
-                `}
-            >
+            <div className={`auth-form-container`}>
                 {/* Form Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                    <h1 className="form-main-heading text-preset-3">
                         Create an account
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-preset-6-regular text-accent-foreground text-left">
                         Join to track your daily mood and sleep with ease.
                     </p>
                 </div>
@@ -49,7 +45,10 @@ export default function SignupForm() {
                     )}
 
                     <Field>
-                        <Label htmlFor="name" className="label text-preset-6-regular">
+                        <Label
+                            htmlFor="name"
+                            className="label text-preset-6-regular"
+                        >
                             Full name
                         </Label>
                         <Input
@@ -82,7 +81,10 @@ export default function SignupForm() {
                     </Field>
 
                     <Field>
-                        <Label htmlFor="email" className="label text-preset-6-regular">
+                        <Label
+                            htmlFor="email"
+                            className="label text-preset-6-regular"
+                        >
                             Email address
                         </Label>
                         <Input
