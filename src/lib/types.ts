@@ -66,7 +66,7 @@ export const ResetPasswordSchema = z
         password: z
             .string()
             .min(6, "Password must be at least 6 characters long"),
-        confirmPassword: z.string(),
+        confirmPassword: z.string().min(6, "Confirm password must be at least 6 characters long"),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords don't match",

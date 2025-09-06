@@ -17,8 +17,9 @@ export async function resetPassword(
 
     // 2. If form validation fails, return errors early. Otherwise, continue.
     if (!validatedFields.success) {
+        console.log("Errors: ", state?.errors)
         return {
-            ...state,
+          // ...state,
             errors: validatedFields.error.flatten().fieldErrors,
             message: "Invalid input. Failed to reset password.",
             success: false,
@@ -67,4 +68,3 @@ export async function resetPassword(
         };
     }
 }
-// End of reset password
