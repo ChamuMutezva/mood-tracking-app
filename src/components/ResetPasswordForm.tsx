@@ -1,11 +1,15 @@
 "use client";
 
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+    ExclamationTriangleIcon,
+    CheckCircleIcon,
+} from "@heroicons/react/24/outline";
 import { Button, Label, Input, Field } from "@headlessui/react";
 import { useActionState, useEffect } from "react";
 import { resetPassword } from "@/actions/reset-password";
 import { useRouter } from "next/navigation";
 import { ResetPasswordFormState } from "@/lib/types";
+import Link from "next/link";
 
 const initialState: ResetPasswordFormState = {
     errors: {},
@@ -24,7 +28,10 @@ export default function ResetPasswordForm({
 
     useEffect(() => {
         if (state.success) {
-            router.push("/login?reset=success");
+            const timer = setTimeout(() => {
+                router.push("/login?reset=success");
+            }, 2000);
+            return () => clearTimeout(timer);
         }
     }, [state.success, router]);
 
@@ -54,6 +61,19 @@ export default function ResetPasswordForm({
                             <ExclamationTriangleIcon className="h-5 w-5 text-red-600" />
                             <p className="text-red-600 text-sm">
                                 {state.errors.general}
+                            </p>
+                        </div>
+                    )}
+                    {/* Success message (if any) */}
+                    {state.message && !state.errors?.general && (
+                        <div
+                            role="alert"
+                            aria-live="polite"
+                            className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4 flex items-center gap-2"
+                        >
+                            <CheckCircleIcon className="h-5 w-5 text-green-600" />
+                            <p className="text-green-600 text-sm">
+                                {state.message}
                             </p>
                         </div>
                     )}
@@ -142,6 +162,18 @@ export default function ResetPasswordForm({
                         {status()}
                     </Button>
                 </form>
+                <div className="text-center mt-6">
+                    <p className="text-gray-600">
+                        Remember your password 
+                        <Link
+                            href="/login"
+                            className="text-blue-600 hover:text-blue-700 font-medium"
+                            aria-disabled={isPending}
+                        >
+                          {" "} back to  Login.
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     );
