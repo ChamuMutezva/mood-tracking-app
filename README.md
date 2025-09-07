@@ -20,6 +20,7 @@ This is a solution to the [Mood tracking app challenge on Frontend Mentor](https
     - [Development & Deployment](#development--deployment)
       - [Vercel (Recommended)](#vercel-recommended)
       - [Manual Deployment](#manual-deployment)
+  - [Project stucture](#-project-structure)
   - [Getting Started](#-getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
@@ -67,7 +68,8 @@ A modern, full-stack web application for tracking daily mood patterns and sleep 
 
 #### 📊 Data Visualization
 
-- **Responsive Charts** - Built with Recharts for mood and sleep visualization. **[Recharts](https://recharts.org/)** - Composable charting library
+- **Responsive Charts** - Built with Recharts for mood and sleep visualization.
+- **[Recharts](https://recharts.org/)** - Composable charting library
 - **Custom Tooltips** - Detailed hover information with mood icons and data
 - **Trend Analysis** - Visual comparison of mood patterns over time
 - **Mobile-Optimized** - Fully responsive design for all devices
@@ -125,59 +127,44 @@ A modern, full-stack web application for tracking daily mood patterns and sleep 
 #### Installation
 
 1. **Clone the repository**
-   \`\`\`bash
-   git clone <https://github.com/yourusername/mood-tracker.git>
-   cd mood-tracker
-   \`\`\`
-
+    `bash`
+      - git clone <https://github.com/ChamuMutezva/mood-tracking-app.git>
+      - cd mood-tracking-app
+  
 2. **Install dependencies**
-   \`\`\`bash
-   npm install
-   \`\`\`
+    `bash`
+       - npm install
 
 3. **Set up environment variables**
-   \`\`\`bash
-   cp .env.example .env.local
-   \`\`\`
+     `bash`
+     - cp .env.example .env.local
 
    Configure the following variables:
-   \`\`\`env
+     `env`
 
    - Database
-
-   DATABASE_URL="your-neon-database-url"
+      - DATABASE_URL="your-neon-database-url"
 
    - NextAuth
-
-   NEXTAUTH_SECRET="your-nextauth-secret"
-   NEXTAUTH_URL="<http://localhost:3000>"
+      - NEXTAUTH_SECRET="your-nextauth-secret"
+      - NEXTAUTH_URL="<http://localhost:3000>"
 
    - Email (Resend)
-
-   RESEND_API_KEY="your-resend-api-key"
+      - RESEND_API_KEY="your-resend-api-key"
 
    - File Storage (EdgeStore)
-
-   EDGE_STORE_ACCESS_KEY="your-edgestore-access-key"
-   EDGE_STORE_SECRET_KEY="your-edgestore-secret-key"
+      - EDGE_STORE_ACCESS_KEY="your-edgestore-access-key"
+      - EDGE_STORE_SECRET_KEY="your-edgestore-secret-key"
 
    - App Configuration
-
-   APP_URL="<http://localhost:3000>"
-   \`\`\`
+      - APP_URL="<http://localhost:3000>"
 
 4. **Set up the database**
-   \`\`\`bash
-
-   - Run database migrations (if applicable)
-
-   npm run db:migrate
-   \`\`\`
+      `bash` - Run database migrations (if applicable)
+       - npm run db:migrate
 
 5. **Start the development server**
-   \`\`\`bash
-   npm run dev
-   \`\`\`
+     `bash` - npm run dev  
 
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
@@ -197,28 +184,102 @@ npm start
 
 ### 📁 Project Structure
 
-\`\`\`
-├── app/                    # Next.js App Router
-│   ├── (auth)/            # Authentication routes
-│   │   ├── login/         # Login page
-│   │   ├── signup/        # Registration page
-│   │   └── forgot-password/ # Password reset
-│   ├── dashboard/         # Main dashboard
-│   ├── api/              # API routes
-│   └── globals.css       # Global styles
-├── components/           # React components
-│   ├── ui/              # Reusable UI components
-│   └── ...              # Feature-specific components
-├── lib/                 # Utility libraries
-│   ├── auth.ts          # Authentication utilities
-│   ├── db.ts            # Database connection
-│   ├── types.ts         # TypeScript definitions
-│   └── utils.ts         # Helper functions
-├── actions/             # Server actions
-├── hooks/               # Custom React hooks
-├── public/              # Static assets
-└── scripts/             # Database scripts
-\`\`\`
+[GitIngest](https://gitingest.com/ChamuMutezva/mood-tracking-app)
+
+Directory structure:
+└── chamumutezva-mood-tracking-app/
+    ├── README.md
+    ├── auth.config.ts
+    ├── auth.ts
+    ├── components.json
+    ├── eslint.config.mjs
+    ├── middleware.ts
+    ├── next.config.ts
+    ├── package.json
+    ├── postcss.config.mjs
+    ├── README-instructions.md
+    ├── Todo
+    ├── tsconfig.json
+    ├── .hintrc
+    ├── public/
+    │   └── assets/
+    │       ├── data.json
+    │       └── fonts/
+    │           └── Reddit_Sans/
+    │               ├── README.txt
+    │               └── OFL.txt
+    └── src/
+        ├── actions/
+        │   ├── login.ts
+        │   ├── logout.ts
+        │   ├── mood.ts
+        │   ├── request-password-reset.ts
+        │   ├── reset-password.ts
+        │   ├── signup.ts
+        │   ├── update-schema.ts
+        │   └── update-user-profile.ts
+        ├── app/
+        │   ├── globals.css
+        │   ├── layout.tsx
+        │   ├── page.tsx
+        │   ├── (auth)/
+        │   │   ├── forgot-password/
+        │   │   │   └── page.tsx
+        │   │   ├── generate-hash/
+        │   │   │   └── page.tsx
+        │   │   ├── login/
+        │   │   │   └── page.tsx
+        │   │   ├── reset-password/
+        │   │   │   └── page.tsx
+        │   │   └── signup/
+        │   │       └── page.tsx
+        │   ├── api/
+        │   │   ├── auth/
+        │   │   │   └── [...nextauth]/
+        │   │   │       └── route.ts
+        │   │   └── edgestore/
+        │   │       └── [...edgestore]/
+        │   │           └── route.ts
+        │   └── dashboard/
+        │       └── page.tsx
+        ├── components/
+        │   ├── CurrentDate.tsx
+        │   ├── CustomBar.tsx
+        │   ├── DialogStepNotification.tsx
+        │   ├── DisplaySleepMoodData.tsx
+        │   ├── Divider.tsx
+        │   ├── EmailTemplate.tsx
+        │   ├── ForgotPasswordForm.tsx
+        │   ├── Header.tsx
+        │   ├── LoginForm.tsx
+        │   ├── MoodLoggingDialog.tsx
+        │   ├── MoodSleepChart.tsx
+        │   ├── ResetPasswordForm.tsx
+        │   ├── SignupForm.tsx
+        │   ├── SleepMoodDataNotAvailable.tsx
+        │   ├── Step1MoodSelection.tsx
+        │   ├── Step2FeelingsSelection.tsx
+        │   ├── Step3JournalEntry.tsx
+        │   ├── Step4SleepSelection.tsx
+        │   ├── TodaysMoodSummary.tsx
+        │   └── ui/
+        │       ├── avatar.tsx
+        │       ├── card.tsx
+        │       ├── chart.tsx
+        │       ├── navigation-menu.tsx
+        │       ├── progress.tsx
+        │       └── separator.tsx
+        ├── lib/
+        │   ├── auth.ts
+        │   ├── chart-utils.ts
+        │   ├── data.ts
+        │   ├── db.ts
+        │   ├── edgestore.ts
+        │   ├── sleep-config.ts
+        │   ├── types.ts
+        │   └── utils.ts
+        └── scripts/
+            └── generate-password-hash.ts
 
 ### 🔧 Configuration
 
