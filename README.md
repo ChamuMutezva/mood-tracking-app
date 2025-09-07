@@ -1,120 +1,278 @@
-# Frontend Mentor - Mood tracking app
+# Frontend Mentor - MoodTracker - Personal Mood & Sleep Analytics
 
-![Design preview for the Mood tracking app coding challenge](./preview.jpg)
+This is a solution to the [Mood tracking app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/mood-tracking-app-E2XeKhDF0B). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-## Welcome! 👋
+## Table of contents
 
-Thanks for purchasing this premium Frontend Mentor coding challenge.
+- [Overview](#overview)
+  - [Logo](#logo)
+  - [Features](#features)
+      [Screenshot](#screenshot)
+    - [Core Functionality](#-core-functionality)
+    - [Authentication & Security](#-authentication--security)
+    - [Data Visualization](#-data-visualization)
+    - [User Experience](#-user-experience)
+  - [Tech Stack](#️-tech-stack)
+    - [Frontend](#frontend)
+    - [Backend and Database](#backend--database)
+    - [Form Handling](#form-handling)
+    - [File Storage & Communication](#file-storage--communication)
+    - [Development & Deployment](#development--deployment)
+      - [Vercel (Recommended)](#vercel-recommended)
+      - [Manual Deployment](#manual-deployment)
+  - [Getting Started](#-getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Configuration](#-configuration)
+    - [Database Schema](#database-schema)
+    - [Authentication](#authentication)
+    - [Email Templates](#email-templates)
+  - [Contributing](#-contributing)
+  - [License](#-license)
+  - [Acknowledgments](#-acknowledgments)
+  - [Support](#-support)  
+- [Author](#author)
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects. These premium challenges are perfect portfolio pieces, so please feel free to use what you create in your portfolio to show others.
+## Overview
 
-**To do this challenge, you need a strong understanding of HTML, CSS, and JavaScript.**
+A modern, full-stack web application for tracking daily mood patterns and sleep quality with comprehensive analytics and insights. Built with Next.js 14, TypeScript, and a robust authentication system. Data is saved on Neon database
 
-## The challenge
+## Logo
 
-Your challenge is to build out this mood tracking app and get it looking as close to the design as possible.
+![MoodTracker Landing Page](public/assets/images/logo.svg)
 
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
+### Features
 
-We provide the data in a local `data.json` file, so you can use that to populate the content on first load. If you want to take it up a notch, feel free to build this as a full-stack application. If you're building full-stack, we've even added optional authentication designs so you can include user authentication.
+#### Screenshot
 
-Your users should be able to:
+![Desktop visualization](public/assets/mood-tracking-desktop.png)
 
-- Log their mood, feelings, reflections, and sleep each day
-- See today's mood, feelings, reflection, and sleep, once logged
-- See a relevant mood quote based on today's mood (found in the `data.json` file)
-- See a graph showing the most recent eleven records to identify mood and sleep trends
-- Interact with each bar on the mood and sleep trends chart to see all information about that day
-- See their average mood and sleep from the past five check-ins and see how they compare with the previous five
-- Update their name or avatar through settings
-- View the optimal layout for the interface depending on their device's screen size
-- See hover and focus states for all interactive elements on the page
-- **Bonus**: Save details to a database (build the project as a full-stack app)
-- **Bonus**: Create an account and log in (add user authentication to the full-stack app)
-- **Bonus**: Integrate with a third-party image-hosting service for the avatar upload
+#### 🎯 Core Functionality
 
-Want some support on the challenge? [Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+- **Daily Mood Tracking** - Log your mood with intuitive 5-point scale (-2 to +2)
+- **Sleep Pattern Monitoring** - Track sleep hours with detailed analytics
+- **Feelings & Emotions** - Tag your entries with specific feelings and emotions
+- **Journal Entries** - Write reflective journal entries with your mood logs
+- **Interactive Charts** - Visualize your mood and sleep patterns over time
+- **Average Calculations** - Compare latest 5 days vs previous 5 days trends
+- **Visual Feedback**: Mood icons and color-coded interface
 
-## Where to find everything
+#### 🔐 Authentication & Security
 
-Your task is to build out the project to the Figma design file provided. You can download the design file on the platform. **Please be sure not to share it with anyone else.** The design download comes with a `README.md` file as well to help you get set up.
+- **NextAuth.js Integration** - Secure authentication with credentials provider
+- **Password Reset Flow** - Email-based password recovery system using Resend and React-email
+- **Server-Side Validation** - Comprehensive form validation with Zod schemas
+- **Protected Routes** - Middleware-based route protection
+- **Secure Password Hashing** - bcryptjs for password security
 
-The `data.json` file includes all the data you need to populate the UI. The `mood` and `sleepHours` properties have specific number value mappings to what the UI displays to help with the chart. Here they are:
+#### 📊 Data Visualization
 
-**Mood**
+- **Responsive Charts** - Built with Recharts for mood and sleep visualization. **[Recharts](https://recharts.org/)** - Composable charting library
+- **Custom Tooltips** - Detailed hover information with mood icons and data
+- **Trend Analysis** - Visual comparison of mood patterns over time
+- **Mobile-Optimized** - Fully responsive design for all devices
 
-- **-2** → Very Sad
-- **-1** → Sad
-- **0** → Neutral
-- **1** → Happy
-- **2** → Very Happy
+#### 🎨 User Experience
 
-**Sleep Hours**
+- **Modern UI** - Built with Radix UI components and Tailwind CSS
+- **Dark/Light Theme** - System-aware theme switching
+- **Accessibility First** - WCAG compliant with proper ARIA attributes
+- **Progressive Enhancement** - Works without JavaScript for core functionality
 
-- **1** → 0–2 hours
-- **3.5** → 3–4 hours
-- **5.5** → 5–6 hours
-- **7.5** → 7–8 hours
-- **9** → 9+ hours
+### 🛠️ Tech Stack
 
-All the required assets for this project are in the `/assets` folder. The images are already exported for the correct screen size and optimized. Some are reusable at multiple screen sizes. So if you don't see an image in a specific folder, it will typically be in another folder for that page.
+#### Frontend
 
-We also include variable and static font files for the required fonts for this project. You can choose to either link to Google Fonts or use the local font files to host the fonts yourself. Note that we've removed the static font files for the font weights that aren't needed for this project.
+- **[Next.js 14](https://nextjs.org/)** - React framework with App Router
+- **[React 19](https://react.dev/)** - Latest React with concurrent features
+- **[TypeScript 5](https://www.typescriptlang.org/)** - Type-safe development
+- **[Tailwind CSS 4](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[Radix UI](https://www.radix-ui.com/)** - Headless UI component library
+- **[Lucide React](https://lucide.dev/)** - Beautiful icon library
+- **[date-fns](https://date-fns.org/)** - Modern date utility library
 
-The design system in the design file will give you more information about the various colors, fonts, and styles used in this project. Our fonts always come from [Google Fonts](https://fonts.google.com/).
+#### Backend & Database
 
-## Building your project
+- **[Neon Database](https://neon.tech/)** - Serverless PostgreSQL database
+- **[NextAuth.js](https://next-auth.js.org/)** - Authentication for Next.js
+- **[Zod](https://zod.dev/)** - TypeScript-first schema validation
+- **[bcryptjs](https://github.com/dcodeIO/bcrypt.js)** - Password hashing
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+#### Form Handling
 
-1. Separate the `starter-code` from the rest of this project and rename it to something meaningful for you. Initialize the codebase as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/). **⚠️ IMPORTANT ⚠️: There are already a couple of `.gitignore` files in this project. Please do not remove them or change the content of the files. If you create a brand new project, please use the `.gitignore` files provided in your new codebase. This is to avoid the accidental upload of the design file to GitHub. With these premium challenges, please be sure not to share the design file in your GitHub repo. Thanks!**
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+- **[React Hook Form](https://react-hook-form.com/)** - Performant forms
+- **[Headless UI](https://headlessui.com/)** - Unstyled, accessible components
 
-## Deploying your project
+#### File Storage & Communication
 
-As mentioned above, there are many ways to host your project for free. Our recommend hosts are:
+- **[EdgeStore](https://edgestore.dev/)** - File upload and storage
+- **[Resend](https://resend.com/)** - Email API for transactional emails
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+#### Development & Deployment
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://medium.com/frontend-mentor/frontend-mentor-trusted-hosting-providers-bf000dfebe).
+- **[Vercel](https://vercel.com/)** - Deployment and hosting
+- **[Vercel Analytics](https://vercel.com/analytics)** - Performance monitoring
+- **[PostCSS](https://postcss.org/)** - CSS transformation
 
-## Create a custom `README.md`
+### 🚀 Getting Started
 
-We strongly recommend overwriting this `README.md` with a custom one. We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code.
+#### Prerequisites
 
-The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings. Please feel free to edit our template as much as you like.
+- Node.js 18+
+- npm or yarn
+- PostgreSQL database (Neon recommended)
 
-Once you've added your information to the template, delete this file and rename the `README-template.md` file to `README.md`. That will make it show up as your repository's README file.
+#### Installation
 
-## Submitting your solution
+1. **Clone the repository**
+   \`\`\`bash
+   git clone <https://github.com/yourusername/mood-tracker.git>
+   cd mood-tracker
+   \`\`\`
 
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://medium.com/frontend-mentor/a-complete-guide-to-submitting-solutions-on-frontend-mentor-ac6384162248) for tips on how to do this.
+2. **Install dependencies**
+   \`\`\`bash
+   npm install
+   \`\`\`
 
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
+3. **Set up environment variables**
+   \`\`\`bash
+   cp .env.example .env.local
+   \`\`\`
 
-**⚠️ IMPORTANT ⚠️: With these premium challenges, please be sure not to upload the design file to GitHub when you're submitting to the platform and sharing it around. If you've created a brand new project, the easiest way to do that is to copy across the `.gitignore` provided in this starter project.**
+   Configure the following variables:
+   \`\`\`env
 
-## Sharing your solution
+   - Database
 
-There are multiple places you can share your solution:
+   DATABASE_URL="your-neon-database-url"
 
-1. Share your solution page in the **#finished-projects** channel of our [community](https://www.frontendmentor.io/community). 
-2. Tweet [@frontendmentor](https://twitter.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in the tweet. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on other social channels like LinkedIn.
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
+   - NextAuth
 
-We provide templates to help you share your solution once you've submitted it on the platform. Please do edit them and include specific questions when you're looking for feedback. 
+   NEXTAUTH_SECRET="your-nextauth-secret"
+   NEXTAUTH_URL="<http://localhost:3000>"
 
-The more specific you are with your questions the more likely it is that another member of the community will give you feedback.
+   - Email (Resend)
 
-## Got feedback for us?
+   RESEND_API_KEY="your-resend-api-key"
 
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
+   - File Storage (EdgeStore)
 
-**Have fun building!** 🚀
+   EDGE_STORE_ACCESS_KEY="your-edgestore-access-key"
+   EDGE_STORE_SECRET_KEY="your-edgestore-secret-key"
+
+   - App Configuration
+
+   APP_URL="<http://localhost:3000>"
+   \`\`\`
+
+4. **Set up the database**
+   \`\`\`bash
+
+   - Run database migrations (if applicable)
+
+   npm run db:migrate
+   \`\`\`
+
+5. **Start the development server**
+   \`\`\`bash
+   npm run dev
+   \`\`\`
+
+6. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+#### Vercel (Recommended)
+
+1. Connect your GitHub repository to Vercel
+2. Configure environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+#### Manual Deployment
+
+\`\`\`bash
+npm run build
+npm start
+\`\`\`
+
+### 📁 Project Structure
+
+\`\`\`
+├── app/                    # Next.js App Router
+│   ├── (auth)/            # Authentication routes
+│   │   ├── login/         # Login page
+│   │   ├── signup/        # Registration page
+│   │   └── forgot-password/ # Password reset
+│   ├── dashboard/         # Main dashboard
+│   ├── api/              # API routes
+│   └── globals.css       # Global styles
+├── components/           # React components
+│   ├── ui/              # Reusable UI components
+│   └── ...              # Feature-specific components
+├── lib/                 # Utility libraries
+│   ├── auth.ts          # Authentication utilities
+│   ├── db.ts            # Database connection
+│   ├── types.ts         # TypeScript definitions
+│   └── utils.ts         # Helper functions
+├── actions/             # Server actions
+├── hooks/               # Custom React hooks
+├── public/              # Static assets
+└── scripts/             # Database scripts
+\`\`\`
+
+### 🔧 Configuration
+
+#### Database Schema
+
+The application uses PostgreSQL with the following main tables:
+
+- `users` - User accounts and profiles
+- `mood_entries` - Daily mood and sleep logs
+- `password_reset_tokens` - Password reset functionality
+
+#### Authentication
+
+NextAuth.js is configured with:
+
+- Credentials provider for email/password login
+- JWT strategy for session management
+- Custom pages for login/signup/forgot-password
+
+### Email Templates
+
+Transactional emails are sent via Resend for:
+
+- Password reset requests
+- Account verification (if enabled)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### 🙏 Acknowledgments
+
+- [Radix UI](https://www.radix-ui.com/) for accessible component primitives
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
+- [Recharts](https://recharts.org/) for beautiful data visualization
+- [NextAuth.js](https://next-auth.js.org/) for authentication
+- [Vercel](https://vercel.com/) for seamless deployment
+
+### 📞 Support
+
+If you have any questions or need help, please:
+
+- Open an issue on GitHub
+- Check the [documentation](docs/)
+- Contact the maintainers
+
+### Author
+
+---

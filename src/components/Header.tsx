@@ -285,7 +285,7 @@ function Header({ session }: Readonly<HeaderProps>) {
                                                         }
                                                     />
                                                     <AvatarFallback className="text-foreground text-xl">
-                                                        Lisa
+                                                        {session?.user?.name}
                                                     </AvatarFallback>
                                                 </Avatar>
                                                 <Button
@@ -345,7 +345,7 @@ function Header({ session }: Readonly<HeaderProps>) {
                                             <input
                                                 id="name-input"
                                                 type="text"
-                                                defaultValue="Lisa Maria"
+                                                defaultValue={`${session?.user?.name || "lisa"}`}
                                                 className="w-full px-3 py-2 border border-gray-300 rounded-[var(--radius-10)] text-preset-6 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
                                         </div>
@@ -360,7 +360,7 @@ function Header({ session }: Readonly<HeaderProps>) {
                                                 id="email-input"
                                                 type="email"
                                                 disabled
-                                                defaultValue="lisa@mail.com"
+                                                defaultValue={`${session?.user?.email || "lisa@mail.com"}`}
                                                 className="w-full px-3 py-2 border border-gray-300 rounded-[var(--radius-10)] text-preset-6 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
                                         </div>

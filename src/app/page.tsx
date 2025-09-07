@@ -1,6 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { LogInIcon, UserPlusIcon, SparklesIcon , MoonIcon, BarChart2Icon, LockIcon} from "lucide-react";
+import {
+    LogInIcon,
+    UserPlusIcon,
+    SparklesIcon,
+    MoonIcon,
+    BarChart2Icon,
+    LockIcon,
+} from "lucide-react";
+import { Divider } from "@/components/Divider";
 
 export default async function HomePage() {
     return (
@@ -55,7 +63,7 @@ export default async function HomePage() {
                             <LogInIcon className="h-5 w-5" />
                             <span>Log In</span>
                         </Link>
-
+                        <Divider text="Or" />
                         {/* Sign Up Button */}
                         <Link
                             href="/signup"
@@ -67,17 +75,9 @@ export default async function HomePage() {
                             <span>Create New Account</span>
                         </Link>
                     </div>
-                    {/* Divider */}
-                    <div className="relative my-8">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-300" />
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-white text-gray-500">
-                                Or
-                            </span>
-                        </div>
-                    </div>
+
+                    <Divider text="Features" />
+
                     {/* Additional Info */}
                     <div className="text-center text-sm text-gray-600">
                         <p className="mb-2 flex items-center justify-center gap-2">

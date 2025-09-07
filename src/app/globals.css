@@ -193,6 +193,8 @@
         background-position: right;
         pointer-events: none;
         border-radius: inherit;
+        will-change: transform;
+        transform: translateZ(0);
     }
 
     .text-preset-1 {
