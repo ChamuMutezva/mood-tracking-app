@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import {  Reddit_Sans } from "next/font/google";
+import { Reddit_Sans } from "next/font/google";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 import "./globals.css";
 
 const redditSans = Reddit_Sans({
@@ -21,10 +22,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body
-                className={`${redditSans.variable}  antialiased`}
-            >
-                {children}
+            <body className={`${redditSans.variable}  antialiased`}>
+                <EdgeStoreProvider> {children}</EdgeStoreProvider>
             </body>
         </html>
     );

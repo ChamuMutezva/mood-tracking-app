@@ -22,20 +22,25 @@ import {
 } from "@heroicons/react/16/solid";
 import { logout } from "@/actions/logout";
 import { Session } from "next-auth";
+import { useEdgeStore } from "@/lib/edgestore";
+import { updateUserProfilePicture } from "@/actions/update-user-profile";
 
 interface HeaderProps {
     session: Session | null;
 }
 
 function Header({ session }: Readonly<HeaderProps>) {
-   // console.log("Session in Header:", session);
-   // console.log("Name of user in session:", session?.user?.name);
+    // console.log("Session in Header:", session);
+    // console.log("Name of user in session:", session?.user?.name);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [profileImage, setProfileImage] = useState(
-        "/assets/images/avatar-lisa.jpg"
+        session?.user?.image || "/assets/images/avatar-lisa.jpg"
     );
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
+    const [uploadError, setUploadError] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { edgestore } = useEdgeStore();
 
     function showSettingsDialog() {
         setIsSettingsOpen(true);
@@ -49,15 +54,61 @@ function Header({ session }: Readonly<HeaderProps>) {
         fileInputRef.current?.click();
     }
 
-    function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    async function handleFileChange(
+        event: React.ChangeEvent<HTMLInputElement>
+    ) {
         const file = event.target.files?.[0];
-        if (file) {
-            // Create a preview URL for the selected image
-            const imageUrl = URL.createObjectURL(file);
-            setProfileImage(imageUrl);
+        if (!file || !session?.user?.id) return;
 
-            // Here you would typically upload the file to your server
-            console.log("Selected file:", file);
+        if (!file.type.startsWith("image/")) {
+            setUploadError("Please select an image file (JPG, PNG, GIF)");
+            return;
+        }
+
+        // validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            setUploadError("File size must be less than 5MB");
+        }
+
+        setIsUploading(true);
+        setUploadError(null);
+
+        try {
+            //Create a preview URL for immediate feedback
+            const previewUrl = URL.createObjectURL(file);
+            setProfileImage(previewUrl);
+
+            // Upload to EdgeStore
+            const res = await edgestore.publicFiles.upload({
+                file,
+                onProgressChange: (progress) => {
+                    console.log(`Upload progress: ${progress}%`);
+                },
+            });
+            console.log("EdgeStore upload successful:", res.url);
+
+            // update user profile in database
+            const result = await updateUserProfilePicture(
+                session.user.id,
+                res.url
+            );
+
+            if (result.error) {
+                throw new Error(result.error);
+            }
+        } catch (error) {
+            console.log("Upload error:", error);
+            setUploadError(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to upload image"
+            );
+            // Revert to previous image on error
+            setProfileImage(
+                session.user.image || "/assets/images/avatar-lisa.jpg"
+            );
+        } finally {
+            setIsUploading(false);
         }
     }
 
@@ -103,7 +154,7 @@ function Header({ session }: Readonly<HeaderProps>) {
                                 >
                                     <Avatar>
                                         <AvatarImage
-                                            src="/assets/images/avatar-lisa.jpg"
+                                            src={profileImage}
                                             alt={` ${session?.user?.name}'s profile`}
                                         />
                                         <AvatarFallback className="text-foreground">
@@ -272,6 +323,16 @@ function Header({ session }: Readonly<HeaderProps>) {
                                                 onChange={handleFileChange}
                                                 className="hidden"
                                             />
+                                            {isUploading && (
+                                                <p className="text-preset-8 text-blue-600">
+                                                    Uploading...
+                                                </p>
+                                            )}
+                                            {uploadError && (
+                                                <p className="text-preset-8 text-red-600">
+                                                    {uploadError}
+                                                </p>
+                                            )}
                                         </div>
                                         {/* Name and Email Fields */}
                                         <div>

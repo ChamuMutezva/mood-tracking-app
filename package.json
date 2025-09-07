@@ -9,6 +9,8 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@edgestore/react": "^0.5.3",
+        "@edgestore/server": "^0.5.3",
         "@headlessui/react": "^2.2.4",
         "@heroicons/react": "^2.2.0",
         "@neondatabase/serverless": "^1.0.1",
