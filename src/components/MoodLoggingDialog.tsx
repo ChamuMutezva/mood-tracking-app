@@ -209,17 +209,12 @@ export default function MoodLoggingDialog({
         const entryDate = new Date(entry.created_at);
         const today = new Date();
 
-        console.log("Entry Date:", entryDate);
-        console.log("Today's Date:", today);
-
         return (
             entryDate.getFullYear() === today.getFullYear() &&
             entryDate.getMonth() === today.getMonth() &&
             entryDate.getDate() === today.getDate()
         );
     };
-    console.log("Is Entry From Today:", isEntryFromToday(displayEntry));
-    console.log("today Entry prop:", todayEntry);
 
     return (
         <>

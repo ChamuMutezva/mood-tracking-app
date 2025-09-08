@@ -177,10 +177,10 @@ A modern, full-stack web application for tracking daily mood patterns and sleep 
 
 #### Manual Deployment
 
-\`\`\`bash
-npm run build
-npm start
-\`\`\`
+`bash`
+
+- npm run build
+- npm start
 
 ### 📁 Project Structure
 

@@ -43,9 +43,9 @@ export default function TodaysMoodSummary({
                     className="bg-accent shadow-sm rounded-[var(--radius-16)] p-6 grid grid-cols-1
                 sm:grid-cols-2 lg:col-span-1 lg:row-span-2 place-items-center gap-3 w-full"
                 >
-                    <h2 className="text-foreground  flex flex-col">
+                    <h2 className="text-foreground flex flex-col text-left">
                         <span className="opacity-70 text-preset-3">
-                            I am feeling
+                            I&apos;m feeling
                         </span>
                         <span className="opacity-100 text-preset-2">
                             {mood.label}
@@ -57,6 +57,7 @@ export default function TodaysMoodSummary({
                         width={154}
                         height={155}
                         className="min-w-50 min-h-50 w-auto h-auto row-span-2"
+                        priority
                     />
                     <div className="flex flex-col justify-center items-center">
                         <Image
