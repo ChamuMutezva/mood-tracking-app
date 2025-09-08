@@ -238,7 +238,7 @@ function Header({ session }: Readonly<HeaderProps>) {
             >
                 {/* Backdrop */}
                 <div
-                    className="fixed inset-0 bg-black/25 backdrop-blur-sm"
+                    className="fixed inset-0 bg-foreground/70 backdrop-blur-sm"
                     aria-hidden="true"
                 />
 
@@ -298,12 +298,7 @@ function Header({ session }: Readonly<HeaderProps>) {
                                                 </Button>
                                             </div>
                                             <div className="text-center">
-                                                <Button
-                                                    onClick={handleImageUpload}
-                                                    className="text-preset-7 text-blue-600 hover:text-blue-700 font-medium"
-                                                >
-                                                    Change profile picture
-                                                </Button>
+                                                <p className="text-preset-7 text-accent-foreground">Upload image</p>
                                                 <p className="text-preset-8 text-muted-foreground mt-1">
                                                     JPG, PNG or GIF (max. 5MB)
                                                 </p>
@@ -345,7 +340,10 @@ function Header({ session }: Readonly<HeaderProps>) {
                                             <input
                                                 id="name-input"
                                                 type="text"
-                                                defaultValue={`${session?.user?.name || "lisa"}`}
+                                                defaultValue={`${
+                                                    session?.user?.name ||
+                                                    "lisa"
+                                                }`}
                                                 className="w-full px-3 py-2 border border-gray-300 rounded-[var(--radius-10)] text-preset-6 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
                                         </div>
@@ -360,7 +358,10 @@ function Header({ session }: Readonly<HeaderProps>) {
                                                 id="email-input"
                                                 type="email"
                                                 disabled
-                                                defaultValue={`${session?.user?.email || "lisa@mail.com"}`}
+                                                defaultValue={`${
+                                                    session?.user?.email ||
+                                                    "lisa@mail.com"
+                                                }`}
                                                 className="w-full px-3 py-2 border border-gray-300 rounded-[var(--radius-10)] text-preset-6 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             />
                                         </div>

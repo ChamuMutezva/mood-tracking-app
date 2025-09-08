@@ -186,6 +186,7 @@ npm start
 
 [GitIngest](https://gitingest.com/ChamuMutezva/mood-tracking-app)
 
+```js
 Directory structure:
 └── chamumutezva-mood-tracking-app/
     ├── README.md
@@ -280,6 +281,7 @@ Directory structure:
         │   └── utils.ts
         └── scripts/
             └── generate-password-hash.ts
+```
 
 ### 🔧 Configuration
 
