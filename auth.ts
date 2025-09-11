@@ -5,6 +5,7 @@ import type { User } from "@/lib/types";
 import postgres from "postgres";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { createSession } from "@/actions/sessions";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
@@ -74,6 +75,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     }
 
                     if (passwordMatch) {
+                        // Create custom JWT session alongside NextAuth
+                        const customSessionToken = await createSession({
+                            userId: user.id,
+                            email: user.email,
+                            name: user.name,
+                        });
+
+                        // Set custom session cookie
+                        const response = new Response();
+                        response.headers.append(
+                            "Set-Cookie",
+                            `custom-session=${customSessionToken}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${
+                                60 * 60 * 24 * 1
+                            }`
+                        );
+
                         // Map user to NextAuth User type (id as string)
                         return {
                             ...user,

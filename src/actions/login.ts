@@ -1,9 +1,10 @@
 "use server";
 import { redirect } from "next/navigation";
-import {  loginSchema } from "@/lib/auth";
+import { loginSchema } from "@/lib/auth";
 import { signIn } from "../../auth";
 import { AuthError } from "next-auth";
-
+import { createSession } from "./sessions";
+import { cookies } from "next/headers";
 export interface LoginFormState {
     errors: {
         email?: string;
@@ -19,7 +20,6 @@ export async function authenticate(
     prevState: LoginFormState,
     formData: FormData
 ): Promise<LoginFormState> {
-
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     const callbackUrl = (formData.get("callbackUrl") as string) || "/dashboard";
@@ -55,9 +55,21 @@ export async function authenticate(
                 preservedEmail: email,
             };
         }
-         
+
+        // Create custom JWT session
+       const customSessionToken = await createSession({
+            email,
+            timestamp: Date.now()
+        });
+
+        (await cookies()).set('custom-session', customSessionToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 1, // 1 day
+        });
+
         redirect(callbackUrl);
-       
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
