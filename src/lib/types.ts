@@ -76,6 +76,8 @@ export const ResetPasswordSchema = z
     });
 
 export type SessionPayload = {
+    userId?: number;
     email: string;
-    expires: Date;   
+    name?: string;
+    timestamp?: number;
 };

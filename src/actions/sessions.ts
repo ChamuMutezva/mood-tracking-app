@@ -1,6 +1,6 @@
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
-// import { SessionPayload } from "@/lib/types";
+import { SessionPayload } from "@/lib/types";
 import { cookies } from "next/headers";
 // import { redirect } from "next/navigation";
 
@@ -8,7 +8,7 @@ const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
 // helper function for creating a new session
-export async function createSession(payload: any, expiration: string = "1d") {
+export async function createSession(payload: SessionPayload, expiration: string = "1d") {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
