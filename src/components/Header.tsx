@@ -116,7 +116,7 @@ function Header({ session }: Readonly<HeaderProps>) {
 
     return (
         <>
-            <header className="flex items-center justify-between mb-8 w-full">
+            <header className="flex items-center justify-between mt-8 mb-10 w-full">
                 <Link
                     href="/"
                     className="flex items-center gap-2 rounded-[var(--radius-10)] 

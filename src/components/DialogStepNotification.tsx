@@ -17,7 +17,7 @@ function DialogStepNotification({
         <div className="flex items-center justify-between mb-6">
             <div className="flex-1">
                 <DialogTitle
-                    as="h3"
+                    as="h2"
                     className="text-preset-2 text-foreground mb-3"
                 >
                     Log your mood

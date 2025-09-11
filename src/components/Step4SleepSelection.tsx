@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@headlessui/react";
-import type { SleepOption } from "@/lib/sleep-config"
+import type { SleepOption } from "@/lib/sleep-config";
+import Image from "next/image";
 
 interface Step4SleepSelectionProps {
     sleepOptions: SleepOption[];
@@ -22,9 +23,9 @@ export default function Step4SleepSelection({
     return (
         <div className="space-y-6">
             <div>
-                <h4 className="text-preset-5 text-foreground font-medium mb-4">
+                <h3 className="text-preset-5 text-foreground font-medium mb-4">
                     How many hours did you sleep?
-                </h4>
+                </h3>
                 <div className="space-y-3">
                     {sleepOptions.map((sleep) => (
                         <label
@@ -50,9 +51,15 @@ export default function Step4SleepSelection({
                                 </span>
                             </div>
                             <div className="flex-shrink-0">
-                                <span className="text-preset-7 text-muted-foreground">
-                                    💤
-                                </span>
+                                <Image
+                                    src="/assets/images/icon-sleep.svg"
+                                    alt="Sleep icon"
+                                    width={10}
+                                    height={10}
+                                    style={{
+                                        display: "block",
+                                    }}
+                                />
                             </div>
                         </label>
                     ))}

@@ -21,9 +21,9 @@ export default function Step2FeelingsSelection({
     return (
         <div className="space-y-6">
             <div>
-                <h4 className="text-preset-5 text-foreground font-medium mb-2">
+                <h3 className="text-preset-5 text-foreground font-medium mb-2">
                     How do you feel?
-                </h4>
+                </h3>
                 <p className="text-preset-7 text-muted-foreground mb-4">
                     Select up to three tags ({selectedFeelings.length}/3
                     selected)

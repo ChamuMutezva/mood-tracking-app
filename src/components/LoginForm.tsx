@@ -49,9 +49,9 @@ export default function LoginForm() {
                 <div className="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
                     <div className="text-center p-8 bg-white rounded-2xl shadow-xl border border-gray-200">
                         <CheckCircleIcon className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                        <h2 className="text-xl font-semibold text-gray-900 mb-2">
                             Login Successful!
-                        </h3>
+                        </h2>
                         <p className="text-gray-600 mb-4">
                             Redirecting to your dashboard...
                         </p>

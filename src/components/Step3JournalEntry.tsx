@@ -62,9 +62,9 @@ export default function Step3JournalEntry({
     return (
         <div className="space-y-6">
             <div>
-                <h4 className="text-preset-5 text-foreground font-medium mb-4">
+                <h3 className="text-preset-5 text-foreground font-medium mb-4">
                     Write about your day...
-                </h4>
+                </h3>
                 <div className="space-y-2">
                     <textarea
                         value={journalEntry}

@@ -167,16 +167,15 @@ function DisplaySleepMoodData({
                     className="patterns bg-card-foreground rounded-[var(--radius-16)] px-[var(--spacing-200)]
                      py-[var(--spacing-250)] flex flex-col items-start justify-center gap-4 relative h-full"
                 >
-                    <div className="flex flex-start gap-2">
-                        <div>
-                            <Image
-                                width={16}
-                                height={16}
-                                src="/assets/images/icon-sleep.svg"
-                                alt={""}
-                                className="filter brightness-0 invert"
-                            />
-                        </div>
+                    <div className="flex justify-center flex-start gap-2">
+                        <Image
+                            width={16}
+                            height={16}
+                            src="/assets/images/icon-sleep.svg"
+                            alt={""}
+                            className="filter brightness-0 invert"
+                        />
+
                         {comparisonAverages.latest.sleep !== null && (
                             <p className="text-preset-4 text-white">
                                 {comparisonAverages.latest.sleep.toFixed(1)}{" "}

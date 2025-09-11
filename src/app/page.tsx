@@ -12,7 +12,7 @@ import { Divider } from "@/components/Divider";
 
 export default async function HomePage() {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex flex-col items-center justify-center p-4">
+        <main className="min-h-screen flex flex-col items-center justify-center p-4">
             {/* Logo and Brand */}
             <div className="text-center mb-8">
                 <div className="flex items-center justify-center gap-2 mb-4">

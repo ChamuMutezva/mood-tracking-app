@@ -21,9 +21,9 @@ export default function Step1MoodSelection({
     return (
         <div className="space-y-6">
             <div>
-                <h4 className="text-preset-3 text-foreground mb-4">
+                <h3 className="text-preset-3 text-foreground mb-4">
                     How was your mood today?
-                </h4>
+                </h3>
                 <div className="space-y-3">
                     {moodOptions.map((mood) => (
                         <label

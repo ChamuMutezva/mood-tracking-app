@@ -114,16 +114,26 @@ const CustomYAxisTick = (props: YAxisTickProps) => {
     return (
         <g transform={`translate(${x},${y})`}>
             {/* Sleep icon (zzz) */}
-            <text
-                x={-60}
-                y={2}
-                textAnchor="middle"
-                fill="hsl(var(--muted-foreground))"
-                fontSize="16"
-                dominantBaseline="middle"
-            >
-                💤
-            </text>
+            <foreignObject x={-70} y={-8} width={16} height={16}>
+                <div
+                    style={{
+                        width: "10px",
+                        height: "10px",
+                        position: "relative",
+                        display: "inline-block",
+                    }}
+                >
+                    <Image
+                        src="/assets/images/icon-sleep.svg"
+                        alt="Sleep icon"
+                        width={10}
+                        height={10}
+                        style={{
+                            display: "block",
+                        }}
+                    />
+                </div>
+            </foreignObject>
             {/* Sleep label */}
             <text
                 x={-50}
@@ -176,7 +186,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
 
     const chartData = !data || data.length === 0 ? generateEmptyData() : data;
     const hasData = data && data.length > 0;
-//    console.log("Chart Data:", chartData);
+    //    console.log("Chart Data:", chartData);
 
     return (
         <section className="lg:col-span-2 bg-primary rounded-[var(--radius-16)] px-[var(--spacing-200)] py-[var(--spacing-250)] min-w-0">
@@ -206,7 +216,7 @@ const MoodSleepChart = ({ data }: MoodSleepChartProps) => {
                                 }}
                             >
                                 <CartesianGrid
-                                   // strokeDasharray="3 3"
+                                    // strokeDasharray="3 3"
                                     stroke="var(--muted)"
                                     vertical={false}
                                 />

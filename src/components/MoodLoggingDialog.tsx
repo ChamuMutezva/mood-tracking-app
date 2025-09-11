@@ -198,7 +198,7 @@ export default function MoodLoggingDialog({
     function canContinue() {
         if (currentStep === 1) return selectedMood !== null;
         if (currentStep === 2) return selectedFeelings.length > 0;
-        if (currentStep === 3) return true; // Journal entry is optional
+        if (currentStep === 3) return true;
         if (currentStep === 4) return selectedSleep !== null;
         return true;
     }
