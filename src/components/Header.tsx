@@ -70,12 +70,26 @@ function Header({ session }: Readonly<HeaderProps>) {
             const previewUrl = URL.createObjectURL(file);
             setProfileImage(previewUrl);
 
+            const uploadOptions: {
+                replaceTargetUrl?: string;
+            } = {};
+
+            // Only use replaceTargetUrl if the current image is from EdgeStore
+            // You might want to check if the URL is actually from your EdgeStore domain
+            if (
+                session.user.image &&
+                session.user.image.includes("edgestore")
+            ) {
+                uploadOptions.replaceTargetUrl = session.user.image;
+            }
+
             // Upload to EdgeStore
             const res = await edgestore.publicFiles.upload({
                 file,
                 onProgressChange: (progress) => {
                     console.log(`Upload progress: ${progress}%`);
                 },
+                options: uploadOptions,
             });
             console.log("EdgeStore upload successful:", res.url);
 
