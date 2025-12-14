@@ -148,6 +148,7 @@ function DialogProfile({
                                         <input
                                             id="name-input"
                                             type="text"
+                                            disabled
                                             defaultValue={
                                                 session?.user?.name || "lisa"
                                             }

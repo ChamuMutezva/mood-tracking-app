@@ -52,24 +52,24 @@
     /* Font Sizes */
     --font-size-025: 0.75rem; /* 12px */
     --font-size-050: 0.8125rem; /* 13px */
-    --font-size-100: 0.875rem; /* 14px */
+    /* --font-size-100: 0.875rem; /* 14px */
     --font-size-150: 0.9375rem; /* 15px */
     --font-size-200: 1rem; /* 16px */
     --font-size-300: 1.125rem; /* 18px */
     --font-size-400: 1.25rem; /* 20px */
     --font-size-500: 1.5rem; /* 24px */
-    --font-size-550: 1.625rem; /* 26px */
+    /*--font-size-550: 1.625rem; /* 26px */
     --font-size-575: 1.75rem; /* 28px */
     --font-size-600: 1.875rem; /* 30px */
     --font-size-650: 2rem; /* 32px */
-    --font-size-700: 2.25rem; /* 36px */
+    /* --font-size-700: 2.25rem; /* 36px */
     --font-size-750: 2.5rem; /* 40px */
-    --font-size-775: 2.75rem; /* 44px */
+    /* --font-size-775: 2.75rem; /* 44px */
     --font-size-780: 2.875rem; /* 46px */
-    --font-size-800: 3rem; /* 48px */
+    /* --font-size-800: 3rem; /* 48px */
     --font-size-825: 3.25rem; /* 52px */
-    --font-size-850: 3.5rem; /* 56px */
-    --font-size-900: 4rem; /* 64px */
+    /* --font-size-850: 3.5rem; /* 56px */
+    /* --font-size-900: 4rem; /* 64px */
     /* Colours */
     --white: 0 100% 100%;
     --black: 0 0% 0%;
