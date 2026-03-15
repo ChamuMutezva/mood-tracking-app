@@ -9,7 +9,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Forgot password - called by the forgot-password form
 export async function requestPasswordReset(
     state: RequestEmailFormState,
-    formData: FormData
+    formData: FormData,
 ): Promise<RequestEmailFormState> {
     //1. Ensure the schema is up to date
     await updateSchema();
@@ -34,7 +34,6 @@ export async function requestPasswordReset(
     try {
         //4. Check if the email exists in the database
         const user = await sql`SELECT * FROM users WHERE email=${email}`;
-        console.log("new user:", user.rows[0]);
         if (user.rows.length === 0) {
             return {
                 errors: {
@@ -48,12 +47,11 @@ export async function requestPasswordReset(
         const currentTime = new Date();
 
         //5. Check if the existing reset token has expired
-        console.log(currentUser.reset_token_expiry, currentTime);
+
         if (
             currentUser.reset_token_expiry &&
             new Date(currentUser.reset_token_expiry) > currentTime
         ) {
-            console.log("Valid token exists, not sending new email");
             return {
                 message:
                     "A password reset link has already been sent. You still have a valid token. Please check your email or try again later.",
@@ -61,9 +59,6 @@ export async function requestPasswordReset(
             };
         }
 
-        console.log(
-            "No valid token exists or token has expired, generating new token"
-        );
         //6. Generate a password reset token
         const resetToken = crypto.randomUUID();
         const resetTokenExpiry = new Date(Date.now() + 3600000); // Token expires in 1 hour
@@ -71,7 +66,7 @@ export async function requestPasswordReset(
         const offset = resetTokenExpiry.getTimezoneOffset() * 60000;
         const adjustedExpiry = new Date(resetTokenExpiry.getTime() - offset);
         //7. Save the reset token and expiry in the database
-        console.log("Attempting SQL update");
+
         try {
             await sql`
             UPDATE users
@@ -83,9 +78,6 @@ export async function requestPasswordReset(
             throw new Error("Database update failed");
         }
 
-        console.log("New reset token:", resetToken);
-        console.log("New reset token expiry:", resetTokenExpiry);
-
         //8. Send password reset email
         const name = currentUser.name;
         await sendPasswordResetEmail(name, email, resetToken);
@@ -95,7 +87,6 @@ export async function requestPasswordReset(
             success: true,
         };
     } catch (error) {
-        console.log(error)
         return {
             ...state,
             errors: {
@@ -110,13 +101,10 @@ export async function requestPasswordReset(
 async function sendPasswordResetEmail(
     name: string,
     email: string,
-    resetToken: string
+    resetToken: string,
 ) {
     // Implement email sending logic here
     // You can use a service like SendGrid, AWS SES, or any other email service
-    console.log(
-        `Sending password reset email for ${name} to ${email} with token ${resetToken}`
-    );
 
     try {
         const appUrl = process.env.APP_URL ?? "http://localhost:3000"; // Fallback for local development
@@ -138,10 +126,8 @@ async function sendPasswordResetEmail(
             throw new Error("Failed to send password reset email");
         }
 
-        console.log("Reset email sent:", data);
         return { data };
     } catch (error) {
-        console.error("Error in sendPasswordResetEmail:", error);
         throw new Error("Failed to send password reset email");
     }
 }

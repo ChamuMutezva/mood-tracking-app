@@ -26,7 +26,7 @@ interface HeaderProps {
 function Header({ session }: Readonly<HeaderProps>) {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [profileImage, setProfileImage] = useState(
-        session?.user?.image || "/assets/images/avatar-lisa.jpg"
+        session?.user?.image || "/assets/images/avatar-lisa.jpg",
     );
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
@@ -47,7 +47,7 @@ function Header({ session }: Readonly<HeaderProps>) {
     }
 
     async function handleFileChange(
-        event: React.ChangeEvent<HTMLInputElement>
+        event: React.ChangeEvent<HTMLInputElement>,
     ) {
         const file = event.target.files?.[0];
         if (!file || !session?.user?.id) return;
@@ -86,32 +86,28 @@ function Header({ session }: Readonly<HeaderProps>) {
             // Upload to EdgeStore
             const res = await edgestore.publicFiles.upload({
                 file,
-                onProgressChange: (progress) => {
-                    console.log(`Upload progress: ${progress}%`);
-                },
+                onProgressChange: () => {},
                 options: uploadOptions,
             });
-            console.log("EdgeStore upload successful:", res.url);
 
             // update user profile in database
             const result = await updateUserProfilePicture(
                 session.user.id,
-                res.url
+                res.url,
             );
 
             if (result.error) {
                 throw new Error(result.error);
             }
         } catch (error) {
-            console.log("Upload error:", error);
             setUploadError(
                 error instanceof Error
                     ? error.message
-                    : "Failed to upload image"
+                    : "Failed to upload image",
             );
             // Revert to previous image on error
             setProfileImage(
-                session.user.image || "/assets/images/avatar-lisa.jpg"
+                session.user.image || "/assets/images/avatar-lisa.jpg",
             );
         } finally {
             setIsUploading(false);

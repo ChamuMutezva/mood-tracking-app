@@ -1,8 +1,43 @@
 import Image from "next/image";
 import LoginForm from "@/components/LoginForm";
 import { Suspense } from "react";
+import { auth } from "../../../../auth";
+import Link from "next/link";
 
 export default async function LoginPage() {
+    const session = await auth();
+
+    if (session) {
+        return (
+            <main className="auth-parent">
+                <div className="text-center mb-8">
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                        <Image
+                            src="/assets/images/logo.svg"
+                            alt="Mood tracking system"
+                            width={178}
+                            height={40}
+                            priority
+                        />
+                    </div>
+                    <h1 className="text-preset-1 text-gray-900 mb-2">
+                        You are already logged in!
+                    </h1>
+                    <p className="text-gray-600 mb-4">
+                        It looks like you already have an active session. You
+                        can proceed to your dashboard or log out if you want to
+                        switch accounts.
+                    </p>
+                    <Link
+                        href="/dashboard"
+                        className="text-blue-600 hover:underline"
+                    >
+                        Go to Dashboard
+                    </Link>
+                </div>
+            </main>
+        );
+    }
     return (
         <main className="auth-parent">
             {/* Logo and Brand */}

@@ -29,7 +29,6 @@ export default function ForgotPasswordForm() {
 
     useEffect(() => {
         if (state?.success && !isRedirecting) {
-            console.log("Password reset email sent successfully");
             setShowSuccessOverlay(true);
             setIsRedirecting(true);
 

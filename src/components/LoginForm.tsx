@@ -24,7 +24,6 @@ export default function LoginForm() {
 
     useEffect(() => {
         if (state.redirectTo && !isRedirecting) {
-            console.log("Redirecting to:", state.redirectTo);
             setShowSuccessOverlay(true);
             setIsRedirecting(true);
 

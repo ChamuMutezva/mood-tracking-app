@@ -38,7 +38,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                         .safeParse(credentials);
 
                     if (!parsedCredentials.success) {
-                        console.log("Invalid credentials format");
                         return null;
                     }
 
@@ -46,31 +45,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     const user = await getUser(email);
 
                     if (!user) {
-                        console.log("User not found:", email);
                         return null;
                     }
 
                     // Check if user has a password
                     if (!user.password_hash) {
-                        console.log(
-                            "User has no password set. Full user object:",
-                            JSON.stringify(user, null, 2)
-                        );
                         return null;
                     }
 
                     const passwordMatch = await bcrypt.compare(
                         password,
-                        user.password_hash
+                        user.password_hash,
                     );
-                    console.log("Password match result:", passwordMatch);
 
                     // Check if user has a password
                     if (!user.password_hash) {
-                        console.log(
-                            "User has no password set. Full user object:",
-                            JSON.stringify(user, null, 2)
-                        );
                         return null;
                     }
 
@@ -88,7 +77,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                             "Set-Cookie",
                             `custom-session=${customSessionToken}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${
                                 60 * 60 * 24 * 1
-                            }`
+                            }`,
                         );
 
                         // Map user to NextAuth User type (id as string)
@@ -97,7 +86,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                             id: String(user.id),
                         };
                     } else {
-                        console.log("Password does not match for user:", email);
                         return null;
                     }
                 } catch (error) {

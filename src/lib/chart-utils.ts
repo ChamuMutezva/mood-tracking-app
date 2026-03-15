@@ -2,7 +2,7 @@ import type { MoodEntry, ChartData } from "./types";
 import { getSleepLabel, getSleepValue } from "./sleep-config";
 
 export function transformMoodEntriesToChartData(
-    entries: MoodEntry[]
+    entries: MoodEntry[],
 ): ChartData[] {
     const moodLabels = {
         "-2": "Very Sad",
@@ -46,7 +46,6 @@ export function calculateAveragesFromEntries(entries: MoodEntry[]) {
         };
     }
 
-   // console.log("Chart Entries:", chartEntries);
     const totalMood = chartEntries.reduce((sum, entry) => sum + entry.mood, 0);
     const averageMood = totalMood / chartEntries.length;
 
